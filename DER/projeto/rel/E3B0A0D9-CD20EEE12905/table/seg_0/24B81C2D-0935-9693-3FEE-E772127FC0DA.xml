@@ -1,0 +1,62 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="24B81C2D-0935-9693-3FEE-E772127FC0DA" name="inscricao_turma">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:32:07 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<ordsAlias>table_17</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="estudante_id" id="9C91EDAA-03AA-C1EC-3BE7-05D22DE5C91A">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:33:08 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A4ED801C-6F14-3529-4498-94CB3A517850" referredColumn="4DFE5497-AFD7-597C-32DE-AACBE83571F8"/>
+</associations>
+</Column>
+<Column name="turma_id" id="478EBF25-9D45-AEE2-AA67-E5A2E0C70C03">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 17:03:01 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E67D7917-19D8-F43B-1678-53DBDBED25E0" referredColumn="21D6A2F4-A655-AFE6-B117-D66B2F2BA8DB"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="09901827-28D6-18AE-37C5-7A7FF5B830B0" name="inscricao_uc_estudante_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:33:08 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9C91EDAA-03AA-C1EC-3BE7-05D22DE5C91A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A67F247F-0B7E-9124-0451-228C6CFE5CE4" name="inscricao_turma_turma_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 17:03:01 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="478EBF25-9D45-AEE2-AA67-E5A2E0C70C03"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

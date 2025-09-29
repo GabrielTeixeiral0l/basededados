@@ -1,0 +1,59 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="9D53A45B-ED17-A974-3B1B-6E249A3432A1" name="curso">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 15:13:48 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<ordsAlias>table_3</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="02652342-1C1C-ACE0-EB18-F1A40ECBB4DF">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 15:24:09 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="area_id" id="0DAF9870-8472-B750-66B2-A8FF95D5CB5A">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:26:59 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0FA5A4FE-9A83-77D1-C8F1-6F5938AD16FF" referredColumn="408393DC-B047-5E21-665E-EA0B4B4CCBC7"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="B7F5EF06-9447-84D8-1528-60C50E1EC059" name="curso_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 15:24:09 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="02652342-1C1C-ACE0-EB18-F1A40ECBB4DF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D35421A1-64AC-AB1A-835B-606214B9209E" name="curso_area_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:26:59 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0DAF9870-8472-B750-66B2-A8FF95D5CB5A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

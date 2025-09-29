@@ -1,0 +1,35 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="98850C36-DB38-7DAA-49B5-8F6A9C3271DA" name="polo">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 15:26:29 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<ordsAlias>table_10</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="D6F46DFB-688E-6F9D-6AA1-4C191DE33DB7">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:14:44 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F07D1A01-4DE7-AB67-1F21-34E1C830FB61" name="polo_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:14:44 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D6F46DFB-688E-6F9D-6AA1-4C191DE33DB7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

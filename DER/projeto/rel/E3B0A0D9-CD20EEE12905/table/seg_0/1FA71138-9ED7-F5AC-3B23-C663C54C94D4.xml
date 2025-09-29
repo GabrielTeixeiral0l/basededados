@@ -1,0 +1,85 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="1FA71138-9ED7-F5AC-3B23-C663C54C94D4" name="presenca">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:27:51 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<ordsAlias>table_15</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="aula_id" id="BD5DEEDA-0679-13FB-4670-31775E94DA22">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:28:57 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0E3E2548-6117-4F3A-F77C-4CB88078846B" referredColumn="1A7BE51A-4955-1455-5673-434C52616A7B"/>
+</associations>
+</Column>
+<Column name="estudante_id" id="2906F330-70B5-BA62-01A7-47E165358028">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:29:08 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3B58B0D0-F8A9-68A6-9887-532A02943222" referredColumn="4DFE5497-AFD7-597C-32DE-AACBE83571F8"/>
+</associations>
+</Column>
+<Column name="presente" id="AE25DE88-27FD-08E2-1285-4B67045C2017">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:31:40 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="61CD652B-0209-7E28-0279-BD9C0CF88AE8" name="presenca_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:29:16 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BD5DEEDA-0679-13FB-4670-31775E94DA22"/>
+<colUsage columnID="2906F330-70B5-BA62-01A7-47E165358028"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="AAC83715-047F-7DE2-7B2A-39E1A06D1F32" name="presenca_aula_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:28:57 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BD5DEEDA-0679-13FB-4670-31775E94DA22"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CA56F0C8-54E3-5049-817F-A7C1B3B271F6" name="presenca_estudante_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:29:08 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2906F330-70B5-BA62-01A7-47E165358028"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

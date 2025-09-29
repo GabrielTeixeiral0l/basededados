@@ -1,0 +1,62 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="911D593E-4557-DB2B-A6F3-4ACE2BC196F6" name="unidade_curricular_curso">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:44:38 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<ordsAlias>table_19</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="curso_id" id="BED79CA4-E777-CC68-AF98-9B1A5A6B2789">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:44:56 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="10E93C3B-CC0A-2874-F7FD-90C05746D28F" referredColumn="02652342-1C1C-ACE0-EB18-F1A40ECBB4DF"/>
+</associations>
+</Column>
+<Column name="unidade_curricular_id" id="248B1A4B-C89D-5DFC-77EB-A207EC90D347">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:45:00 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B3E31BE0-31C9-A5A0-0E72-096483BCBBE8" referredColumn="36FF0EB3-4260-4E65-33DB-2225D626EF4B"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="59DF7F4C-0EE5-0AF8-FB7B-311FB1DBDE7A" name="unidade_curricular_curso_curso_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:44:56 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BED79CA4-E777-CC68-AF98-9B1A5A6B2789"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7CC29B86-0F7D-D678-0D4F-1406639B8EB0" name="unidade_curricular_curso_unidade_curricular_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:45:00 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="248B1A4B-C89D-5DFC-77EB-A207EC90D347"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

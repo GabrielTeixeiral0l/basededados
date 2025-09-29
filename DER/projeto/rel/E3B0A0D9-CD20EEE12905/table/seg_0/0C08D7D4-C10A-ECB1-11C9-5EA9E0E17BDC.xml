@@ -1,0 +1,59 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="0C08D7D4-C10A-ECB1-11C9-5EA9E0E17BDC" name="aula">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 15:25:12 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<ordsAlias>table_7</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="1A7BE51A-4955-1455-5673-434C52616A7B">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:15:00 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="sala_id" id="5D56342F-DF41-1786-47D7-D5321713ACA6">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:22:26 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="FCBB5160-218B-3DF1-1CB1-472A283514A0" referredColumn="688B04F0-E1D2-6417-65DC-765F2A3ED912"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="0EA9721D-6595-BBF6-A94C-FC24C87AFA68" name="aula_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:15:00 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1A7BE51A-4955-1455-5673-434C52616A7B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="6500F2C4-6F7E-92B1-58D2-96EC9B035530" name="aula_sala_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:22:26 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5D56342F-DF41-1786-47D7-D5321713ACA6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
