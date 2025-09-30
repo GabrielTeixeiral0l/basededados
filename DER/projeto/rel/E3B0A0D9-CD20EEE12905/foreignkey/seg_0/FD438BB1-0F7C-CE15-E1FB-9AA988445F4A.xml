@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="E67D7917-19D8-F43B-1678-53DBDBED25E0" containerWithKeyObject="24B81C2D-0935-9693-3FEE-E772127FC0DA" localFKIndex="A67F247F-0B7E-9124-0451-228C6CFE5CE4" name="inscricao_turma_turma_FK">
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="FD438BB1-0F7C-CE15-E1FB-9AA988445F4A" containerWithKeyObject="EDAD8D03-71AA-FE68-5FEB-8CB100EA5CDF" localFKIndex="98BDF69A-CA7D-2F59-ADCB-0FD2B70895A6" name="avaliacao_turma_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 17:03:01 UTC</createdTime>
+<createdTime>2025-09-29 18:45:34 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <referredTableLongName>turma</referredTableLongName>
 <deleteRule>NO ACTION</deleteRule>

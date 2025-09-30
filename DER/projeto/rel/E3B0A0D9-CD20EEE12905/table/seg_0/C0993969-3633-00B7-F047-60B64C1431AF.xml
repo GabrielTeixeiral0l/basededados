@@ -18,20 +18,6 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="unidade_curricular_id" id="F1B2E6D1-1195-C69D-938D-A32B98026C08">
-<createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:57:18 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
-<autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="CB8BDD8A-2D64-BE9C-68A2-C58E7111CE6A" referredColumn="36FF0EB3-4260-4E65-33DB-2225D626EF4B"/>
-</associations>
-</Column>
 <Column name="ano" id="47308577-E85C-E999-FCD8-8A62C1C491F2">
 <createdBy>teixe</createdBy>
 <createdTime>2025-09-29 16:58:45 UTC</createdTime>
@@ -54,6 +40,20 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="unidade_curricular_id" id="05FE857C-176C-64C1-97F0-4E5B95E9EA6D">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 18:33:09 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C26772B0-0328-064E-4670-0028CA1C60FA" referredColumn="36FF0EB3-4260-4E65-33DB-2225D626EF4B"/>
+</associations>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="5E96FB85-1B9B-7A34-C722-9916207C573F" name="turma_PK">
@@ -67,14 +67,14 @@
 <colUsage columnID="21D6A2F4-A655-AFE6-B117-D66B2F2BA8DB"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="E4CA5B27-5520-038E-2866-5C56C803DDD9" name="???_unidade_curricular_FK">
+<ind_PK_UK id="8EB3AF87-1D5D-D7F0-21EE-A3BC020F9879" name="turma_unidade_curricular_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:57:18 UTC</createdTime>
+<createdTime>2025-09-29 18:33:09 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="F1B2E6D1-1195-C69D-938D-A32B98026C08"/>
+<colUsage columnID="05FE857C-176C-64C1-97F0-4E5B95E9EA6D"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

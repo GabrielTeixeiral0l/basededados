@@ -1,30 +1,26 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="24B81C2D-0935-9693-3FEE-E772127FC0DA" name="inscricao_turma">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="EDAD8D03-71AA-FE68-5FEB-8CB100EA5CDF" name="avaliacao">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:32:07 UTC</createdTime>
+<createdTime>2025-09-29 18:41:12 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<ordsAlias>table_17</ordsAlias>
+<ordsAlias>table_18</ordsAlias>
 <allowColumnReorder>false</allowColumnReorder>
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="estudante_id" id="9C91EDAA-03AA-C1EC-3BE7-05D22DE5C91A">
+<Column name="id" id="14E9E777-99AB-4AD3-860C-FF8BD8DD5E31">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:33:08 UTC</createdTime>
+<createdTime>2025-09-29 18:41:51 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="A4ED801C-6F14-3529-4498-94CB3A517850" referredColumn="4DFE5497-AFD7-597C-32DE-AACBE83571F8"/>
-</associations>
 </Column>
-<Column name="turma_id" id="0AC7A886-ED70-0AED-E180-B4F952331593">
+<Column name="turma_id" id="AB3D84CF-7D6D-F4E7-1663-E2419B2B9045">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:33:51 UTC</createdTime>
+<createdTime>2025-09-29 18:45:34 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -33,29 +29,30 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="4017F06E-97A8-3E38-AEFE-60B7C897238A" referredColumn="21D6A2F4-A655-AFE6-B117-D66B2F2BA8DB"/>
+<colAssociation fkAssociation="FD438BB1-0F7C-CE15-E1FB-9AA988445F4A" referredColumn="21D6A2F4-A655-AFE6-B117-D66B2F2BA8DB"/>
 </associations>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="09901827-28D6-18AE-37C5-7A7FF5B830B0" name="inscricao_uc_estudante_FK">
+<ind_PK_UK id="4A09416E-3FA9-DFAE-9DD0-B45F6FA68840" name="avaliacao_PK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:33:08 UTC</createdTime>
+<createdTime>2025-09-29 18:41:51 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<indexState>Foreign Key</indexState>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="9C91EDAA-03AA-C1EC-3BE7-05D22DE5C91A"/>
+<colUsage columnID="14E9E777-99AB-4AD3-860C-FF8BD8DD5E31"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="A6FA2DCC-5E68-16E2-4517-E3D3B19A94C7" name="inscricao_turma_turma_FK">
+<ind_PK_UK id="98BDF69A-CA7D-2F59-ADCB-0FD2B70895A6" name="avaliacao_turma_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:33:51 UTC</createdTime>
+<createdTime>2025-09-29 18:45:34 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="0AC7A886-ED70-0AED-E180-B4F952331593"/>
+<colUsage columnID="AB3D84CF-7D6D-F4E7-1663-E2419B2B9045"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>
