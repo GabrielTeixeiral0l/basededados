@@ -1,16 +1,16 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="9D53A45B-ED17-A974-3B1B-6E249A3432A1" name="curso">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E2F30E0D-F85D-7E74-A78B-5616D7473305" name="acao_log">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 15:13:48 UTC</createdTime>
+<createdTime>2025-10-04 12:08:52 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<ordsAlias>table_3</ordsAlias>
+<ordsAlias>table_32</ordsAlias>
 <allowColumnReorder>false</allowColumnReorder>
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="id" id="02652342-1C1C-ACE0-EB18-F1A40ECBB4DF">
+<Column name="id" id="C9FF8002-887F-2DDE-69E7-C979FC14CC5B">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 15:24:09 UTC</createdTime>
+<createdTime>2025-10-04 12:09:12 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -20,15 +20,15 @@
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="B7F5EF06-9447-84D8-1528-60C50E1EC059" name="curso_PK">
+<ind_PK_UK id="4B522C35-66B1-8B37-4A05-64B2CB79BE1C" name="acao_log_PK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 15:24:09 UTC</createdTime>
+<createdTime>2025-10-04 12:09:12 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <pk>true</pk>
 <indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="02652342-1C1C-ACE0-EB18-F1A40ECBB4DF"/>
+<colUsage columnID="C9FF8002-887F-2DDE-69E7-C979FC14CC5B"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

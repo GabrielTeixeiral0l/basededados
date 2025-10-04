@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="4031DA27-5108-D32D-812B-EB3AD39B5C91" containerWithKeyObject="1AC85C12-380D-C6C7-424D-F5D6EA5E14CD" localFKIndex="EB80E6C9-BF03-886D-C691-A8E0191C7A9E" name="log_entidade_log_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 12:08:30 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<referredTableLongName>entidade_log</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>AA0543B9-7D01-3161-144A-AA6AA272364B</referredTableID>
+<keyObject>81F1EB72-2242-CF52-5EA0-275F9AD56CAC</keyObject>
+<referredKeyID>81F1EB72-2242-CF52-5EA0-275F9AD56CAC</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

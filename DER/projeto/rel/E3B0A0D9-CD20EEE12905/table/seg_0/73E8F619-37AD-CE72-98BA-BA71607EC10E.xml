@@ -1,16 +1,16 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="432C6981-B603-2A1F-326D-47B953763023" name="sala">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="73E8F619-37AD-CE72-98BA-BA71607EC10E" name="departamento">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 15:25:34 UTC</createdTime>
+<createdTime>2025-10-04 11:57:53 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<ordsAlias>table_9</ordsAlias>
+<ordsAlias>table_22</ordsAlias>
 <allowColumnReorder>false</allowColumnReorder>
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="id" id="688B04F0-E1D2-6417-65DC-765F2A3ED912">
+<Column name="id" id="08D2D74F-63CB-CA69-0B04-54703E5A70B7">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:14:53 UTC</createdTime>
+<createdTime>2025-10-04 11:58:01 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -18,9 +18,9 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="andar_id" id="D3C5C5C4-E71C-8B2B-9B7D-DA5F250D724F">
+<Column name="docente_resposavel_id" id="A6B544C0-608E-81F9-F6C3-5470ACCFEB97">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-04 12:16:18 UTC</createdTime>
+<createdTime>2025-10-04 12:19:06 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -29,30 +29,30 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="0E2D18A3-8A2A-2D34-B309-4E7C1D7BA9E6" referredColumn="37D81646-5FE1-9350-6D32-126830DDFB91"/>
+<colAssociation fkAssociation="06545903-429B-9C4B-68C9-AD58067A8FFE" referredColumn="12B4342E-E6AE-F348-DAC0-1F9B21595B08"/>
 </associations>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="48C385BB-022A-D679-0135-FC7B77637557" name="sala_PK">
+<ind_PK_UK id="FEE36EE1-80F6-5A16-67AE-DB18C43C42F3" name="departamento_PK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:14:53 UTC</createdTime>
+<createdTime>2025-10-04 12:00:09 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <pk>true</pk>
 <indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="688B04F0-E1D2-6417-65DC-765F2A3ED912"/>
+<colUsage columnID="08D2D74F-63CB-CA69-0B04-54703E5A70B7"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="E419DEBB-3497-8080-C98C-88DF8AA7C103" name="sala_andar_FK">
+<ind_PK_UK id="F375FAAD-06E9-45B3-72E5-A743DCB6CCE7" name="departamento_docente_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-04 12:16:18 UTC</createdTime>
+<createdTime>2025-10-04 12:19:06 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="D3C5C5C4-E71C-8B2B-9B7D-DA5F250D724F"/>
+<colUsage columnID="A6B544C0-608E-81F9-F6C3-5470ACCFEB97"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="98780BAF-047D-4FF4-C347-099E734DDB0A" containerWithKeyObject="A5668CE1-97AA-2F91-93AA-3DCECE10502B" localFKIndex="734A1790-5A9B-9585-4B5F-B9A79ABA35CD" name="avalicao_estudante_estudante_FK">
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="BEBA8DFD-BD95-5464-1FA8-B4FD805E4588" containerWithKeyObject="58926848-34E5-FA1E-7678-AC90BCB47F1E" localFKIndex="D26AB709-56B1-312D-79F3-8FF03BA93806" name="estudante_entrega_estudante_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:47:33 UTC</createdTime>
+<createdTime>2025-10-04 18:43:09 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <referredTableLongName>estudante</referredTableLongName>
 <deleteRule>NO ACTION</deleteRule>

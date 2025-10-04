@@ -1,26 +1,16 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="432C6981-B603-2A1F-326D-47B953763023" name="sala">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="784BCBA5-7FE1-2BCB-B026-78F091FE3FAE" name="curso_area">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 15:25:34 UTC</createdTime>
+<createdTime>2025-09-30 17:41:55 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<ordsAlias>table_9</ordsAlias>
+<ordsAlias>table_21</ordsAlias>
 <allowColumnReorder>false</allowColumnReorder>
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="id" id="688B04F0-E1D2-6417-65DC-765F2A3ED912">
+<Column name="area_id" id="DC871A35-5B8F-B1B1-BC13-9ADDAB586A15">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:14:53 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column name="andar_id" id="D3C5C5C4-E71C-8B2B-9B7D-DA5F250D724F">
-<createdBy>teixe</createdBy>
-<createdTime>2025-10-04 12:16:18 UTC</createdTime>
+<createdTime>2025-10-04 11:57:01 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -29,30 +19,43 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="0E2D18A3-8A2A-2D34-B309-4E7C1D7BA9E6" referredColumn="37D81646-5FE1-9350-6D32-126830DDFB91"/>
+<colAssociation fkAssociation="0BB4E356-113A-2028-E4BA-109BD735D220" referredColumn="408393DC-B047-5E21-665E-EA0B4B4CCBC7"/>
+</associations>
+</Column>
+<Column name="curso_id" id="9F10E79E-BC91-8D7D-D86C-83A4472ADEC2">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 11:57:10 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F605E4F4-9B09-7A58-2720-3BB0C6EC6FD1" referredColumn="02652342-1C1C-ACE0-EB18-F1A40ECBB4DF"/>
 </associations>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="48C385BB-022A-D679-0135-FC7B77637557" name="sala_PK">
+<ind_PK_UK id="DBD740A3-A91B-2825-0934-1F8E44077BC1" name="curso_area_area_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:14:53 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<pk>true</pk>
-<indexState>Primary Constraint</indexState>
-<isSurrogateKey>false</isSurrogateKey>
-<indexColumnUsage>
-<colUsage columnID="688B04F0-E1D2-6417-65DC-765F2A3ED912"/>
-</indexColumnUsage>
-</ind_PK_UK>
-<ind_PK_UK id="E419DEBB-3497-8080-C98C-88DF8AA7C103" name="sala_andar_FK">
-<createdBy>teixe</createdBy>
-<createdTime>2025-10-04 12:16:18 UTC</createdTime>
+<createdTime>2025-10-04 11:57:01 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="D3C5C5C4-E71C-8B2B-9B7D-DA5F250D724F"/>
+<colUsage columnID="DC871A35-5B8F-B1B1-BC13-9ADDAB586A15"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7026D0D0-B387-FFEF-61EA-9CC36868A229" name="curso_area_curso_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 11:57:10 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9F10E79E-BC91-8D7D-D86C-83A4472ADEC2"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

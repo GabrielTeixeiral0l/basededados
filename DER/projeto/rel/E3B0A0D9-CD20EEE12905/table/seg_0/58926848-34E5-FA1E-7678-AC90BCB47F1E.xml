@@ -1,26 +1,16 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="EDAD8D03-71AA-FE68-5FEB-8CB100EA5CDF" name="avaliacao">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="58926848-34E5-FA1E-7678-AC90BCB47F1E" name="estudante_entrega">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:41:12 UTC</createdTime>
+<createdTime>2025-10-04 18:42:25 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<ordsAlias>table_18</ordsAlias>
+<ordsAlias>table_38</ordsAlias>
 <allowColumnReorder>false</allowColumnReorder>
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="id" id="14E9E777-99AB-4AD3-860C-FF8BD8DD5E31">
+<Column name="estudante_id" id="5AB279F8-6BBE-4D5E-80DF-18D26F023FAF">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:41:51 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column name="turma_id" id="AB3D84CF-7D6D-F4E7-1663-E2419B2B9045">
-<createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:45:34 UTC</createdTime>
+<createdTime>2025-10-04 18:43:09 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -29,30 +19,43 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="FD438BB1-0F7C-CE15-E1FB-9AA988445F4A" referredColumn="21D6A2F4-A655-AFE6-B117-D66B2F2BA8DB"/>
+<colAssociation fkAssociation="BEBA8DFD-BD95-5464-1FA8-B4FD805E4588" referredColumn="4DFE5497-AFD7-597C-32DE-AACBE83571F8"/>
+</associations>
+</Column>
+<Column name="entrega_id" id="A55A0DB3-B502-08F5-9260-BD07E87B1D28">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:43:14 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0FB79F39-92BC-18DD-D6A5-0B0F7E824D3E" referredColumn="15EC8C4D-37FF-A695-E0AF-7C7DE05A1916"/>
 </associations>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="4A09416E-3FA9-DFAE-9DD0-B45F6FA68840" name="avaliacao_PK">
+<ind_PK_UK id="D26AB709-56B1-312D-79F3-8FF03BA93806" name="estudante_entrega_estudante_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:41:51 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<pk>true</pk>
-<indexState>Primary Constraint</indexState>
-<isSurrogateKey>false</isSurrogateKey>
-<indexColumnUsage>
-<colUsage columnID="14E9E777-99AB-4AD3-860C-FF8BD8DD5E31"/>
-</indexColumnUsage>
-</ind_PK_UK>
-<ind_PK_UK id="98BDF69A-CA7D-2F59-ADCB-0FD2B70895A6" name="avaliacao_turma_FK">
-<createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:45:34 UTC</createdTime>
+<createdTime>2025-10-04 18:43:09 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="AB3D84CF-7D6D-F4E7-1663-E2419B2B9045"/>
+<colUsage columnID="5AB279F8-6BBE-4D5E-80DF-18D26F023FAF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C1920BDA-C35D-EF0D-3D1A-65224C16D8CF" name="estudante_entrega_entrega_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:43:14 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A55A0DB3-B502-08F5-9260-BD07E87B1D28"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

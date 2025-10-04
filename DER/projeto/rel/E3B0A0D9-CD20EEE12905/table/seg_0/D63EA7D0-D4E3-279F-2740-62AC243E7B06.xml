@@ -1,26 +1,16 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="432C6981-B603-2A1F-326D-47B953763023" name="sala">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="D63EA7D0-D4E3-279F-2740-62AC243E7B06" name="uc_departamento">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 15:25:34 UTC</createdTime>
+<createdTime>2025-10-04 12:05:55 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<ordsAlias>table_9</ordsAlias>
+<ordsAlias>table_29</ordsAlias>
 <allowColumnReorder>false</allowColumnReorder>
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="id" id="688B04F0-E1D2-6417-65DC-765F2A3ED912">
+<Column name="departamento_id" id="146C75B9-05F3-A408-30B7-3C844D0A661C">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:14:53 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column name="andar_id" id="D3C5C5C4-E71C-8B2B-9B7D-DA5F250D724F">
-<createdBy>teixe</createdBy>
-<createdTime>2025-10-04 12:16:18 UTC</createdTime>
+<createdTime>2025-10-04 12:06:10 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -29,30 +19,43 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="0E2D18A3-8A2A-2D34-B309-4E7C1D7BA9E6" referredColumn="37D81646-5FE1-9350-6D32-126830DDFB91"/>
+<colAssociation fkAssociation="A05C74B4-9BC0-FE14-CAB4-F7C8BBA42F99" referredColumn="08D2D74F-63CB-CA69-0B04-54703E5A70B7"/>
+</associations>
+</Column>
+<Column name="unidade_curricular_id" id="E15487F9-1DAF-74C0-6898-9630F7068B46">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 12:06:14 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="44FCEDD6-100D-597A-AE3B-F3D40B194883" referredColumn="36FF0EB3-4260-4E65-33DB-2225D626EF4B"/>
 </associations>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="48C385BB-022A-D679-0135-FC7B77637557" name="sala_PK">
+<ind_PK_UK id="0FB3EAB2-3559-AC96-C4C5-8C074B5D2533" name="uc_departamento_departamento_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:14:53 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<pk>true</pk>
-<indexState>Primary Constraint</indexState>
-<isSurrogateKey>false</isSurrogateKey>
-<indexColumnUsage>
-<colUsage columnID="688B04F0-E1D2-6417-65DC-765F2A3ED912"/>
-</indexColumnUsage>
-</ind_PK_UK>
-<ind_PK_UK id="E419DEBB-3497-8080-C98C-88DF8AA7C103" name="sala_andar_FK">
-<createdBy>teixe</createdBy>
-<createdTime>2025-10-04 12:16:18 UTC</createdTime>
+<createdTime>2025-10-04 12:06:10 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="D3C5C5C4-E71C-8B2B-9B7D-DA5F250D724F"/>
+<colUsage columnID="146C75B9-05F3-A408-30B7-3C844D0A661C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8FE5F64E-0DAE-CA56-2D1A-559475EB846D" name="uc_departamento_unidade_curricular_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 12:06:14 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E15487F9-1DAF-74C0-6898-9630F7068B46"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>
