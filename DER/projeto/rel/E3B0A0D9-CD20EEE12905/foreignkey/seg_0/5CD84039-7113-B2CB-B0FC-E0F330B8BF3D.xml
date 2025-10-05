@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="5CD84039-7113-B2CB-B0FC-E0F330B8BF3D" containerWithKeyObject="1A8A4DC4-ACF2-F1F7-6DE9-B70CC61D190B" localFKIndex="0D551818-DCBE-B0BA-EDD0-C941259493DB" name="parcela_propina_propina_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-05 10:05:29 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<referredTableLongName>propina</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>334D82B0-C92F-3862-78A8-2FA1C5753EC0</referredTableID>
+<keyObject>D701F49C-0FED-94E4-5599-432B5C07A1A6</keyObject>
+<referredKeyID>D701F49C-0FED-94E4-5599-432B5C07A1A6</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

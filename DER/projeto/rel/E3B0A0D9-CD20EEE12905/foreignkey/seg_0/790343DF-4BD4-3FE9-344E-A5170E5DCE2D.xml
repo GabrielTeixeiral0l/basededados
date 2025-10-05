@@ -1,9 +1,9 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="0B0ED608-96BE-5F7C-8747-513F626C7631" containerWithKeyObject="334D82B0-C92F-3862-78A8-2FA1C5753EC0" localFKIndex="63119CD0-48DC-E0CE-716D-252B933F97CE" name="propina_inscricao_curso_FK">
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="790343DF-4BD4-3FE9-344E-A5170E5DCE2D" containerWithKeyObject="334D82B0-C92F-3862-78A8-2FA1C5753EC0" localFKIndex="69B5E846-DEA1-2BEA-6A7C-E7E2407FE1D6" name="propina_matricula_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:52:57 UTC</createdTime>
+<createdTime>2025-10-05 10:00:50 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<referredTableLongName>inscricao_curso</referredTableLongName>
+<referredTableLongName>matricula</referredTableLongName>
 <deleteRule>NO ACTION</deleteRule>
 <referredTableID>39AF238D-580B-74DB-4420-EA644A696CFC</referredTableID>
 <keyObject>BABB04F9-1E2F-34B8-5DD8-2E54958BD266</keyObject>

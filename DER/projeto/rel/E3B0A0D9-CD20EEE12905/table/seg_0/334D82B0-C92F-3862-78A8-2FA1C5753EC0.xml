@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="334D82B0-C92F-3862-78A8-2FA1C5753EC0" name="pagamento">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="334D82B0-C92F-3862-78A8-2FA1C5753EC0" name="propina">
 <createdBy>teixe</createdBy>
 <createdTime>2025-09-29 18:50:38 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
@@ -18,9 +18,9 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="estudante_id" id="E08A9A65-7D02-3727-D6D5-E473AB555B83">
+<Column name="matricula_id" id="594D975F-62C3-98B6-B9D9-1FA5716BA6E0">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:52:16 UTC</createdTime>
+<createdTime>2025-10-05 10:00:50 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -29,26 +29,34 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="6A59B0AB-3695-6AA5-1C29-DD4D99504330" referredColumn="4DFE5497-AFD7-597C-32DE-AACBE83571F8"/>
+<colAssociation fkAssociation="790343DF-4BD4-3FE9-344E-A5170E5DCE2D" referredColumn="877F5B4C-2CD3-CF46-0B27-C8810A6B6DC8"/>
 </associations>
 </Column>
-<Column name="inscricao_curso_id" id="FCB8FC49-DBF0-D9E5-BEE5-DCD42985CB53">
+<Column name="valor_total" id="429988F4-CBD9-B38F-B81A-7668D9FE4D70">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:52:57 UTC</createdTime>
+<createdTime>2025-10-05 10:02:24 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="numero_parcelas" id="899C60D0-C127-7BE8-5029-735B4387923B">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-05 10:02:24 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="0B0ED608-96BE-5F7C-8747-513F626C7631" referredColumn="877F5B4C-2CD3-CF46-0B27-C8810A6B6DC8"/>
-</associations>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="D701F49C-0FED-94E4-5599-432B5C07A1A6" name="pagamento_PK">
+<ind_PK_UK id="D701F49C-0FED-94E4-5599-432B5C07A1A6" name="propina_PK">
 <createdBy>teixe</createdBy>
 <createdTime>2025-09-29 18:50:50 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
@@ -59,24 +67,14 @@
 <colUsage columnID="F14AA33E-C7AF-E03A-E8E0-72A545C1C771"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="53685B7A-95A7-4F77-6FE8-C5F6724E0210" name="propina_estudante_FK">
+<ind_PK_UK id="69B5E846-DEA1-2BEA-6A7C-E7E2407FE1D6" name="propina_matricula_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:52:16 UTC</createdTime>
+<createdTime>2025-10-05 10:00:50 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="E08A9A65-7D02-3727-D6D5-E473AB555B83"/>
-</indexColumnUsage>
-</ind_PK_UK>
-<ind_PK_UK id="63119CD0-48DC-E0CE-716D-252B933F97CE" name="propina_inscricao_curso_FK">
-<createdBy>teixe</createdBy>
-<createdTime>2025-09-29 18:52:57 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<indexState>Foreign Key</indexState>
-<isSurrogateKey>false</isSurrogateKey>
-<indexColumnUsage>
-<colUsage columnID="FCB8FC49-DBF0-D9E5-BEE5-DCD42985CB53"/>
+<colUsage columnID="594D975F-62C3-98B6-B9D9-1FA5716BA6E0"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

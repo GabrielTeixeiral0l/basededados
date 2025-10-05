@@ -1,16 +1,16 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="73E8F619-37AD-CE72-98BA-BA71607EC10E" name="departamento">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="0004C0A6-6A7C-06B5-11E6-CF189522E3F0" name="turno">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-04 11:57:53 UTC</createdTime>
+<createdTime>2025-10-05 19:01:09 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<ordsAlias>table_22</ordsAlias>
+<ordsAlias>table_43</ordsAlias>
 <allowColumnReorder>false</allowColumnReorder>
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="id" id="08D2D74F-63CB-CA69-0B04-54703E5A70B7">
+<Column name="id" id="3779D53E-8A27-B7F9-8CF2-6BCAB19CB949">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-04 11:58:01 UTC</createdTime>
+<createdTime>2025-10-05 19:01:20 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -18,20 +18,19 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="nome" id="7F6F758E-EBF2-5A92-CE6E-FE37449281E5">
+<Column name="hora_inicio" id="E889C456-F253-5575-9330-01B682449997">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-05 11:01:59 UTC</createdTime>
+<createdTime>2025-10-05 19:04:42 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>30</dataTypeSize>
-<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="tipo" id="ED52DDFE-5CE6-8405-5EC6-FF3E92FC4045">
+<Column name="hora_fim" id="DC528C34-1AA8-0784-43E9-D8AA2F2BEA4A">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-05 11:01:59 UTC</createdTime>
+<createdTime>2025-10-05 19:04:42 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -41,15 +40,15 @@
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="FEE36EE1-80F6-5A16-67AE-DB18C43C42F3" name="departamento_PK">
+<ind_PK_UK id="74A6FF45-59CA-4490-28CF-A810C0BC7BD8" name="turno_PK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-04 12:00:09 UTC</createdTime>
+<createdTime>2025-10-05 19:01:36 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <pk>true</pk>
 <indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="08D2D74F-63CB-CA69-0B04-54703E5A70B7"/>
+<colUsage columnID="3779D53E-8A27-B7F9-8CF2-6BCAB19CB949"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

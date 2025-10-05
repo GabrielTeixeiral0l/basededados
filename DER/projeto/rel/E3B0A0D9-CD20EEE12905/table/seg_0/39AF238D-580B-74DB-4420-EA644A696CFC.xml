@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="39AF238D-580B-74DB-4420-EA644A696CFC" name="inscricao_curso">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="39AF238D-580B-74DB-4420-EA644A696CFC" name="matricula">
 <createdBy>teixe</createdBy>
 <createdTime>2025-09-29 17:04:14 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
@@ -59,7 +59,7 @@
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="BABB04F9-1E2F-34B8-5DD8-2E54958BD266" name="inscricao_curso_PK">
+<ind_PK_UK id="BABB04F9-1E2F-34B8-5DD8-2E54958BD266" name="matricula_PK">
 <createdBy>teixe</createdBy>
 <createdTime>2025-09-29 18:52:42 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
