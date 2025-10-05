@@ -18,9 +18,9 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="sala_id" id="5D56342F-DF41-1786-47D7-D5321713ACA6">
+<Column name="espaco_id" id="CC97EB3C-D36A-A970-F542-635E752C8680">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:22:26 UTC</createdTime>
+<createdTime>2025-10-05 19:21:45 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -29,7 +29,7 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="FCBB5160-218B-3DF1-1CB1-472A283514A0" referredColumn="688B04F0-E1D2-6417-65DC-765F2A3ED912"/>
+<colAssociation fkAssociation="2F0DF825-70B5-6B90-DDE2-F5835F67B1CB" referredColumn="688B04F0-E1D2-6417-65DC-765F2A3ED912"/>
 </associations>
 </Column>
 </columns>
@@ -45,14 +45,14 @@
 <colUsage columnID="1A7BE51A-4955-1455-5673-434C52616A7B"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="6500F2C4-6F7E-92B1-58D2-96EC9B035530" name="aula_sala_FK">
+<ind_PK_UK id="108CFDA8-F8A0-BB0E-8A93-2D932D140DFC" name="aula_espaco_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:22:26 UTC</createdTime>
+<createdTime>2025-10-05 19:21:45 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="5D56342F-DF41-1786-47D7-D5321713ACA6"/>
+<colUsage columnID="CC97EB3C-D36A-A970-F542-635E752C8680"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>
