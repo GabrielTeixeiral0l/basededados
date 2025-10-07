@@ -1,16 +1,16 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="71377E54-BB23-3EF5-B848-A524CA3DE351" name="horario_colaborador">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="7624EE5F-F345-4C5B-1869-277C7EACFAC4" name="gabinete_docente">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-05 19:07:33 UTC</createdTime>
+<createdTime>2025-10-07 10:35:03 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<ordsAlias>table_44</ordsAlias>
+<ordsAlias>table_42</ordsAlias>
 <allowColumnReorder>false</allowColumnReorder>
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="horario_id" id="578E710F-2C39-D3E1-0AAF-0DAD2A1838A7">
+<Column name="espaco_id" id="B0375B01-0015-5FA9-2FC8-0392D7C4C65D">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-05 19:07:50 UTC</createdTime>
+<createdTime>2025-10-07 10:35:28 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -19,12 +19,12 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="BD7AE34C-8B2A-95CE-C8F8-119BBBAA947F" referredColumn="658639D5-E4F8-A614-53DC-4561C5EBB557"/>
+<colAssociation fkAssociation="922F922D-46B4-EAAE-6AE4-EBEAC961D62B" referredColumn="688B04F0-E1D2-6417-65DC-765F2A3ED912"/>
 </associations>
 </Column>
-<Column name="nao_docente_id" id="4BCCB381-AAB0-4326-D5BB-99AF70BC9D83">
+<Column name="docente_id" id="44746D69-0384-A4C2-D601-9631292AA613">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-07 16:44:49 UTC</createdTime>
+<createdTime>2025-10-07 16:40:24 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -33,41 +33,41 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="DA99A483-4B51-7040-6CBD-8B0944CAE038" referredColumn="B7B38110-D7ED-C365-1121-EECEFA0B13FB"/>
+<colAssociation fkAssociation="3B77F6B7-6EC3-559B-4BA7-21F81225D9FA" referredColumn="DE176953-DDC9-736E-5068-F608BE44C12B"/>
 </associations>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="C53ED464-C9AA-B78A-FA69-C07C00A9AE25" name="horario_colaborador_PK">
+<ind_PK_UK id="820845BC-90F4-FD65-4DE8-1AC660F46CBE" name="gabinete_docente_PK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-07 16:36:42 UTC</createdTime>
+<createdTime>2025-10-07 16:40:45 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <pk>true</pk>
 <indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="578E710F-2C39-D3E1-0AAF-0DAD2A1838A7"/>
-<colUsage columnID="4BCCB381-AAB0-4326-D5BB-99AF70BC9D83"/>
+<colUsage columnID="B0375B01-0015-5FA9-2FC8-0392D7C4C65D"/>
+<colUsage columnID="44746D69-0384-A4C2-D601-9631292AA613"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="E0DE90A8-7E9A-F727-EA04-DD219308A54A" name="horario_colaborador_horario_FK">
+<ind_PK_UK id="83563165-DDBD-904A-632E-5FF556B21FA1" name="gabinete_docente_espaco_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-05 19:07:50 UTC</createdTime>
+<createdTime>2025-10-07 10:35:28 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="578E710F-2C39-D3E1-0AAF-0DAD2A1838A7"/>
+<colUsage columnID="B0375B01-0015-5FA9-2FC8-0392D7C4C65D"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="4D283188-0ABD-7F0C-44CB-3617EE70F8BF" name="horario_colaborador_n_doc_FK">
+<ind_PK_UK id="E06CBB7C-00A3-2146-64F3-E5B865D667AC" name="gabinete_docente_docente_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-07 16:44:49 UTC</createdTime>
+<createdTime>2025-10-07 16:40:24 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="4BCCB381-AAB0-4326-D5BB-99AF70BC9D83"/>
+<colUsage columnID="44746D69-0384-A4C2-D601-9631292AA613"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

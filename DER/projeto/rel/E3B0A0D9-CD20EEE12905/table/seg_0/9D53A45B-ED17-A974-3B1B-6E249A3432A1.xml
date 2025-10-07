@@ -18,6 +18,41 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="nome" id="CFC5106D-4D63-F0BB-8032-3C80D3F19D30">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:12:07 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="codigo" id="73901548-F30B-5EB8-7400-0F34BBD7D177">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:12:07 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="duracao" id="01AE9300-E544-AA51-5D1D-311E54F271EA">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:12:07 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="B7F5EF06-9447-84D8-1528-60C50E1EC059" name="curso_PK">

@@ -76,6 +76,18 @@
 <colAssociation fkAssociation="5CD84039-7113-B2CB-B0FC-E0F330B8BF3D" referredColumn="F14AA33E-C7AF-E03A-E8E0-72A545C1C771"/>
 </associations>
 </Column>
+<Column name="estado" id="717C4C38-BBFB-6A6E-D7AE-7F3313C49E26">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:33:22 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="9AFDEF20-4DAA-A70B-D196-2F635610741D" name="parcela_propina_PK">

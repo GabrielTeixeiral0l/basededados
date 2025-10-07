@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="81DA9271-7048-9B68-E52F-419A2A0DF26E" name="uc_docente">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="81DA9271-7048-9B68-E52F-419A2A0DF26E" name="turma_docente">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-05 10:28:21 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
@@ -8,20 +8,6 @@
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="docente_id" id="70478826-310E-C333-D617-977A7ABBE201">
-<createdBy>teixe</createdBy>
-<createdTime>2025-10-05 10:28:36 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
-<autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="DCE82B75-BD05-EEC2-3150-ABBACAF04DE5" referredColumn="12B4342E-E6AE-F348-DAC0-1F9B21595B08"/>
-</associations>
-</Column>
 <Column name="turma_id" id="66E2C9D1-2981-B2BD-3FA9-F81DF81C7071">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-05 10:28:42 UTC</createdTime>
@@ -36,16 +22,44 @@
 <colAssociation fkAssociation="D2D6D3EC-9A82-69E4-9ADF-C00518F704AA" referredColumn="21D6A2F4-A655-AFE6-B117-D66B2F2BA8DB"/>
 </associations>
 </Column>
+<Column name="docente_id" id="9240CAEA-8E4B-2833-E21F-21C8E57F1932">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:42:54 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C70F70E6-11AB-5835-1D77-A53FE193A6A4" referredColumn="DE176953-DDC9-736E-5068-F608BE44C12B"/>
+</associations>
+</Column>
+<Column name="funcao" id="BDCF8FD8-4620-1AA3-7D09-A9BA59F80CC0">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:37:48 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="18ACED05-072A-6143-519A-13C964D94D20" name="uc_docente_docente_FK">
+<ind_PK_UK id="54370080-345A-DC8C-1CCC-E7EC3796B7A7" name="turma_docente_PK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-05 10:28:36 UTC</createdTime>
+<createdTime>2025-10-07 16:45:43 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<indexState>Foreign Key</indexState>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="70478826-310E-C333-D617-977A7ABBE201"/>
+<colUsage columnID="66E2C9D1-2981-B2BD-3FA9-F81DF81C7071"/>
+<colUsage columnID="9240CAEA-8E4B-2833-E21F-21C8E57F1932"/>
 </indexColumnUsage>
 </ind_PK_UK>
 <ind_PK_UK id="F14CF9BA-CAB8-D99F-0491-027C9F6F43AC" name="uc_docente_turma_FK">
@@ -56,6 +70,16 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="66E2C9D1-2981-B2BD-3FA9-F81DF81C7071"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F1FC3255-6FC1-F73F-33A8-289B8BBA7A5E" name="turma_docente_docente_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:42:54 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9240CAEA-8E4B-2833-E21F-21C8E57F1932"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

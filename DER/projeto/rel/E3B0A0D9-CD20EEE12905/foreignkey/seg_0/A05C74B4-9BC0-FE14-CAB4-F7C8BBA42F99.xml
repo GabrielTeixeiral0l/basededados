@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="A05C74B4-9BC0-FE14-CAB4-F7C8BBA42F99" containerWithKeyObject="D63EA7D0-D4E3-279F-2740-62AC243E7B06" localFKIndex="0FB3EAB2-3559-AC96-C4C5-8C074B5D2533" name="uc_departamento_departamento_FK">
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="A05C74B4-9BC0-FE14-CAB4-F7C8BBA42F99" containerWithKeyObject="D63EA7D0-D4E3-279F-2740-62AC243E7B06" localFKIndex="0FB3EAB2-3559-AC96-C4C5-8C074B5D2533" name="uc_depart_depart_FK">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-04 12:06:10 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>

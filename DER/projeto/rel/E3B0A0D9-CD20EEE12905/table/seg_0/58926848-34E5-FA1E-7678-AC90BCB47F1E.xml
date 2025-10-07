@@ -38,6 +38,18 @@
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="BAEDCA64-8364-5CFB-A890-0AE9A6A1125F" name="estudante_entrega_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:46:03 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5AB279F8-6BBE-4D5E-80DF-18D26F023FAF"/>
+<colUsage columnID="A55A0DB3-B502-08F5-9260-BD07E87B1D28"/>
+</indexColumnUsage>
+</ind_PK_UK>
 <ind_PK_UK id="D26AB709-56B1-312D-79F3-8FF03BA93806" name="estudante_entrega_estudante_FK">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-04 18:43:09 UTC</createdTime>

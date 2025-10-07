@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="34D1EB54-EEC1-9800-1CDB-AE085BAAF3C2" name="unidade_curricular_docente">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="34D1EB54-EEC1-9800-1CDB-AE085BAAF3C2" name="uc_docente">
 <createdBy>teixe</createdBy>
 <createdTime>2025-09-29 16:49:45 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
@@ -8,20 +8,6 @@
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="docente_id" id="54D6A10E-C3E3-5E23-64CF-D7082AAECD71">
-<createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:49:59 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
-<autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="A78310A4-D30E-6218-5A0F-84463194A63F" referredColumn="12B4342E-E6AE-F348-DAC0-1F9B21595B08"/>
-</associations>
-</Column>
 <Column name="unidade_curricular_id" id="C27D6D22-D1AB-1944-9B39-D7A65AFCE86A">
 <createdBy>teixe</createdBy>
 <createdTime>2025-09-29 16:50:09 UTC</createdTime>
@@ -36,19 +22,47 @@
 <colAssociation fkAssociation="B7C28FEB-9CFC-A140-87DA-2C6D6A83DB20" referredColumn="36FF0EB3-4260-4E65-33DB-2225D626EF4B"/>
 </associations>
 </Column>
+<Column name="docente_id" id="9110F25F-1EA2-958E-7880-CF63F34B648C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:41:16 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="6072A8C2-359D-EEFF-1C92-A1FBA9526CD2" referredColumn="DE176953-DDC9-736E-5068-F608BE44C12B"/>
+</associations>
+</Column>
+<Column name="funcao" id="6F0EBEFA-171E-C078-F078-94963C32877D">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:39:05 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="94F4D867-1998-F311-7C6D-75AAF78BE940" name="unidade_curricular_docente_docente_FK">
+<ind_PK_UK id="79D59B3E-67BB-1FD2-15A0-4ED6CE153299" name="unidade_curricular_docente_PK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:49:59 UTC</createdTime>
+<createdTime>2025-10-07 16:41:27 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<indexState>Foreign Key</indexState>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="54D6A10E-C3E3-5E23-64CF-D7082AAECD71"/>
+<colUsage columnID="C27D6D22-D1AB-1944-9B39-D7A65AFCE86A"/>
+<colUsage columnID="9110F25F-1EA2-958E-7880-CF63F34B648C"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="C0E86C1C-7B38-94A1-0E87-0A132EDE8638" name="unidade_curricular_docente_unidade_curricular_FK">
+<ind_PK_UK id="C0E86C1C-7B38-94A1-0E87-0A132EDE8638" name="uc_docente_uc_FK">
 <createdBy>teixe</createdBy>
 <createdTime>2025-09-29 16:50:09 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
@@ -56,6 +70,16 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="C27D6D22-D1AB-1944-9B39-D7A65AFCE86A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="0EDCB130-82A4-7F30-2D91-3CF9BE1FC495" name="uc_docente_docente_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:41:16 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9110F25F-1EA2-958E-7880-CF63F34B648C"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

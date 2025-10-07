@@ -43,9 +43,21 @@
 <colAssociation fkAssociation="5FBC1A5E-4224-F3BC-D637-93B1FF6B95BE" referredColumn="80FB2A2B-9001-3727-0C69-69F66558A1D0"/>
 </associations>
 </Column>
-<Column name="entrega_id" id="9621D72B-8619-7E9E-312C-332F03D91312">
+<Column name="comentario" id="D5D3B822-7530-ECC8-A169-9DC3ED40C183">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-04 18:44:42 UTC</createdTime>
+<createdTime>2025-10-07 17:29:39 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255 CHAR</dataTypeSize>
+<ownDataTypeParameters>255 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="estudante_id" id="71F3768A-A030-F8F7-BE3E-E648340BFFFE">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:32:38 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -54,7 +66,7 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="366CAF01-F622-02A5-3D0A-2201369AE21F" referredColumn="15EC8C4D-37FF-A695-E0AF-7C7DE05A1916"/>
+<colAssociation fkAssociation="C4926C73-02AC-1E4A-1F77-057592368C62" referredColumn="4DFE5497-AFD7-597C-32DE-AACBE83571F8"/>
 </associations>
 </Column>
 </columns>
@@ -80,14 +92,14 @@
 <colUsage columnID="3DB0AB52-CB0C-4267-F7C3-EB8AA62C830D"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="6CF17141-78C8-4D39-CA20-51184DD7DEA3" name="nota_entrega_FK">
+<ind_PK_UK id="49FB7D0E-AE14-602E-5797-747F649962E7" name="nota_estudante_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-04 18:44:42 UTC</createdTime>
+<createdTime>2025-10-07 17:32:38 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="9621D72B-8619-7E9E-312C-332F03D91312"/>
+<colUsage columnID="71F3768A-A030-F8F7-BE3E-E648340BFFFE"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

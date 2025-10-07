@@ -8,20 +8,6 @@
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="docente_id" id="7B2D1EFA-88F1-243D-70BA-996C167143A1">
-<createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:56:02 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
-<autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="C63A4420-8AF7-C001-BF42-4610E3EB07CF" referredColumn="12B4342E-E6AE-F348-DAC0-1F9B21595B08"/>
-</associations>
-</Column>
 <Column name="aula_id" id="4D37AA6D-612B-3E17-D4DF-D1D91CBA811C">
 <createdBy>teixe</createdBy>
 <createdTime>2025-09-29 16:56:10 UTC</createdTime>
@@ -36,16 +22,32 @@
 <colAssociation fkAssociation="591AD66A-2885-F1F7-E310-D4663AACB723" referredColumn="1A7BE51A-4955-1455-5673-434C52616A7B"/>
 </associations>
 </Column>
+<Column name="docente_id" id="B9E0DC66-BE23-0B8A-6CB6-D1E95C7DC476">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:39:05 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0A8CA67A-5637-E80E-E77F-7EC3471FE5A5" referredColumn="DE176953-DDC9-736E-5068-F608BE44C12B"/>
+</associations>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="39BA9D1E-C328-5FF0-6AA0-ABF8FF918B2D" name="docente_aula_docente_FK">
+<ind_PK_UK id="DBE6008F-C5FE-B5C1-3D61-F5CFA8E52E02" name="docente_aula_PK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-09-29 16:56:02 UTC</createdTime>
+<createdTime>2025-10-07 16:39:53 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<indexState>Foreign Key</indexState>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="7B2D1EFA-88F1-243D-70BA-996C167143A1"/>
+<colUsage columnID="4D37AA6D-612B-3E17-D4DF-D1D91CBA811C"/>
+<colUsage columnID="B9E0DC66-BE23-0B8A-6CB6-D1E95C7DC476"/>
 </indexColumnUsage>
 </ind_PK_UK>
 <ind_PK_UK id="C446DCD6-1CF3-98DB-8803-E52E49691CC1" name="docente_aula_aula_FK">
@@ -56,6 +58,16 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="4D37AA6D-612B-3E17-D4DF-D1D91CBA811C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E91CDB74-CB22-DC69-AF78-69258E8C1E6B" name="docente_aula_docente_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:39:05 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B9E0DC66-BE23-0B8A-6CB6-D1E95C7DC476"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

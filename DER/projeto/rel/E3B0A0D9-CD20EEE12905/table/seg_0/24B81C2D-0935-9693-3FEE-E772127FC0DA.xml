@@ -36,8 +36,30 @@
 <colAssociation fkAssociation="F3938F0C-5F72-4673-7E15-53E254C19EC1" referredColumn="877F5B4C-2CD3-CF46-0B27-C8810A6B6DC8"/>
 </associations>
 </Column>
+<Column name="data" id="2C965117-0A74-4FE9-E2EA-54DF00FE8E38">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:27:49 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="7649C650-5894-AA3B-3BB4-63BA00C445FD" name="inscricao_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:42:14 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="41988FD9-7333-1BE0-8BEF-54077BE5520E"/>
+<colUsage columnID="0AC7A886-ED70-0AED-E180-B4F952331593"/>
+</indexColumnUsage>
+</ind_PK_UK>
 <ind_PK_UK id="A6FA2DCC-5E68-16E2-4517-E3D3B19A94C7" name="inscricao_turma_turma_FK">
 <createdBy>teixe</createdBy>
 <createdTime>2025-09-29 18:33:51 UTC</createdTime>

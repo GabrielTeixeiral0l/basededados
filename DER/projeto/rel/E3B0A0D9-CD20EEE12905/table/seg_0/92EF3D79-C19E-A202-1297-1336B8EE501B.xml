@@ -32,9 +32,9 @@
 <colAssociation fkAssociation="154FDBB5-634B-AADE-2167-3815F1320D5F" referredColumn="21D6A2F4-A655-AFE6-B117-D66B2F2BA8DB"/>
 </associations>
 </Column>
-<Column name="docente_id" id="E7E77725-136C-A676-C9D1-8D1B65DB164C">
+<Column name="docente_id" id="C53B629E-9094-F919-1691-2C1148FC4435">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-04 12:41:57 UTC</createdTime>
+<createdTime>2025-10-07 16:43:26 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -43,8 +43,32 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="83AB2B59-651B-E2AE-9BC7-8DC9A5B0CEB0" referredColumn="12B4342E-E6AE-F348-DAC0-1F9B21595B08"/>
+<colAssociation fkAssociation="E68CFE7A-C0A8-A428-D799-852CD63FCAA5" referredColumn="DE176953-DDC9-736E-5068-F608BE44C12B"/>
 </associations>
+</Column>
+<Column name="nome" id="97CF18A8-835B-0B5A-C5DA-2708D642B6A2">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:35:31 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="descricao" id="F25E5D5D-397B-36D8-8AE0-7A8DF63E6821">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:35:31 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255 CHAR</dataTypeSize>
+<ownDataTypeParameters>255 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
@@ -69,14 +93,14 @@
 <colUsage columnID="A812AD3D-0215-AD1E-B720-F1B71BC67357"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="9192E0CA-5F4E-4EE5-0E70-E36EB2779716" name="recurso_docente_FK">
+<ind_PK_UK id="BFA0C920-F9B6-2FEB-75DA-0BABB6F9C0AA" name="recurso_docente_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-04 12:41:57 UTC</createdTime>
+<createdTime>2025-10-07 16:43:26 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="E7E77725-136C-A676-C9D1-8D1B65DB164C"/>
+<colUsage columnID="C53B629E-9094-F919-1691-2C1148FC4435"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

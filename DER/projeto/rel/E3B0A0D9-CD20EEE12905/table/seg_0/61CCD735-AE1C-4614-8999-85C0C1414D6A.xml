@@ -32,6 +32,18 @@
 <colAssociation fkAssociation="74DEBC31-ED01-B70D-266D-44E986D4A642" referredColumn="D6F46DFB-688E-6F9D-6AA1-4C191DE33DB7"/>
 </associations>
 </Column>
+<Column name="nome" id="0FF2EEDB-0E17-9C4D-D4B9-0746C7B36D3C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:17:45 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="ABFB3643-4E7B-2AB3-0C2E-8014FE14EC3D" name="edificio_PK">

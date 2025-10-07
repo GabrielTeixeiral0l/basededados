@@ -58,6 +58,20 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="colaborador_id" id="6F492DB9-9052-431C-7272-B5ED268F40DB">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 10:28:02 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2D7F4304-4E8C-68A9-66D8-BA01EDFDA3DE" referredColumn="F2F91468-672D-E72A-F79B-69C0152E8A09"/>
+</associations>
+</Column>
 <Column name="created_at" id="1E71A635-812E-6E38-BFF5-7580FC08EB63">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-04 12:12:35 UTC</createdTime>
@@ -99,6 +113,16 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="10A3DBF1-7B9C-2EAA-67A2-890872242734"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="71D3590A-83FC-C6B0-2D24-2D278F6F0C93" name="log_colaborador_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 10:28:02 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6F492DB9-9052-431C-7272-B5ED268F40DB"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

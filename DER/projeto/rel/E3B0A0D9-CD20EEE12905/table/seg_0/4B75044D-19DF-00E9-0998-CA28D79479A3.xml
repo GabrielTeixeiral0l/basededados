@@ -32,6 +32,27 @@
 <colAssociation fkAssociation="1BB28FFE-1559-C5A8-EEDA-50FE112F64B2" referredColumn="88F395C8-1A9D-CF1F-CBDA-AA07EF4EB803"/>
 </associations>
 </Column>
+<Column name="nome" id="A0DDDA20-21B4-4F9B-1A19-BA5043D4E929">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:25:56 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ficheiro" id="DE98C6BC-658E-A819-62D4-E6C1B626FB15">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:25:56 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT029</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="EF14369F-7D83-ED22-3C4A-3E31E6099AD2" name="ficheiro_recurso_PK">

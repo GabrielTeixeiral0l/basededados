@@ -46,6 +46,27 @@
 <colAssociation fkAssociation="6B1A72C7-E18E-2FC8-C4DF-32B11407AAD4" referredColumn="54861C37-35A1-7181-A314-4D33557E3ADA"/>
 </associations>
 </Column>
+<Column name="nome" id="E2AFE229-578F-FD70-221B-A07BC5A39B1C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:21:00 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="capacidade" id="CBEB8366-5848-3573-9333-A2D99FD9F230">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:21:00 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="48C385BB-022A-D679-0135-FC7B77637557" name="espaco_PK">

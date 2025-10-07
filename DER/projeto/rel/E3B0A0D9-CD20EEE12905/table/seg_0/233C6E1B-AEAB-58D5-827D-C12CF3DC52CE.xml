@@ -32,6 +32,28 @@
 <colAssociation fkAssociation="B14AAAD6-3CCE-BACE-8965-21D477587C2B" referredColumn="70C16005-ECA9-A496-BFFE-F8C0EB8E91B2"/>
 </associations>
 </Column>
+<Column name="numero" id="DA6235C6-D92C-BF49-C59A-F05DA5400C40">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:02:29 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="descricao" id="A84DEEA7-ADA6-896A-1C06-953B50AFB799">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:02:29 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="57293F02-26FF-2EDE-369E-5771A0F7CEB7" name="andar_PK">

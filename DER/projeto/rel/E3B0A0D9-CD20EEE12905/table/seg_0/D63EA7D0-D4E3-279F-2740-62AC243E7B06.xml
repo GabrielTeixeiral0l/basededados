@@ -38,7 +38,19 @@
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
-<ind_PK_UK id="0FB3EAB2-3559-AC96-C4C5-8C074B5D2533" name="uc_departamento_departamento_FK">
+<ind_PK_UK id="B4C2C69A-500F-3E91-D5E0-6006D8937323" name="uc_departamento_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:41:40 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="146C75B9-05F3-A408-30B7-3C844D0A661C"/>
+<colUsage columnID="E15487F9-1DAF-74C0-6898-9630F7068B46"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="0FB3EAB2-3559-AC96-C4C5-8C074B5D2533" name="uc_depart_depart_FK">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-04 12:06:10 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
@@ -48,7 +60,7 @@
 <colUsage columnID="146C75B9-05F3-A408-30B7-3C844D0A661C"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="8FE5F64E-0DAE-CA56-2D1A-559475EB846D" name="uc_departamento_unidade_curricular_FK">
+<ind_PK_UK id="8FE5F64E-0DAE-CA56-2D1A-559475EB846D" name="uc_depart_uc_FK">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-04 12:06:14 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>

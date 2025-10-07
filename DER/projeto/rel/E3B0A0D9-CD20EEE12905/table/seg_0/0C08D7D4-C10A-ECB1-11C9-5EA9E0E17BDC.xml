@@ -32,6 +32,48 @@
 <colAssociation fkAssociation="2F0DF825-70B5-6B90-DDE2-F5835F67B1CB" referredColumn="688B04F0-E1D2-6417-65DC-765F2A3ED912"/>
 </associations>
 </Column>
+<Column name="data" id="11ECFC60-3DB7-17A0-CE98-AFDA9C2218D9">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:07:32 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="hora_inicio" id="B1AD02BA-1D4D-852B-74DD-EC43357C089D">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:07:32 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="hora_fim" id="D85C55C1-D0CB-99C3-E4B4-2D44946A9F49">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:07:32 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="sumario" id="6E048EA4-A2DE-93FD-FE8F-8879B6D1FB15">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:07:32 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255 CHAR</dataTypeSize>
+<ownDataTypeParameters>255 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="0EA9721D-6595-BBF6-A94C-FC24C87AFA68" name="aula_PK">
