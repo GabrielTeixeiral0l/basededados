@@ -18,6 +18,17 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="nome" id="0FF2EEDB-0E17-9C4D-D4B9-0746C7B36D3C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:17:45 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column name="polo_id" id="CBA86E6B-9630-DD67-D11A-6CCABEDAC5EE">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-04 12:16:33 UTC</createdTime>
@@ -32,16 +43,37 @@
 <colAssociation fkAssociation="74DEBC31-ED01-B70D-266D-44E986D4A642" referredColumn="D6F46DFB-688E-6F9D-6AA1-4C191DE33DB7"/>
 </associations>
 </Column>
-<Column name="nome" id="0FF2EEDB-0E17-9C4D-D4B9-0746C7B36D3C">
+<Column name="created_at" id="3F6EFC04-92E2-8B2B-7F80-CA5FC566A40B">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-07 17:17:45 UTC</createdTime>
+<createdTime>2025-10-09 09:28:50 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>50 CHAR</dataTypeSize>
-<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="79C16657-83AE-0D5C-463A-DFD8ABFF582A">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:28:50 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="2CAE077B-26B0-E09F-ABF9-3948A3C1E0B6">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:28:50 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 </columns>

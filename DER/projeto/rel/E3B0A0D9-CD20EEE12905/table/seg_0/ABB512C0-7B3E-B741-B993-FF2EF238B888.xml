@@ -8,15 +8,19 @@
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="id" id="F2F91468-672D-E72A-F79B-69C0152E8A09">
+<Column name="id" id="1E02DE65-C18F-5977-AF69-53E9C9E1C4D2">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-05 10:39:41 UTC</createdTime>
+<createdTime>2025-10-08 12:16:04 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3DD0D5D7-C78C-5B2E-7F17-FB73B1C3046F" referredColumn="8F005A1F-95B1-1438-DA62-E523F5DCF3A5"/>
+</associations>
 </Column>
 <Column name="nome" id="322282E8-7B8E-E171-A172-5CCF429035EA">
 <createdBy>teixe</createdBy>
@@ -29,20 +33,31 @@
 <ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="email" id="371C721D-0BA4-87D2-7525-7D09836BA04E">
+<Column name="data_contratacao" id="C27FF254-7B78-46DD-6540-F75DEA319553">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-07 17:10:43 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>100 CHAR</dataTypeSize>
-<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="telefone" id="2D6772DA-F0BE-65C3-CA28-733353E85601">
+<Column name="cc" id="1E7D38ED-CE81-32E8-2861-7E8B4DC2D421">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-07 17:10:43 UTC</createdTime>
+<createdTime>2025-10-08 11:53:13 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>8 CHAR</dataTypeSize>
+<ownDataTypeParameters>8 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nif" id="61DFE6A1-933C-4D79-3E22-5C28AACF738B">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 11:53:13 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -52,13 +67,48 @@
 <ownDataTypeParameters>9 CHAR,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="data_contratacao" id="C27FF254-7B78-46DD-6540-F75DEA319553">
+<Column name="iban" id="FB6C2427-A330-6D33-E05B-97488685A90B">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-07 17:10:43 UTC</createdTime>
+<createdTime>2025-10-08 11:53:13 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT007</logicalDatatype>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>25 CHAR</dataTypeSize>
+<ownDataTypeParameters>25 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="created_at" id="6ABF6D0D-02E6-F03F-C92F-6F507575C46A">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:25:50 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="D4A9F2E7-AA3E-DCEC-9FD8-E9B2CB941A14">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:25:51 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="571A5ADE-B46D-5D4F-55F0-C168A4E076E6">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:25:51 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
@@ -72,7 +122,17 @@
 <indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="F2F91468-672D-E72A-F79B-69C0152E8A09"/>
+<colUsage columnID="1E02DE65-C18F-5977-AF69-53E9C9E1C4D2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CAE7D048-E0DC-D337-A49D-508472E6D0C4" name="colaborador_utilizador_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 12:16:04 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1E02DE65-C18F-5977-AF69-53E9C9E1C4D2"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

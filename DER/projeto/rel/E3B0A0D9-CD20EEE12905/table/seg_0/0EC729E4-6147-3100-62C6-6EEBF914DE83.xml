@@ -8,26 +8,19 @@
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="id" id="38E68AAF-4F18-8BCD-64FE-98124DD72CCC">
+<Column name="estudante_id" id="0A751422-4E83-51E5-9105-F8220306E921">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-04 18:44:12 UTC</createdTime>
+<createdTime>2025-10-08 12:26:07 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column name="nota" id="509AFE14-9FB7-FD41-EC3B-00C9CE281574">
-<createdBy>teixe</createdBy>
-<createdTime>2025-10-04 18:44:12 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT026</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C4926C73-02AC-1E4A-1F77-057592368C62" referredColumn="2A8F7C08-E2D1-00C3-024D-EBF382F12C26"/>
+</associations>
 </Column>
 <Column name="avaliacao_id" id="3DB0AB52-CB0C-4267-F7C3-EB8AA62C830D">
 <createdBy>teixe</createdBy>
@@ -43,6 +36,16 @@
 <colAssociation fkAssociation="5FBC1A5E-4224-F3BC-D637-93B1FF6B95BE" referredColumn="80FB2A2B-9001-3727-0C69-69F66558A1D0"/>
 </associations>
 </Column>
+<Column name="nota" id="509AFE14-9FB7-FD41-EC3B-00C9CE281574">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:44:12 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column name="comentario" id="D5D3B822-7530-ECC8-A169-9DC3ED40C183">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-07 17:29:39 UTC</createdTime>
@@ -55,19 +58,38 @@
 <ownDataTypeParameters>255 CHAR,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="estudante_id" id="71F3768A-A030-F8F7-BE3E-E648340BFFFE">
+<Column name="created_at" id="FE7603C2-79B9-B4CA-E66E-EC693B235843">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-07 17:32:38 UTC</createdTime>
+<createdTime>2025-10-09 09:30:10 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="C4926C73-02AC-1E4A-1F77-057592368C62" referredColumn="4DFE5497-AFD7-597C-32DE-AACBE83571F8"/>
-</associations>
+</Column>
+<Column name="updated_at" id="B30836B2-E12E-E03D-AFCD-D14F08252619">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:30:10 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="BBE9D3A9-E3F7-BA6A-CF23-16788AF7C6F5">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:30:10 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
@@ -79,7 +101,8 @@
 <indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="38E68AAF-4F18-8BCD-64FE-98124DD72CCC"/>
+<colUsage columnID="3DB0AB52-CB0C-4267-F7C3-EB8AA62C830D"/>
+<colUsage columnID="0A751422-4E83-51E5-9105-F8220306E921"/>
 </indexColumnUsage>
 </ind_PK_UK>
 <ind_PK_UK id="A5820552-43C9-F769-0D3B-7F276E6F0001" name="nota_avaliacao_FK">
@@ -99,7 +122,7 @@
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="71F3768A-A030-F8F7-BE3E-E648340BFFFE"/>
+<colUsage columnID="0A751422-4E83-51E5-9105-F8220306E921"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

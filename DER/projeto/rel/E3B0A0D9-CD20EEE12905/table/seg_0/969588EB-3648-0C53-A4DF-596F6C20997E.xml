@@ -33,7 +33,6 @@
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-04 18:05:05 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT014</logicalDatatype>
@@ -44,7 +43,6 @@
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-04 18:05:05 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT014</logicalDatatype>
@@ -66,7 +64,6 @@
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-04 18:05:05 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
@@ -115,6 +112,39 @@
 <associations>
 <colAssociation fkAssociation="B7D6B399-1619-C5F0-0E7A-0BDCBC9E6054" referredColumn="80FB2A2B-9001-3727-0C69-69F66558A1D0"/>
 </associations>
+</Column>
+<Column name="created_at" id="910AA57B-4518-E106-1E18-693BDC760380">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:27:39 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="3ACF8160-9534-1509-AD6E-C8BD231FAA20">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:27:39 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="9860E7F6-F9A9-3895-B4C6-A56D69E9775C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:27:39 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">

@@ -32,21 +32,10 @@
 <colAssociation fkAssociation="790343DF-4BD4-3FE9-344E-A5170E5DCE2D" referredColumn="877F5B4C-2CD3-CF46-0B27-C8810A6B6DC8"/>
 </associations>
 </Column>
-<Column name="valor_total" id="429988F4-CBD9-B38F-B81A-7668D9FE4D70">
-<createdBy>teixe</createdBy>
-<createdTime>2025-10-05 10:02:24 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT026</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
 <Column name="numero_parcelas" id="899C60D0-C127-7BE8-5029-735B4387923B">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-05 10:02:24 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
@@ -57,12 +46,44 @@
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-07 17:34:52 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>20 CHAR</dataTypeSize>
-<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="created_at" id="B4941C72-2444-DB81-4476-26F91BB48EB8">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:31:03 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="6EFCD059-C372-4B16-9E77-A85D3C346D27">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:31:03 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="2B3C9D45-EE5B-E66C-2B83-9CB570D4004E">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:31:03 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 </columns>

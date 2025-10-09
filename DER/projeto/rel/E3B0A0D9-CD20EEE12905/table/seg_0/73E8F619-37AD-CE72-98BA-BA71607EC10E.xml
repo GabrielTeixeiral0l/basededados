@@ -29,18 +29,6 @@
 <ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="tipo" id="ED52DDFE-5CE6-8405-5EC6-FF3E92FC4045">
-<createdBy>teixe</createdBy>
-<createdTime>2025-10-05 11:01:59 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>20 CHAR</dataTypeSize>
-<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
 <Column name="descricao" id="1741B5C9-04CB-FAB5-DBAD-3ECF21FAA69A">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-07 17:12:55 UTC</createdTime>
@@ -51,6 +39,77 @@
 <logicalDatatype>LOGDT024</logicalDatatype>
 <dataTypeSize>100 CHAR</dataTypeSize>
 <ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="email" id="69DAF29C-83C3-9622-D10A-A15177BFAB07">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:34:23 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="telefone" id="5B6D9BE2-C3E0-FCF8-1B57-45598CB93AC6">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:34:23 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="tipo_departamento_id" id="78859845-2F3E-0AB6-FCEC-531D9282AACA">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 09:22:32 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D4248676-42AE-4EFF-6344-16C656505657" referredColumn="ED07AEE5-E298-0C0F-38FE-20539A51844E"/>
+</associations>
+</Column>
+<Column name="created_at" id="979E8C3F-EC73-9B50-B197-3D39B917D041">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:24:59 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="8AFF2CB1-69DA-56C3-8624-1B1E7DDD9338">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:24:59 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="D71A190F-866A-BC0E-5168-8DC71B8855EB">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:24:59 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 </columns>
@@ -64,6 +123,16 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="08D2D74F-63CB-CA69-0B04-54703E5A70B7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BDD2C8BD-F37B-B561-98B8-4FC4EA920BA2" name="depart_tipo_depart_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 09:22:32 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="78859845-2F3E-0AB6-FCEC-531D9282AACA"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

@@ -1,0 +1,106 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E3890B4F-F661-689C-72D6-7CF67268BB9A" name="contacto_colaborador">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 09:13:41 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<ordsAlias>table_42</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="contacto" id="2EE042FB-9770-6908-9E71-88130AAC4656">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 09:14:58 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="tipo_contacto_id" id="F145198B-720C-1374-DF99-4F74A7888BF2">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 09:15:47 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="7164A980-0B39-475B-8E0F-A2E95281FE4E" referredColumn="ED6BE864-CDD1-7FBC-BF91-DF0CACFF6AF3"/>
+</associations>
+</Column>
+<Column name="colaborador_id" id="796CD015-385E-B602-AF76-CF170F705E95">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 12:17:13 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="CCBE8ECD-5C95-197E-320B-0F8C1BADB761" referredColumn="1E02DE65-C18F-5977-AF69-53E9C9E1C4D2"/>
+</associations>
+</Column>
+<Column name="created_at" id="02CF3513-E4C9-187A-BC50-5CBB0BA7ACB2">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:25:55 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="9B3F7AD0-395E-6D43-1569-9B91B1F8EF6A">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:25:55 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="E972FAE6-37DC-26B3-1022-36C0AA9056D1">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:25:55 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="484B1796-565E-07D3-01CA-C26C022F83F6" name="contacto_colaborador_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 09:14:12 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="796CD015-385E-B602-AF76-CF170F705E95"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D3B00814-B213-29F2-B945-784363FF2BC1" name="contacto_tipo_contacto_FKv1">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 09:15:47 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F145198B-720C-1374-DF99-4F74A7888BF2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

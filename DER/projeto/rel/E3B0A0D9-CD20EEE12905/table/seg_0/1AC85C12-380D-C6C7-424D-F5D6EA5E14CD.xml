@@ -18,6 +18,17 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="data" id="0FDE745B-AE30-18DF-36B5-B9987A6B3303">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 12:10:03 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>47823B89-BECE-2D4A-B641-EE3BE6149078</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column name="entidade_log_id" id="0289E6FA-8BBD-3CC1-87E4-67A9B713AA20">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-04 12:08:30 UTC</createdTime>
@@ -47,20 +58,9 @@
 <colAssociation fkAssociation="4E9CC35B-1974-2EC7-843A-AD00E260C659" referredColumn="C9FF8002-887F-2DDE-69E7-C979FC14CC5B"/>
 </associations>
 </Column>
-<Column name="data" id="0FDE745B-AE30-18DF-36B5-B9987A6B3303">
+<Column name="utilizador_id" id="1962048A-93B0-E3C5-B8EA-B371BF20E772">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-04 12:10:03 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>47823B89-BECE-2D4A-B641-EE3BE6149078</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column name="colaborador_id" id="6F492DB9-9052-431C-7272-B5ED268F40DB">
-<createdBy>teixe</createdBy>
-<createdTime>2025-10-07 10:28:02 UTC</createdTime>
+<createdTime>2025-10-08 12:14:58 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -69,16 +69,39 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="2D7F4304-4E8C-68A9-66D8-BA01EDFDA3DE" referredColumn="F2F91468-672D-E72A-F79B-69C0152E8A09"/>
+<colAssociation fkAssociation="3F87675A-6665-EB54-A028-2BA3DBBFCD85" referredColumn="8F005A1F-95B1-1438-DA62-E523F5DCF3A5"/>
 </associations>
 </Column>
-<Column name="created_at" id="1E71A635-812E-6E38-BFF5-7580FC08EB63">
+<Column name="created_at" id="0BBA9127-5BFB-D439-D8A1-90093E31DF45">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-04 12:12:35 UTC</createdTime>
+<createdTime>2025-10-09 09:29:57 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
+<use>0</use>
 <logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="F48023FE-826D-5A29-FDC8-64684ECC2492">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:57 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="620759D8-820E-A020-AE76-5F58CA64B0EB">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:57 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
@@ -115,14 +138,14 @@
 <colUsage columnID="10A3DBF1-7B9C-2EAA-67A2-890872242734"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="71D3590A-83FC-C6B0-2D24-2D278F6F0C93" name="log_colaborador_FK">
+<ind_PK_UK id="4E3D1EF6-BDC2-63D1-0F90-01F8DB50BFBB" name="log_utilizador_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-07 10:28:02 UTC</createdTime>
+<createdTime>2025-10-08 12:14:58 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="6F492DB9-9052-431C-7272-B5ED268F40DB"/>
+<colUsage columnID="1962048A-93B0-E3C5-B8EA-B371BF20E772"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

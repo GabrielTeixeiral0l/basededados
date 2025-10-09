@@ -22,7 +22,6 @@
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-07 17:12:07 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
@@ -34,7 +33,6 @@
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-07 17:12:07 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
@@ -42,14 +40,81 @@
 <ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="descricao" id="B41B83C8-A60E-ACB4-C0D8-BC20D1C131EA">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 09:59:45 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255 CHAR</dataTypeSize>
+<ownDataTypeParameters>255 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column name="duracao" id="01AE9300-E544-AA51-5D1D-311E54F271EA">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-07 17:12:07 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ects" id="571B5324-4583-6352-6DA3-931CAEC3CADD">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:02:54 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="tipo_curso_id" id="EAD30D23-E81C-AAAD-7905-BA199B0EA33E">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:01:31 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3CC0418E-61BD-C076-93F4-30059CFBB7BC" referredColumn="9A082AA3-D8DD-9173-EB54-655DC05837F7"/>
+</associations>
+</Column>
+<Column name="created_at" id="0206CDC7-DB68-1E51-8248-C5D29CD17CCD">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:28:30 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="69CA0218-4E32-CF6C-FD1B-CF73E444D2DE">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:28:30 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="18B56BBE-6415-CAC9-4CB7-574D33773A26">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:28:30 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
@@ -64,6 +129,16 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="02652342-1C1C-ACE0-EB18-F1A40ECBB4DF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="630B1E46-1463-D1EE-869E-C60B73C5ACDA" name="curso_tipo_curso_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:01:31 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EAD30D23-E81C-AAAD-7905-BA199B0EA33E"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

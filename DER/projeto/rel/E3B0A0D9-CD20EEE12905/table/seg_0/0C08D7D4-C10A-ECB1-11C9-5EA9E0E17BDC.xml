@@ -18,20 +18,6 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="espaco_id" id="CC97EB3C-D36A-A970-F542-635E752C8680">
-<createdBy>teixe</createdBy>
-<createdTime>2025-10-05 19:21:45 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
-<autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="2F0DF825-70B5-6B90-DDE2-F5835F67B1CB" referredColumn="688B04F0-E1D2-6417-65DC-765F2A3ED912"/>
-</associations>
-</Column>
 <Column name="data" id="11ECFC60-3DB7-17A0-CE98-AFDA9C2218D9">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-07 17:07:32 UTC</createdTime>
@@ -74,6 +60,67 @@
 <ownDataTypeParameters>255 CHAR,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="espaco_id" id="2FA4281E-4ABC-A171-ADFE-E9DE85835A20">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 09:43:45 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="02293ECE-6856-9492-4CC6-285F780E5A3A" referredColumn="688B04F0-E1D2-6417-65DC-765F2A3ED912"/>
+</associations>
+</Column>
+<Column name="tipo_aula_id" id="CCE76C75-FFCB-12C2-3CA3-9DD507BDC7DA">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:18:37 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="53A3365D-D137-5035-0618-5EE9983DB5CE" referredColumn="68DF7F9F-3648-3264-0AFA-9138570B57B1"/>
+</associations>
+</Column>
+<Column name="created_at" id="1236146B-7AF8-1642-ADCC-842982693AC6">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:27:35 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="9FF0C922-6BF3-5983-6E46-B4B324D061AC">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:27:35 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="13619752-50B5-832B-069E-858C3A032F9F">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:27:35 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="0EA9721D-6595-BBF6-A94C-FC24C87AFA68" name="aula_PK">
@@ -87,14 +134,24 @@
 <colUsage columnID="1A7BE51A-4955-1455-5673-434C52616A7B"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="108CFDA8-F8A0-BB0E-8A93-2D932D140DFC" name="aula_espaco_FK">
+<ind_PK_UK id="E7062B70-2F71-2BCF-5222-D35CF4F78F9C" name="aula_espaco_FK">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-05 19:21:45 UTC</createdTime>
+<createdTime>2025-10-08 09:56:15 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="CC97EB3C-D36A-A970-F542-635E752C8680"/>
+<colUsage columnID="2FA4281E-4ABC-A171-ADFE-E9DE85835A20"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="05F3CD0C-1F0B-FD91-44FA-93ED53B165A8" name="aula_tipo_aula_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:18:37 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CCE76C75-FFCB-12C2-3CA3-9DD507BDC7DA"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

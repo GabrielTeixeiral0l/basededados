@@ -32,20 +32,6 @@
 <colAssociation fkAssociation="AAE67F94-1E77-B3D7-6EF9-30AA86F92F06" referredColumn="02652342-1C1C-ACE0-EB18-F1A40ECBB4DF"/>
 </associations>
 </Column>
-<Column name="estudante_id" id="A2CC59BE-85AD-3079-6415-621B3E622B42">
-<createdBy>teixe</createdBy>
-<createdTime>2025-09-29 17:04:32 UTC</createdTime>
-<ownerDesignName>projeto</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
-<autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="6A84FD99-2A2C-D3E9-C6A7-D519F68201AF" referredColumn="4DFE5497-AFD7-597C-32DE-AACBE83571F8"/>
-</associations>
-</Column>
 <Column name="ano_inscricao" id="2926B54D-0F85-2526-BB74-AA83A0AFEE7D">
 <createdBy>teixe</createdBy>
 <createdTime>2025-09-29 17:09:23 UTC</createdTime>
@@ -54,6 +40,67 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="estado_matricula_id" id="7A65F001-1037-91BE-1C46-4E0B1A4EEE3E">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:26:37 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="01496946-9F82-9F8D-A8B5-2D86EB2E1639" referredColumn="F38A35A0-2BD0-5343-D61D-3EE16C5D3E66"/>
+</associations>
+</Column>
+<Column name="estudante_id" id="BC94B836-481E-BD38-1690-9FBE3B799807">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 12:26:07 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="6A84FD99-2A2C-D3E9-C6A7-D519F68201AF" referredColumn="2A8F7C08-E2D1-00C3-024D-EBF382F12C26"/>
+</associations>
+</Column>
+<Column name="created_at" id="222F0883-21EC-B6E1-4CDC-130805D93E2E">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:30:02 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="B23FD909-B900-5A82-1DD6-F2C5A6A17E9F">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:30:02 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="1756D7E4-8BEC-49CF-7F3A-7386FB505535">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:30:02 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
@@ -87,7 +134,17 @@
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="A2CC59BE-85AD-3079-6415-621B3E622B42"/>
+<colUsage columnID="BC94B836-481E-BD38-1690-9FBE3B799807"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8B78CD5A-6473-F482-E525-B81B7FB2A089" name="matricula_estado_matricula_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:26:37 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7A65F001-1037-91BE-1C46-4E0B1A4EEE3E"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

@@ -8,3 +8,6 @@ tabela tipo avaliação
 | 5       | **Apresentacao** | ❌              | ✅             | ❌              | Exposição pública (não necessariamente defesa formal), pode complementar um trabalho.             |
 | 6       | **Projeto**      | ✅              | ✅             | ✅              | Variante de trabalho mais abrangente e com maior peso; pode ter defesas/apresentações associadas. |
 | 7       | **Outro**        | NULL           | NULL          | ❌              | Reserva para avaliações especiais (seminário, portefólio, autoavaliação, etc.).                   |
+
+
+

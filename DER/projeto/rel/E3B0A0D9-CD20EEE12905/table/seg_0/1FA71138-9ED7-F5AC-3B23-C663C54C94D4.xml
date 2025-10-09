@@ -33,7 +33,7 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="3B58B0D0-F8A9-68A6-9887-532A02943222" referredColumn="4DFE5497-AFD7-597C-32DE-AACBE83571F8"/>
+<colAssociation fkAssociation="3B58B0D0-F8A9-68A6-9887-532A02943222" referredColumn="2A8F7C08-E2D1-00C3-024D-EBF382F12C26"/>
 </associations>
 </Column>
 <Column name="presente" id="AE25DE88-27FD-08E2-1285-4B67045C2017">
@@ -45,6 +45,39 @@
 <logicalDatatype>LOGDT006</logicalDatatype>
 <dataTypeSize>1</dataTypeSize>
 <ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="created_at" id="122D2A81-9EB8-0235-F8AE-83A144352DD5">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:30:56 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="22E5D30D-FA73-5572-A7EA-4F7E3F3B3AF7">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:30:56 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="34C78BA1-C840-E6E4-C494-6AABBE383397">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:30:56 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 </columns>

@@ -36,6 +36,39 @@
 <colAssociation fkAssociation="44FCEDD6-100D-597A-AE3B-F3D40B194883" referredColumn="36FF0EB3-4260-4E65-33DB-2225D626EF4B"/>
 </associations>
 </Column>
+<Column name="created_at" id="94A04B40-3FB6-6B46-88F3-F2A8A1F3F9E8">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:25:05 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="D5B2BB64-7BB5-C40A-76BE-401F9B8872B5">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:25:05 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="962E0F9D-9D89-7FAD-07ED-BD4111EFE0D2">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:25:05 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="B4C2C69A-500F-3E91-D5E0-6006D8937323" name="uc_departamento_PK">

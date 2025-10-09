@@ -8,9 +8,9 @@
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="id" id="B7B38110-D7ED-C365-1121-EECEFA0B13FB">
+<Column name="id" id="2277615D-2B40-B979-6889-E8A0817E1A54">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-07 16:43:49 UTC</createdTime>
+<createdTime>2025-10-08 12:17:13 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -19,7 +19,7 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="B5A1C1B8-8D1D-11CA-55AB-22378CE7EA70" referredColumn="F2F91468-672D-E72A-F79B-69C0152E8A09"/>
+<colAssociation fkAssociation="B5A1C1B8-8D1D-11CA-55AB-22378CE7EA70" referredColumn="1E02DE65-C18F-5977-AF69-53E9C9E1C4D2"/>
 </associations>
 </Column>
 <Column name="departamento_id" id="E202C471-D103-9F68-AC8A-5A5DF1AE542E">
@@ -36,15 +36,51 @@
 <colAssociation fkAssociation="6E3ECE97-F1A9-E56F-3B8F-F131091829CD" referredColumn="08D2D74F-63CB-CA69-0B04-54703E5A70B7"/>
 </associations>
 </Column>
-<Column name="cargo" id="F63C3181-B132-149F-332A-C86CA1AB0BB1">
+<Column name="cargo_id" id="E077861C-7228-C1B1-0026-E92861A4C10D">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-07 17:29:18 UTC</createdTime>
+<createdTime>2025-10-08 12:41:50 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>50</dataTypeSize>
-<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="57EEAF75-834E-89CF-FED5-52F4FAB45E47" referredColumn="C39EE454-7F40-1FD7-56CA-92F3CCC3F1AC"/>
+</associations>
+</Column>
+<Column name="created_at" id="528A3F13-DFDE-2E62-7050-2BE4A4769438">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:24:46 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="4AD654C4-4E04-2C9C-A830-C56AAC109444">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:24:46 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="44C60589-5732-BE15-8C4B-CF5E6B7E450D">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:24:46 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 </columns>
@@ -57,7 +93,7 @@
 <indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="B7B38110-D7ED-C365-1121-EECEFA0B13FB"/>
+<colUsage columnID="2277615D-2B40-B979-6889-E8A0817E1A54"/>
 </indexColumnUsage>
 </ind_PK_UK>
 <ind_PK_UK id="E80CE3B0-BA1B-C8AA-3AD5-B0072898822D" name="nao_docente_colaborador_FK">
@@ -67,7 +103,7 @@
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="B7B38110-D7ED-C365-1121-EECEFA0B13FB"/>
+<colUsage columnID="2277615D-2B40-B979-6889-E8A0817E1A54"/>
 </indexColumnUsage>
 </ind_PK_UK>
 <ind_PK_UK id="EC5C321B-2DDD-A818-7F6D-1B6E0DF79085" name="nao_docente_departamento_FK">
@@ -78,6 +114,16 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="E202C471-D103-9F68-AC8A-5A5DF1AE542E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1805FBF5-9134-407B-BEB5-F48B4AC9C1C7" name="nao_docente_cargo_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 12:41:50 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E077861C-7228-C1B1-0026-E92861A4C10D"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

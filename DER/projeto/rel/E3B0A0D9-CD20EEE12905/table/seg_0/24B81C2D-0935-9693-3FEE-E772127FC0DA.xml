@@ -46,6 +46,53 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="estado_inscricao_id" id="6B77306D-C90B-C89F-FE8C-FDD09A964E38">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:29:02 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B743BB58-078D-E5CE-1AC6-3D52E8BE8CC5" referredColumn="285B16AA-2C8A-39C2-B5B6-B8A195875421"/>
+</associations>
+</Column>
+<Column name="created_at" id="FF693D86-AFBC-B824-0D9E-56B95E0250B7">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:50 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="944D83EA-8761-DC59-E718-6BFA130BCC91">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:50 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="4FF128B0-EC2F-9C07-A1B8-6348987BC414">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:50 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="7649C650-5894-AA3B-3BB4-63BA00C445FD" name="inscricao_PK">
@@ -78,6 +125,16 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="41988FD9-7333-1BE0-8BEF-54077BE5520E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="016739D3-FB7E-50EB-7818-923080FB5C41" name="inscricao_estado_inscricao_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:29:02 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6B77306D-C90B-C89F-FE8C-FDD09A964E38"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

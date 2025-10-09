@@ -22,7 +22,6 @@
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-05 19:07:15 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT007</logicalDatatype>
@@ -42,6 +41,39 @@
 <associations>
 <colAssociation fkAssociation="4EED1F00-0B14-0E69-BC73-39EFD94967E3" referredColumn="3779D53E-8A27-B7F9-8CF2-6BCAB19CB949"/>
 </associations>
+</Column>
+<Column name="created_at" id="CE82D1D5-4999-26F7-0A7C-E72DC2552BA5">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:23:38 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="5855180E-C177-22C4-D70A-89D845383F60">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:23:38 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="D8876E48-02DE-1CD8-6ECD-AB59D2DDD9FE">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:23:38 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">

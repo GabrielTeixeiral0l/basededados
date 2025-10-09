@@ -8,9 +8,9 @@
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
 <parsed>true</parsed>
 <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
-<Column name="id" id="DE176953-DDC9-736E-5068-F608BE44C12B">
+<Column name="id" id="054BB055-E807-28B7-BFC3-3090901384A8">
 <createdBy>teixe</createdBy>
-<createdTime>2025-10-05 11:06:29 UTC</createdTime>
+<createdTime>2025-10-08 12:17:13 UTC</createdTime>
 <ownerDesignName>projeto</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -19,7 +19,7 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="A65A27A3-D657-E99C-7E38-9504CE03ADAC" referredColumn="F2F91468-672D-E72A-F79B-69C0152E8A09"/>
+<colAssociation fkAssociation="A65A27A3-D657-E99C-7E38-9504CE03ADAC" referredColumn="1E02DE65-C18F-5977-AF69-53E9C9E1C4D2"/>
 </associations>
 </Column>
 <Column name="departamento_id" id="06B4325F-95D5-9655-05A1-184DC0B1D76E">
@@ -36,6 +36,39 @@
 <colAssociation fkAssociation="7438AEFC-1E92-A055-382B-DDC1DCE0D135" referredColumn="08D2D74F-63CB-CA69-0B04-54703E5A70B7"/>
 </associations>
 </Column>
+<Column name="created_at" id="34F99092-3E55-5B49-F97D-AFEFBB0B61D7">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:25:19 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="2A1EE2AF-7C44-1BF5-95B1-79EFCD6CF2A3">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:25:19 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="558DB62E-A6A1-350E-DA6B-20B3FF2E3CEB">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:25:19 UTC</createdTime>
+<ownerDesignName>projeto</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="9E49C51B-39BF-EC58-C2C6-9D3AE30112E5" name="docente_PK">
@@ -46,7 +79,7 @@
 <indexState>Primary Constraint</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="DE176953-DDC9-736E-5068-F608BE44C12B"/>
+<colUsage columnID="054BB055-E807-28B7-BFC3-3090901384A8"/>
 </indexColumnUsage>
 </ind_PK_UK>
 <ind_PK_UK id="9D914D51-88B2-5A7B-F32A-1DCF8DFB470E" name="docente_departamento_FK">
@@ -66,7 +99,7 @@
 <indexState>Foreign Key</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
-<colUsage columnID="DE176953-DDC9-736E-5068-F608BE44C12B"/>
+<colUsage columnID="054BB055-E807-28B7-BFC3-3090901384A8"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>
