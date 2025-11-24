@@ -1,0 +1,236 @@
+TODO
+
+
+- Registar Log
+- Ao Matricular, cria logo as parcelas das propina
+- Verificação se a matricula tem todas as inscrições
+- Em vez de delete -> update status 0
+
+- verificar se sala suporta numero de alunos inscritos
+ 			(gerador automático de sala)
+- 
+
+
+
+
+// se houver tempo
+
+- gerar emails ao adicionar
+
+
+
+
+
+
+
+
+
+1ª versão
+
+Dados
+
+Nome da Tabela,Quantidade
+aula,120.000
+avaliacao,30.000
+curso,60
+docente,1.200
+entrega,8.000
+estudante,30.000
+estudante_entrega,200.000
+ficheiro_entrega,250.000
+ficheiro_recurso,20.000
+inscricao,350.000
+log,0
+matricula,40.000
+nota,500.000
+parcela_propina,350.000
+presenca,2.500.000
+recurso,20.000
+sala,400
+tipo_aula,5
+tipo_avaliacao,6
+tipo_curso,5
+turma,8.000
+uc_curso,3.000
+uc_docente,4.000
+unidade_curricular,2.500
+
+
+
+2ª versão (-70%)
+
+
+Dados
+
+Nome da Tabela,Quantidade
+aula,36.000
+avaliacao,9.000
+curso,18
+docente,360
+entrega,2.400
+estudante,9.000
+estudante_entrega,60.000
+ficheiro_entrega,60.000
+ficheiro_recurso,6.000
+inscricao,105.000
+log,01
+matricula,12.000
+nota,150.000
+parcela_propina,105.000
+presenca,750.000
+recurso,6.000
+sala,120
+tipo_aula,2
+tipo_avaliacao,2
+tipo_curso,2
+turma,2.400
+uc_curso,900
+uc_docente,1.200
+unidade_curricular,750
+
+
+3ª versão (-70%)
+
+
+Dados
+
+Nome da Tabela,Quantidade
+aula,10.800
+avaliacao,2.700
+curso,5
+docente,108
+entrega,720
+estudante,2.700
+estudante_entrega,18.000
+ficheiro_entrega,18.000
+ficheiro_recurso,1.800
+inscricao,31.500
+log,90.000
+matricula,3.600
+nota,45.000
+parcela_propina,31.500
+presenca,225.000
+recurso,1.800
+sala,36
+tipo_aula,2
+tipo_avaliacao,2
+tipo_curso,2
+turma,720
+uc_curso,270
+uc_docente,360
+unidade_curricular,225
+
+
+4ª versão (-70%)
+
+
+Dados
+
+Nome da Tabela,Quantidade
+aula,3.240
+avaliacao,810
+curso,2
+docente,32
+entrega,216
+estudante,810
+estudante_entrega,5.400
+ficheiro_entrega,5.400
+ficheiro_recurso,540
+inscricao,9.450
+log,0
+matricula,1.080
+nota,13.500
+parcela_propina,9.450
+presenca,67.500
+recurso,540
+sala,11
+tipo_aula,2
+tipo_avaliacao,2
+tipo_curso,2
+turma,216
+uc_curso,81
+uc_docente,108
+unidade_curricular,68
+
+
+
+5ª versão (redução manual)
+
+
+Dados
+
+Nome da Tabela,Quantidade
+aula,3240
+avaliacao,810
+curso,2
+docente,32
+entrega,216
+estudante,810
+estudante_entrega,5400
+ficheiro_entrega,5400
+ficheiro_recurso,540
+inscricao,9450
+log,0
+matricula,1080
+nota,7000
+parcela_propina,9000
+presenca,9000
+recurso,540
+sala,5
+tipo_aula,2
+tipo_avaliacao,2
+tipo_curso,2
+turma,216
+uc_curso,40
+uc_docente,108
+unidade_curricular,68
+
+
+
+
+6ª versão (para 800 alunos)
+
+prompt 
+"diminui para um valor mais pequeno e que faça sentido proporcionalmente, para 800 alunos, o número máximo de registos nas outras tabelas não deve ultrapassar os 5000 (excepto as logs), é o primeiro ano de atividade da univercidade e estamos a metade do ano. "
+
+
+
+
+
+
+
+Nome da Tabela,Quantidade
+
+aula,600
+avaliacao,120
+curso,3
+docente,25
+entrega,20
+estudante,800
+estudante_entrega,600
+ficheiro_entrega,600
+
+ficheiro_recurso,150
+inscricao,4000
+matricula,800
+nota,3200
+parcela_propina,4800
+presenca,4500
+recurso,150
+
+sala,15
+tipo_aula,2
+tipo_avaliacao,6
+tipo_curso,3
+turma,40
+uc_curso,30
+uc_docente,35
+unidade_curricular,18
+
+
+logs (0)
+
+
+
+
+
