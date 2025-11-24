@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="330B9173-2496-6719-010E-466AD57A0948" containerWithKeyObject="969588EB-3648-0C53-A4DF-596F6C20997E" localFKIndex="025D30B0-1DBE-838C-71D6-EE3F18ED98C2" name="avaliacao_turma_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:45:11 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<referredTableLongName>turma</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>C0993969-3633-00B7-F047-60B64C1431AF</referredTableID>
+<keyObject>5E96FB85-1B9B-7A34-C722-9916207C573F</keyObject>
+<referredKeyID>5E96FB85-1B9B-7A34-C722-9916207C573F</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

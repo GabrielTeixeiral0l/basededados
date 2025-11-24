@@ -1,0 +1,70 @@
+Boa dia,
+
+Em nome do grupo 1 envio este email,
+
+O docente na aula de apresentação requisitou a alteração do número de tabelas de 53 (cinquenta e três) para 20 (vinte). 
+
+Após discutirmos chegamos à seguinte conclusão:
+
+Removemos primeiro funcionalidades gerais:
+
+A Base de dados passa a ter apenas docentes e estudantes, logo removemos:
+	- utilizador
+	- nao_docente
+	- cargo
+	- colaborador
+	
+	- horario_colaborador
+	- horário
+	- turno
+
+Departamentos são excluídos:
+	- departamento
+	- uc_departamento
+	- tipo_departamento
+		
+Passamos a ter apenas salas de aulas:
+	- gabinete docente
+	- tipo_espaco 
+	- espaço -> "sala" (mantem, apenas muda de nome)
+	- polo
+	- edifício
+	- andar
+
+Após estas remoções ficamos com 38 (trinta e oito) tabelas "53 - 15 = 38"
+
+As próximas possíveis remoções já comprometem o funcionamento da parte principal da base de dados:
+
+Podemos remover áreas dos cursos:
+	- área
+	- curso área
+
+o pagamento de propinas:
+	- propina
+	- parcela propina
+
+e o estado da matricula e da inscrição: 
+	- estado_matricula
+	- estado inscrição
+
+38 - 2 - 2 - 2 = 32 tabelas
+
+A funcionalidade de logs nós pretendemos fazer uma mudança, que é desconectá-la de utilizador (que já não existe), mas era interessante os triggers criarem registos nos logs.
+
+Mas, se removermos passamos a 29 (vinte e nove) tabelas "32 - 3 = 29":
+		- log
+		- acao_log
+		- entidade_log
+
+Contudo, ficamos a 9 (nove) tabelas do seu objetivo.
+
+Diagrama atualizado com as alterações (sem os logs, que ainda precisam de ser refatorados).
+
+Solicitamos a sua colaboração na análise e refatoração da base de dados.
+
+
+Obrigado,
+Grupo 1
+
+
+

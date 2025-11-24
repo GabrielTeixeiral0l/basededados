@@ -1,0 +1,107 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="5D38781C-64B6-1582-20E4-4A82DF9CE239" name="docente_aula">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:55:46 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<ordsAlias>table_31</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="aula_id" id="4D37AA6D-612B-3E17-D4DF-D1D91CBA811C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:56:10 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="591AD66A-2885-F1F7-E310-D4663AACB723" referredColumn="1A7BE51A-4955-1455-5673-434C52616A7B"/>
+</associations>
+</Column>
+<Column name="docente_id" id="0FFA1341-E8E8-4479-F5C2-0A61D53F1974">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 12:18:44 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0A8CA67A-5637-E80E-E77F-7EC3471FE5A5" referredColumn="054BB055-E807-28B7-BFC3-3090901384A8"/>
+</associations>
+</Column>
+<Column name="created_at" id="9BCBDE86-79A4-DCD0-C781-F674E0F980EE">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:26:16 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="C295ED3A-C6A6-2E16-171B-1805F8A9DD44">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:26:16 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="D7075089-A340-DDF3-98EE-CD1F25E8A5EF">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:26:16 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="DBE6008F-C5FE-B5C1-3D61-F5CFA8E52E02" name="docente_aula_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:39:53 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4D37AA6D-612B-3E17-D4DF-D1D91CBA811C"/>
+<colUsage columnID="0FFA1341-E8E8-4479-F5C2-0A61D53F1974"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C446DCD6-1CF3-98DB-8803-E52E49691CC1" name="docente_aula_aula_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 16:56:10 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4D37AA6D-612B-3E17-D4DF-D1D91CBA811C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E91CDB74-CB22-DC69-AF78-69258E8C1E6B" name="docente_aula_docente_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:39:05 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0FFA1341-E8E8-4479-F5C2-0A61D53F1974"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

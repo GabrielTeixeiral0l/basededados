@@ -1,0 +1,158 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="94B7A8CC-5388-9DCA-7137-DA97E7C580A8" name="estudante">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 15:12:52 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<ordsAlias>table_1</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="2A8F7C08-E2D1-00C3-024D-EBF382F12C26">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 12:24:44 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nome" id="DEB7AF94-250D-B1A5-2AEF-3584E68EADBA">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:22:49 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="morada" id="CF2DFF34-E4F9-5FF1-5ECA-027E32AA8D55">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 11:48:47 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="data_nascimento" id="A0383016-6C98-3ADA-0CA4-479218CF3B9E">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:22:49 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="cc" id="74FC0616-D012-1FAF-8993-1FD6C765A4CB">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 11:49:43 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>8</dataTypeSize>
+<ownDataTypeParameters>8,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nif" id="57FB186A-FB33-AE6F-9769-D340304C9F3E">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 11:49:43 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>9</dataTypeSize>
+<ownDataTypeParameters>9,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="iban" id="E9879440-C364-30BE-043C-C5B2710E53B0">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 11:49:43 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>25 CHAR</dataTypeSize>
+<ownDataTypeParameters>25 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="email" id="70C02F59-4E6D-99C6-ADF8-F95F937EE742">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-27 16:25:35 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="telemovel" id="0B184C45-50E9-8CF3-C8CA-D2750318ED79">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-27 16:25:35 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>9 CHAR</dataTypeSize>
+<ownDataTypeParameters>9 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="created_at" id="96AAAAB0-5F15-1FDF-D1CF-46E088570931">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:20 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="AC1255ED-8954-03FA-EBCB-7744862079FB">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:20 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="38FEB61F-4CE5-DDEA-E296-0EFD79D1AE8C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:20 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="916CA9A2-C0A7-7AC3-67C7-0C25BA069C29" name="estudante_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 15:23:28 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2A8F7C08-E2D1-00C3-024D-EBF382F12C26"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

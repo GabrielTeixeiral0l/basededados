@@ -1,0 +1,110 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F2740DB4-74C3-BC98-ABFB-F65A3AB0361A" name="unidade_curricular">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 15:14:20 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<ordsAlias>table_5</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="36FF0EB3-4260-4E65-33DB-2225D626EF4B">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 15:23:59 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nome" id="2DFF3962-FC0D-18A7-4EDE-35E1C106B8DC">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:40:05 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="codigo" id="33B5452C-3961-38CB-A168-D60E652A6163">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 17:40:05 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="horas_teoricas" id="72C47183-958B-1744-F786-A9774266E51D">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:12:59 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="horas_praticas" id="ED57E6C4-C9E6-8AC6-5467-7DF8AF6BC244">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:12:59 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="created_at" id="6FC02F5B-2746-45B6-91E4-CF90A4CAEBF6">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:32:29 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="8ADED985-4272-AC4F-0012-47289C3D4875">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:32:29 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="99EE5188-B3B9-6F33-974E-7875A02655AE">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:32:29 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="4A61C630-D9CB-7923-D829-B1817BBA7291" name="unidade_curricular_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 15:23:59 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="36FF0EB3-4260-4E65-33DB-2225D626EF4B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

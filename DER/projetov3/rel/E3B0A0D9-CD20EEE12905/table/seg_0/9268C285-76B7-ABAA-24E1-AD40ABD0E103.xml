@@ -1,0 +1,102 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="9268C285-76B7-ABAA-24E1-AD40ABD0E103" name="entrega">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:40:59 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<ordsAlias>table_37</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="15EC8C4D-37FF-A695-E0AF-7C7DE05A1916">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:42:13 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="data_entrega" id="D05D1CA3-1B60-294D-1F34-A28685375A59">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:42:13 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="avaliacao_id" id="F60E66AB-C772-2E5A-28F5-961374C7815D">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:44:57 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="83059B1A-2473-17C1-AD0F-B409FA5189CC" referredColumn="80FB2A2B-9001-3727-0C69-69F66558A1D0"/>
+</associations>
+</Column>
+<Column name="created_at" id="CA1A5C12-5E26-6817-20C5-F9E9F1550E6A">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:00 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="3C2465C8-E1BC-4650-ED31-C090A680AB67">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:00 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="6FEFC8A1-3729-6CBF-05A6-C2C326DE81E3">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:00 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="1FB57429-C977-1D24-C184-0EBDB9BDBC5D" name="entrega_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:42:13 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="15EC8C4D-37FF-A695-E0AF-7C7DE05A1916"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3C8D2C5A-5472-C658-3296-466349CC5A09" name="entrega_avaliacao_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:44:57 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F60E66AB-C772-2E5A-28F5-961374C7815D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,58 @@
+Base de dados passa a ter apenas docentes e estudantes:
+	- utilizador
+	- nao_docente
+	- cargo
+	- colaborador
+	
+	- horario_colaborador
+	- horário
+	- turno
+
+Departamentos são excluídos:
+	- departamento
+	- uc_departamento
+	- tipo_departamento
+		
+Passamos a ter apenas salas de aulas:
+	- gabinete docente
+	- tipo_espaco 
+	- espaço -> "sala" (mantem)
+	- polo
+	- edifício
+	- andar
+
+15 eliminadas
+
+53 - 15 = 38
+
+
+Removemos áreas dos cursos:
+	- área
+	- curso_area
+
+
+38 - 2 = 36
+
+Logs (podem ser interessantes para os triggers) -> 3 tabelas -> 1 procedimento. (não precisam de triggers) 
+	se eliminarmos:
+		- log
+		- acao_log
+		- entidade_log
+
+36 - 3 = 33
+
+
+----------------------------
+
+Podemos remover o pagamento de propinas:
+	- propina
+	- parcela propina
+
+o estado da matricula e da inscrição: 
+	- estado_matricula
+	- estado_inscricao
+
+com logs 36 - 2 - 2 = 32
+
+sem logs 33 - 2 - 2 = 29
+

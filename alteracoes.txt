@@ -1,0 +1,37 @@
+Tabela docente -> email e telemovel
+Tabela estudante -> email e telemovel
+Tabela matricula -> Nºparcelas
+
+
+
+
+
+
+
+Ligações novas (antigo): 
+** - Ideia 
+Parcela_proina N-1 matricula (parcela_propina N-1 propina | propina N-1 matricula ) 
+**nota N-1 inscrição (nota N-1 estudante)
+
+
+
+
+
+
+
+
+
+Apagados:
+	contancto_docente
+	tipo_contacto
+	contacto_estudante
+	funcao_docente
+	turno_aula
+	propina
+	estado_matricula
+	estado_inscricao
+	turma_docente*
+	uc_docente*
+
+
+* - A fazer

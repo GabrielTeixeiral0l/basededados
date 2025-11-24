@@ -1,0 +1,193 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="969588EB-3648-0C53-A4DF-596F6C20997E" name="avaliacao">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:00:46 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<ordsAlias>table_35</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="80FB2A2B-9001-3727-0C69-69F66558A1D0">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:05:05 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="titulo" id="90069114-0F16-32DF-6BED-6BA4F28F3036">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:05:05 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="data" id="9B9EDA32-6BB4-8E41-3CDC-01EE54FA45D8">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:05:05 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT014</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="data_entrega" id="0B5999AB-9EB2-12AE-0458-1282E54AF0CC">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:05:05 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT014</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="peso" id="001F11A3-4559-5080-7EFA-FC23C16BB9AD">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:05:05 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="max_alunos" id="8AF7BD5B-563D-D52A-B071-E3051CBDE433">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:05:05 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="turma_id" id="B451838E-2E29-BA1F-DB68-A5B0757CF38C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:45:11 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="330B9173-2496-6719-010E-466AD57A0948" referredColumn="21D6A2F4-A655-AFE6-B117-D66B2F2BA8DB"/>
+</associations>
+</Column>
+<Column name="tipo_avaliacao_id" id="D1BA441E-6F81-D9AF-6135-3DF46E9F9057">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:45:44 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="324CA389-7CDC-ADE0-DAD0-160A02FB426E" referredColumn="E12651E3-C27E-66A1-D215-3C0589D31CA2"/>
+</associations>
+</Column>
+<Column name="avaliacao_pai_id" id="FCB38F70-6DA0-178A-DCC0-4975515746DF">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:45:53 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B7D6B399-1619-C5F0-0E7A-0BDCBC9E6054" referredColumn="80FB2A2B-9001-3727-0C69-69F66558A1D0"/>
+</associations>
+</Column>
+<Column name="created_at" id="910AA57B-4518-E106-1E18-693BDC760380">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:27:39 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="3ACF8160-9534-1509-AD6E-C8BD231FAA20">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:27:39 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="9860E7F6-F9A9-3895-B4C6-A56D69E9775C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:27:39 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="9AA30217-82BA-6DC2-0527-31BEF40E4394" name="avaliacao_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:05:05 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="80FB2A2B-9001-3727-0C69-69F66558A1D0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="025D30B0-1DBE-838C-71D6-EE3F18ED98C2" name="avaliacao_turma_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:45:11 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B451838E-2E29-BA1F-DB68-A5B0757CF38C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="77518F13-9BAA-8884-B6DE-81EEB040684D" name="avaliacao_tipo_avaliacao_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:45:44 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D1BA441E-6F81-D9AF-6135-3DF46E9F9057"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BEB64915-2846-53F9-4959-10537E38A260" name="avaliacao_avaliacao_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:45:53 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FCB38F70-6DA0-178A-DCC0-4975515746DF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

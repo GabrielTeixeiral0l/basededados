@@ -1,0 +1,147 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="39AF238D-580B-74DB-4420-EA644A696CFC" name="matricula">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 17:04:14 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<ordsAlias>table_32</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="877F5B4C-2CD3-CF46-0B27-C8810A6B6DC8">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 18:52:42 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="curso_id" id="7D2CA075-44C7-EFEB-9E6C-5AB5E870E3F2">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 17:04:28 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="AAE67F94-1E77-B3D7-6EF9-30AA86F92F06" referredColumn="02652342-1C1C-ACE0-EB18-F1A40ECBB4DF"/>
+</associations>
+</Column>
+<Column name="ano_inscricao" id="2926B54D-0F85-2526-BB74-AA83A0AFEE7D">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 17:09:23 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="estado_matricula_id" id="7A65F001-1037-91BE-1C46-4E0B1A4EEE3E">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:26:37 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="estudante_id" id="BC94B836-481E-BD38-1690-9FBE3B799807">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 12:26:07 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="6A84FD99-2A2C-D3E9-C6A7-D519F68201AF" referredColumn="2A8F7C08-E2D1-00C3-024D-EBF382F12C26"/>
+</associations>
+</Column>
+<Column name="numero_parcelas" id="3EA8F7B5-6A41-70D4-81B1-C02A327DBEC1">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-27 16:33:28 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="created_at" id="222F0883-21EC-B6E1-4CDC-130805D93E2E">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:30:02 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="B23FD909-B900-5A82-1DD6-F2C5A6A17E9F">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:30:02 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="1756D7E4-8BEC-49CF-7F3A-7386FB505535">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:30:02 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="BABB04F9-1E2F-34B8-5DD8-2E54958BD266" name="matricula_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 18:52:42 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="877F5B4C-2CD3-CF46-0B27-C8810A6B6DC8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BBC59C7C-47B4-4C65-EE78-00A47A4ACD34" name="inscricao_curso_curso_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 17:04:28 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7D2CA075-44C7-EFEB-9E6C-5AB5E870E3F2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3528DAC1-75E3-C90D-A497-CD44EB317363" name="inscricao_curso_estudante_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-09-29 17:04:32 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BC94B836-481E-BD38-1690-9FBE3B799807"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

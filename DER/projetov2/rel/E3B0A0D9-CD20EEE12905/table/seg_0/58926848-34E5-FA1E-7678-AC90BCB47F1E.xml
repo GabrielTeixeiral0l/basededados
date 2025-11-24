@@ -1,0 +1,107 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="58926848-34E5-FA1E-7678-AC90BCB47F1E" name="estudante_entrega">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:42:25 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<ordsAlias>table_38</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="estudante_id" id="5AB279F8-6BBE-4D5E-80DF-18D26F023FAF">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:43:09 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BEBA8DFD-BD95-5464-1FA8-B4FD805E4588" referredColumn="2A8F7C08-E2D1-00C3-024D-EBF382F12C26"/>
+</associations>
+</Column>
+<Column name="entrega_id" id="A55A0DB3-B502-08F5-9260-BD07E87B1D28">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:43:14 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0FB79F39-92BC-18DD-D6A5-0B0F7E824D3E" referredColumn="15EC8C4D-37FF-A695-E0AF-7C7DE05A1916"/>
+</associations>
+</Column>
+<Column name="created_at" id="50094047-3EEE-5572-91F2-5057EE629511">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:24 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="CF0495F2-6FBA-E88E-C97E-6DDFF174542C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:24 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="0988787F-4EE0-57CF-B290-FCA46B062284">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:29:24 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="BAEDCA64-8364-5CFB-A890-0AE9A6A1125F" name="estudante_entrega_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:46:03 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5AB279F8-6BBE-4D5E-80DF-18D26F023FAF"/>
+<colUsage columnID="A55A0DB3-B502-08F5-9260-BD07E87B1D28"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D26AB709-56B1-312D-79F3-8FF03BA93806" name="estudante_entrega_estudante_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:43:09 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5AB279F8-6BBE-4D5E-80DF-18D26F023FAF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C1920BDA-C35D-EF0D-3D1A-65224C16D8CF" name="estudante_entrega_entrega_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-04 18:43:14 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A55A0DB3-B502-08F5-9260-BD07E87B1D28"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

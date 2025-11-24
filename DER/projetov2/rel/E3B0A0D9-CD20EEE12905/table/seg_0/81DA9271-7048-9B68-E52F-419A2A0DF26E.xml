@@ -1,0 +1,130 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="81DA9271-7048-9B68-E52F-419A2A0DF26E" name="turma_docente">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-05 10:28:21 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<ordsAlias>table_35</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="turma_id" id="66E2C9D1-2981-B2BD-3FA9-F81DF81C7071">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-05 10:28:42 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D2D6D3EC-9A82-69E4-9ADF-C00518F704AA" referredColumn="21D6A2F4-A655-AFE6-B117-D66B2F2BA8DB"/>
+</associations>
+</Column>
+<Column name="funcao_docente_id" id="71CE4D40-D9ED-76DA-C04C-2F11D17F4708">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:32:28 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3F44CDE1-585C-EE01-0D84-ACD0E2CAF4C2" referredColumn="B028C4D5-8451-8BFE-DE22-F18863C667C0"/>
+</associations>
+</Column>
+<Column name="docente_id" id="DAFF3F92-D162-43E0-FA8F-191BDF9D867F">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 12:18:44 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C70F70E6-11AB-5835-1D77-A53FE193A6A4" referredColumn="054BB055-E807-28B7-BFC3-3090901384A8"/>
+</associations>
+</Column>
+<Column name="created_at" id="AD74F271-3822-E999-9406-AB4F4CE9F717">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:31:56 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="27E8BC42-C401-AD72-4C2D-1B859A90605C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:31:56 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="F0F874E7-3ECC-02DD-1806-22AD8C5116A4">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-09 09:31:56 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="54370080-345A-DC8C-1CCC-E7EC3796B7A7" name="turma_docente_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:45:43 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="66E2C9D1-2981-B2BD-3FA9-F81DF81C7071"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F14CF9BA-CAB8-D99F-0491-027C9F6F43AC" name="uc_docente_turma_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-05 10:28:42 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="66E2C9D1-2981-B2BD-3FA9-F81DF81C7071"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F1FC3255-6FC1-F73F-33A8-289B8BBA7A5E" name="turma_docente_docente_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-07 16:42:54 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DAFF3F92-D162-43E0-FA8F-191BDF9D867F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3DA9E70B-6DE2-A3C0-01E8-82367C8F2D3C" name="turma_docente_funcao_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-10-08 10:32:28 UTC</createdTime>
+<ownerDesignName>projetov2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="71CE4D40-D9ED-76DA-C04C-2F11D17F4708"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

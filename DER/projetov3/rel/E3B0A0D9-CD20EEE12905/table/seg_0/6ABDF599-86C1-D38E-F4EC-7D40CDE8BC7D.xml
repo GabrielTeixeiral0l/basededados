@@ -1,0 +1,118 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="6ABDF599-86C1-D38E-F4EC-7D40CDE8BC7D" name="presenca">
+<createdBy>teixe</createdBy>
+<createdTime>2025-11-10 17:19:51 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<ordsAlias>table_29</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="inscricao_id" id="918D640B-0792-2F6D-EA13-08D6531B23BF">
+<createdBy>teixe</createdBy>
+<createdTime>2025-11-10 17:21:44 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="10A15ACE-D04E-CB86-8B08-A3C942D39C04" referredColumn="F25C4BED-7E54-AD45-C1C3-6DF816C5D39E"/>
+</associations>
+</Column>
+<Column name="aula_id" id="639638F2-DC10-9A0B-1D93-D394C8B525B7">
+<createdBy>teixe</createdBy>
+<createdTime>2025-11-10 17:20:10 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="ECEF8A41-6194-93FB-9AB9-5B66C8894194" referredColumn="1A7BE51A-4955-1455-5673-434C52616A7B"/>
+</associations>
+</Column>
+<Column name="presente" id="489BA04D-7748-45F8-836B-35989E5906ED">
+<createdBy>teixe</createdBy>
+<createdTime>2025-11-10 17:20:04 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="created_at" id="412B842C-C972-D3FC-E9D8-679AA4C57EC6">
+<createdBy>teixe</createdBy>
+<createdTime>2025-11-10 17:20:04 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>54CD205F-7379-2355-BCEF-1F7D4727D661</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="updated_at" id="9C70EB32-4D3E-C3E0-5000-54F8E4E8EE6F">
+<createdBy>teixe</createdBy>
+<createdTime>2025-11-10 17:20:04 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6B451F72-9778-EDC5-E137-44871A2A4DC6</domain>
+<defaultValue>CURRENT_TIMESTAMP</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="status" id="C2B4C536-5497-3245-3B02-147CF764848F">
+<createdBy>teixe</createdBy>
+<createdTime>2025-11-10 17:20:04 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<domain>005E67D2-CCB6-ED56-97CE-4F062E6A6340</domain>
+<defaultValue>1</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F4BF79F5-C8CB-8D24-81EC-FA4C1F6E758D" name="presenca_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-11-10 17:20:36 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="639638F2-DC10-9A0B-1D93-D394C8B525B7"/>
+<colUsage columnID="918D640B-0792-2F6D-EA13-08D6531B23BF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C09BB664-B370-A26A-3F11-828A51DBEA70" name="presenca_aula_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-11-10 17:20:10 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="639638F2-DC10-9A0B-1D93-D394C8B525B7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5D99A091-50CD-1C7B-7336-0AEC201EA977" name="presenca_inscricao_FK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-11-10 17:20:21 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="918D640B-0792-2F6D-EA13-08D6531B23BF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
