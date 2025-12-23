@@ -1,0 +1,90 @@
+# Plano Mestre de Implementação PL/SQL - Projeto BD2
+
+Este documento define a arquitetura lógica da base de dados, focada na integridade, automação e requisitos especiais de gestão de dados.
+
+---
+
+## 1. Gestão de Dados e Auditoria (Requisitos Fundamentais)
+
+### Sequências e Auto-incremento (Sequences & Triggers)
+Para todas as tabelas com chaves primárias numéricas simples (`id`), foram criadas sequências (ex: `SEQ_ESTUDANTE`) que iniciam em 10000.
+*   **Triggers de Atribuição**: Gatilhos `BEFORE INSERT` que garantem a atribuição automática do próximo valor da sequência caso o `id` não seja fornecido manualmente.
+
+### Automação de `updated_at` (Triggers)
+Para garantir que a data de atualização é sempre fidedigna, será criado o gatilho padrão **`TRG_SET_UPDATED_AT`** para todas as tabelas que contêm a coluna `updated_at`.
+*   **Lógica:** `BEFORE UPDATE ON [Tabela] FOR EACH ROW`:
+    *   `:NEW.updated_at := SYSDATE;`
+
+### Mecanismo de Flags de Auditoria (Configurável)
+O sistema permite escolher quais ações em quais tabelas são registadas na tabela `log`, sem necessidade de tabelas extra.
+
+**Pacote de Controlo (`PKG_CONFIG_LOG`):**
+*   **Como usar:**
+    *   `EXEC PKG_CONFIG_LOG.DESATIVAR('NOTA', 'UPDATE');` -- Para de registar alterações de notas.
+    *   `EXEC PKG_CONFIG_LOG.ATIVAR('ESTUDANTE', 'DELETE');` -- Ativa registo de remoção de alunos.
+*   **Triggers:** Todos os triggers de auditoria consultam `DEVE_REGISTAR` antes de inserir no log.
+
+### Mecanismo de Eliminação Dinâmico (Inteligente)
+O sistema decidirá automaticamente o tipo de eliminação baseando-se na estrutura da própria tabela, sem necessidade de tabelas de configuração extra.
+
+**Procedimento Central (`PKG_GESTAO_DADOS.PRC_REMOVER`):**
+*   **Parâmetros:** `p_nome_tabela` (VARCHAR2), `p_id_registo` (NUMBER), `p_forcar_hard_delete` (BOOLEAN DEFAULT FALSE).
+*   **Lógica de Decisão:**
+    1.  O procedimento consulta o dicionário de dados (`USER_TAB_COLUMNS`) para verificar se a tabela `p_nome_tabela` possui a coluna `status`.
+    2.  **Cenário A (Soft Delete):** Se a coluna `status` EXISTIR e `p_forcar_hard_delete` for FALSE:
+        *   Executa: `UPDATE [p_nome_tabela] SET status = '0' WHERE id = [p_id_registo]`.
+    3.  **Cenário B (Hard Delete):** Se `p_forcar_hard_delete` for TRUE:
+        *   Executa: `DELETE FROM [p_nome_tabela] WHERE id = [p_id_registo]`.
+
+---
+
+## 2. Integridade e Regras de Negócio (Triggers Avançados)
+
+### Validações de Inserção/Atualização
+*   **TRG_AULA_SOBREPOSICAO**: Antes de inserir uma `aula`, verificar se a `sala_id` ou o `docente_id` já estão ocupados naquele intervalo de tempo (`hora_inicio` a `hora_fim`).
+*   **TRG_NOTA_PESO_EXCEDIDO**: Ao inserir uma `nota`, validar se o somatório dos pesos das avaliações daquela UC não ultrapassa 100% ou 1.0.
+*   **TRG_ENTREGA_FORA_PRAZO**: Impedir inserção na tabela `entrega` se a data atual for superior a `avaliacao.data_entrega`, salvo excepção.
+*   **TRG_PRESENCA_DUPLICADA**: Garantir que um aluno não tem presença registada em duas aulas simultâneas.
+
+### Automação de Estados
+*   **TRG_ESTADO_MATRICULA**: Se um aluno tiver mais de 3 parcelas de propina em atraso (estado 'N'), atualizar automaticamente o `status` da `matricula`.
+
+---
+
+## 3. Lógica de Aplicação (Packages e Procedures)
+
+### PKG_SECRETARIA (Gestão Académica)
+*   **PRC_LANCAR_PAUTA**: Recebe `turma_id` e `avaliacao_id`, iterando sobre os alunos inscritos para inicializar notas.
+*   **PRC_CONSOLIDAR_INSCRICOES**: Valida pré-requisitos e pagamentos antes de confirmar a inscrição na turma.
+
+### PKG_TESOURARIA (Gestão Financeira)
+*   **PRC_GERAR_PLANO_PAGAMENTO**: Recebe `matricula_id` e gera automaticamente as linhas na tabela `parcela_propina` com base no tipo de curso.
+*   **PRC_PROCESSAR_PAGAMENTO**: Regista o pagamento de uma parcela, atualizando estado para 'P' e a data de pagamento.
+
+---
+
+## 4. Acesso a Dados e Relatórios (Views e Functions)
+
+### Vistas (Views)
+*   **VW_DETALHE_ALUNO_COMPLETO**: Join de `estudante`, `matricula` e `curso` (apenas registos com `status = '1'`, se aplicável).
+*   **VW_PAUTA_TURMA**: Vista pivotada: Aluno | UC | Notas Parciais | Nota Final.
+*   **VW_OCUPACAO_SALAS**: Ocupação visual: Sala | Dia | Hora Início | Hora Fim | Turma.
+*   **VW_ALUNOS_DEVEDORES**: Alunos com parcelas vencidas e montantes em dívida.
+
+### Funções (Functions)
+*   **FUN_MEDIA_ATUAL_ALUNO**: Calcula média baseada nas UCs feitas.
+*   **FUN_ECTS_REALIZADOS**: Soma de ECTS concluídos.
+
+---
+
+
+
+## 5. Tratamento de Exceções (Exceptions)
+
+
+
+Pacote `PKG_ERROS`:
+
+*   **EXC_TURMA_CHEIA** (-20001): 'Lotação da sala excedida.'
+
+*   **EXC_REGISTO_NAO_ENCONTRADO** (-20005): 'O registo solicitado não existe ou foi inativado.'

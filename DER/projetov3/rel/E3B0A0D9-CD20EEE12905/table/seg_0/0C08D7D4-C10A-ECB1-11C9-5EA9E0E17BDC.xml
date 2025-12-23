@@ -34,7 +34,7 @@
 <ownerDesignName>projetov3</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT008</logicalDatatype>
+<logicalDatatype>LOGDT014</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
@@ -44,7 +44,7 @@
 <ownerDesignName>projetov3</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT008</logicalDatatype>
+<logicalDatatype>LOGDT014</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>

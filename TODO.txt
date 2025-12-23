@@ -205,7 +205,7 @@ aula,600
 avaliacao,120
 curso,3
 docente,25
-entrega,20
+entrega,200
 estudante,800
 estudante_entrega,600
 ficheiro_entrega,600

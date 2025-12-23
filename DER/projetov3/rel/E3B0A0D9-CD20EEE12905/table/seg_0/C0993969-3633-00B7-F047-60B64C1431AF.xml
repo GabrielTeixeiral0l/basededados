@@ -54,17 +54,6 @@
 <colAssociation fkAssociation="C26772B0-0328-064E-4670-0028CA1C60FA" referredColumn="36FF0EB3-4260-4E65-33DB-2225D626EF4B"/>
 </associations>
 </Column>
-<Column name="turno_aulas_id" id="370B4829-D25A-655D-13BC-A6A997FE2606">
-<createdBy>teixe</createdBy>
-<createdTime>2025-10-08 10:16:51 UTC</createdTime>
-<ownerDesignName>projetov3</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
 <Column name="created_at" id="CF66DB29-C22A-0070-BF62-F3C18AD80547">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-09 09:31:51 UTC</createdTime>

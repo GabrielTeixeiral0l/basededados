@@ -1,0 +1,46 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F2DE6A29-F866-8B8D-B6D2-04FE8AA52F62" name="estado_matricula">
+<createdBy>teixe</createdBy>
+<createdTime>2025-12-23 11:01:01 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<ordsAlias>table_25</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="ED731120-94C5-BF28-5B68-F470973F479C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-12-23 11:01:37 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nome" id="8BF8418F-B73E-E971-E3EE-3EB1AE22B7FB">
+<createdBy>teixe</createdBy>
+<createdTime>2025-12-23 11:01:37 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="06ECB47C-18FB-A505-C4C7-11BBB498560E" name="estado_matricula_PK">
+<createdBy>teixe</createdBy>
+<createdTime>2025-12-23 11:01:37 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="ED731120-94C5-BF28-5B68-F470973F479C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -56,17 +56,6 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="estado_inscricao_id" id="6B77306D-C90B-C89F-FE8C-FDD09A964E38">
-<createdBy>teixe</createdBy>
-<createdTime>2025-10-08 10:29:02 UTC</createdTime>
-<ownerDesignName>projetov3</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
 <Column name="created_at" id="FF693D86-AFBC-B824-0D9E-56B95E0250B7">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-09 09:29:50 UTC</createdTime>
