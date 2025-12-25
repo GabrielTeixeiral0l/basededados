@@ -1,200 +1,240 @@
 -- =============================================================================
--- 5. TRIGGERS DE INTEGRIDADE (SEM RAISE_APPLICATION_ERROR)
+-- 5. TRIGGERS DE INTEGRIDADE E REGRAS DE NEGÓCIO (CONSOLIDADO)
+-- Nota: Uso exclusivo de status='0' e PKG_GESTAO_DADOS.PRC_LOG_ALERTA.
 -- =============================================================================
 
 -- -----------------------------------------------------------------------------
--- 5.1. Validação de Nota
--- RESOLUÇÃO: Ajusta para os limites 0 ou 20.
+-- 5.1. Validação de Nota (0-20)
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE TRIGGER TRG_VAL_NOTA
 BEFORE INSERT OR UPDATE ON nota
 FOR EACH ROW
-DECLARE
-    e_nota_invalida EXCEPTION;
 BEGIN
-    IF :NEW.nota < 0 OR :NEW.nota > 20 THEN
-        RAISE e_nota_invalida;
+    IF :NEW.nota < PKG_CONSTANTES.NOTA_MINIMA THEN 
+        :NEW.nota := PKG_CONSTANTES.NOTA_MINIMA;
+        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Nota corrigida para 0.');
+    ELSIF :NEW.nota > PKG_CONSTANTES.NOTA_MAXIMA THEN 
+        :NEW.nota := PKG_CONSTANTES.NOTA_MAXIMA;
+        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Nota corrigida para 20.');
     END IF;
-EXCEPTION
-    WHEN e_nota_invalida THEN
-        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Nota ' || :NEW.nota || ' fora do intervalo. A resolver...');
-        IF :NEW.nota < 0 THEN :NEW.nota := 0; ELSE :NEW.nota := 20; END IF;
 END;
 /
 
 -- -----------------------------------------------------------------------------
--- 5.2. Validação de Horário de Aula
+-- 5.2. Conflito de Horário (Sala ou Docente ocupados)
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE TRIGGER TRG_VAL_HORARIO_AULA
 BEFORE INSERT OR UPDATE ON aula
 FOR EACH ROW
 DECLARE
     v_conflito NUMBER;
-    v_docente_id NUMBER;
-    e_conflito_horario EXCEPTION;
+    v_doc_id NUMBER;
 BEGIN
-    SELECT docente_id INTO v_docente_id FROM turma WHERE id = :NEW.turma_id;
+    SELECT docente_id INTO v_doc_id FROM turma WHERE id = :NEW.turma_id;
     SELECT COUNT(*) INTO v_conflito FROM aula a JOIN turma t ON a.turma_id = t.id
-    WHERE a.id != NVL(:NEW.id, -1) AND a.data = :NEW.data
-      AND ((a.sala_id = :NEW.sala_id) OR (t.docente_id = v_docente_id))
-      AND ((:NEW.hora_inicio BETWEEN a.hora_inicio AND a.hora_fim) OR (:NEW.hora_fim BETWEEN a.hora_inicio AND a.hora_fim));
+    WHERE a.id != NVL(:NEW.id, -1) AND a.data = :NEW.data AND a.status = '1'
+      AND ((a.sala_id = :NEW.sala_id) OR (t.docente_id = v_doc_id))
+      AND ((:NEW.hora_inicio < a.hora_fim AND :NEW.hora_fim > a.hora_inicio));
 
-    IF v_conflito > 0 THEN RAISE e_conflito_horario; END IF;
-EXCEPTION
-    WHEN e_conflito_horario THEN
-        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Conflito de horário! Aula não deve ser realizada nestas condições.');
-        -- Nota: Operação continuará, mas o alerta foi dado.
+    IF v_conflito > 0 THEN 
+        :NEW.status := '0';
+        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Aula invalidada: Conflito de horário (Sala/Docente).');
+    END IF;
 END;
 /
 
 -- -----------------------------------------------------------------------------
--- 5.3. Validação de Data de Entrega
--- RESOLUÇÃO: Ajusta para a data da avaliação.
+-- 5.3. Capacidade da Sala
 -- -----------------------------------------------------------------------------
-CREATE OR REPLACE TRIGGER TRG_VAL_DATA_AVALIACAO
-BEFORE INSERT OR UPDATE ON avaliacao
-FOR EACH ROW
-DECLARE
-    e_data_invalida EXCEPTION;
-BEGIN
-    IF :NEW.data_entrega < :NEW.data THEN RAISE e_data_invalida; END IF;
-EXCEPTION
-    WHEN e_data_invalida THEN
-        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Data de entrega inválida. A ajustar para data da avaliação.');
-        :NEW.data_entrega := :NEW.data;
-END;
-/
-
--- -----------------------------------------------------------------------------
--- 5.4. Lotação da Turma
--- -----------------------------------------------------------------------------
-CREATE OR REPLACE TRIGGER TRG_TURMA_CAPACIDADE
+CREATE OR REPLACE TRIGGER TRG_VAL_CAPACIDADE_SALA
 BEFORE INSERT ON inscricao
 FOR EACH ROW
 DECLARE
-    v_inscritos NUMBER;
-    v_capacidade NUMBER;
-    e_turma_cheia EXCEPTION;
+    v_cap NUMBER; v_ins NUMBER;
 BEGIN
-    SELECT COUNT(*) INTO v_inscritos FROM inscricao WHERE turma_id = :NEW.turma_id AND status = '1';
-    SELECT MIN(s.capacidade) INTO v_capacidade FROM aula a JOIN sala s ON a.sala_id = s.id WHERE a.turma_id = :NEW.turma_id;
-
-    IF v_capacidade IS NOT NULL AND v_inscritos >= v_capacidade THEN RAISE e_turma_cheia; END IF;
-EXCEPTION
-    WHEN e_turma_cheia THEN
-        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Turma ID ' || :NEW.turma_id || ' cheia. Inscrição realizada sob condição de excesso.');
+    SELECT s.capacidade INTO v_cap FROM sala s JOIN aula a ON a.sala_id = s.id 
+    WHERE a.turma_id = :NEW.turma_id AND ROWNUM = 1;
+    SELECT COUNT(*) INTO v_ins FROM inscricao WHERE turma_id = :NEW.turma_id AND status = '1';
+    IF v_ins >= v_cap THEN 
+        :NEW.status := '0';
+        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Inscrição recusada: Turma sem vagas.');
+    END IF;
+EXCEPTION WHEN NO_DATA_FOUND THEN NULL;
 END;
 /
 
 -- -----------------------------------------------------------------------------
--- 5.5. Proteção de Estado de Matrícula
+-- 5.4. Bloqueio por Dívidas
 -- -----------------------------------------------------------------------------
-CREATE OR REPLACE TRIGGER TRG_MATRICULA_ESTADO
-BEFORE UPDATE OF estado_matricula_id ON matricula
+CREATE OR REPLACE TRIGGER TRG_VAL_DEVEDOR
+BEFORE INSERT ON inscricao
 FOR EACH ROW
-DECLARE
-    e_alteracao_proibida EXCEPTION;
+DECLARE v_est_id NUMBER;
 BEGIN
-    IF :OLD.estado_matricula_id = 3 AND :NEW.estado_matricula_id != 4 THEN RAISE e_alteracao_proibida; END IF;
-EXCEPTION
-    WHEN e_alteracao_proibida THEN
-        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Aviso: Alteração de matrícula concluída detetada.');
+    SELECT estudante_id INTO v_est_id FROM matricula WHERE id = :NEW.matricula_id;
+    IF FUN_IS_DEVEDOR(v_est_id) = 'S' THEN 
+        :NEW.status := '0';
+        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Inscrição bloqueada: Aluno com dívidas.');
+    END IF;
 END;
 /
 
 -- -----------------------------------------------------------------------------
--- 5.6. Validação de Pesos de Avaliação
+-- 5.5. Limite ECTS Anual (Configurável por curso em PKG_CONSTANTES)
 -- -----------------------------------------------------------------------------
-CREATE OR REPLACE TRIGGER TRG_VAL_PESO_AVALIACAO
-FOR INSERT OR UPDATE ON avaliacao
-COMPOUND TRIGGER
-    v_turma_id NUMBER;
-    v_total_peso NUMBER;
-    v_novo_peso NUMBER;
-    v_id_atual NUMBER;
-    e_peso_excedido EXCEPTION;
-
-    BEFORE EACH ROW IS
-    BEGIN
-        v_turma_id := :NEW.turma_id;
-        v_novo_peso := :NEW.peso;
-        v_id_atual := :NEW.id;
-    END BEFORE EACH ROW;
-
-    AFTER STATEMENT IS
-    BEGIN
-        IF v_turma_id IS NOT NULL THEN
-            SELECT NVL(SUM(peso), 0) INTO v_total_peso FROM avaliacao
-            WHERE turma_id = v_turma_id AND id != NVL(v_id_atual, -1) AND status = '1';
-
-            IF (v_total_peso + v_novo_peso) > 100 THEN
-                PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Pesos de avaliação para a turma ' || v_turma_id || ' excedem 100%.');
-            END IF;
-        END IF;
-    END AFTER STATEMENT;
-END TRG_VAL_PESO_AVALIACAO;
-/
-
--- -----------------------------------------------------------------------------
--- 5.7. Coerência Temporal de Assiduidade
--- -----------------------------------------------------------------------------
-CREATE OR REPLACE TRIGGER TRG_VAL_DATA_PRESENCA
-BEFORE INSERT OR UPDATE ON presenca
-FOR EACH ROW
-DECLARE
-    v_data_aula DATE;
-    e_presenca_futura EXCEPTION;
-BEGIN
-    SELECT data INTO v_data_aula FROM aula WHERE id = :NEW.aula_id;
-    IF v_data_aula > SYSDATE THEN RAISE e_presenca_futura; END IF;
-EXCEPTION
-    WHEN e_presenca_futura THEN
-        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Marcação de presença em aula futura. Verifique os dados.');
-END;
-/
-
--- -----------------------------------------------------------------------------
--- 5.8. Bloqueio de Entrega por Dívidas
--- -----------------------------------------------------------------------------
-CREATE OR REPLACE TRIGGER TRG_BLOQUEIO_ENTREGA_DIVIDA
-BEFORE INSERT ON estudante_entrega
-FOR EACH ROW
-DECLARE
-    v_estudante_id NUMBER;
-    v_matricula_id NUMBER;
-    e_aluno_devedor EXCEPTION;
-BEGIN
-    SELECT matricula_id INTO v_matricula_id FROM inscricao WHERE id = :NEW.inscricao_id;
-    SELECT estudante_id INTO v_estudante_id FROM matricula WHERE id = v_matricula_id;
-
-    IF FUN_IS_DEVEDOR(v_estudante_id) = 'S' THEN RAISE e_aluno_devedor; END IF;
-EXCEPTION
-    WHEN e_aluno_devedor THEN
-        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Estudante ID ' || v_estudante_id || ' submeteu trabalho com propinas em atraso.');
-END;
-/
-
--- -----------------------------------------------------------------------------
--- 5.9. Validação de Plano Curricular
--- -----------------------------------------------------------------------------
-CREATE OR REPLACE TRIGGER TRG_VAL_PLANO_CURRICULAR
+CREATE OR REPLACE TRIGGER TRG_VAL_LIMITE_ECTS
 BEFORE INSERT ON inscricao
 FOR EACH ROW
 DECLARE
-    v_curso_id NUMBER;
-    v_uc_id NUMBER;
-    v_existe NUMBER;
-    e_plano_invalido EXCEPTION;
+    v_curso_id NUMBER; v_total NUMBER; v_nova NUMBER;
 BEGIN
     SELECT curso_id INTO v_curso_id FROM matricula WHERE id = :NEW.matricula_id;
-    SELECT unidade_curricular_id INTO v_uc_id FROM turma WHERE id = :NEW.turma_id;
+    SELECT NVL(MAX(ects), 0) INTO v_nova FROM uc_curso uc JOIN turma t ON uc.unidade_curricular_id = t.unidade_curricular_id 
+    WHERE t.id = :NEW.turma_id AND uc.curso_id = v_curso_id;
+    
+    SELECT NVL(SUM(uc.ects), 0) INTO v_total FROM inscricao i JOIN turma t ON i.turma_id = t.id 
+    JOIN uc_curso uc ON t.unidade_curricular_id = uc.unidade_curricular_id
+    WHERE i.matricula_id = :NEW.matricula_id AND uc.curso_id = v_curso_id AND i.status = '1';
 
-    SELECT COUNT(*) INTO v_existe FROM uc_curso 
-    WHERE curso_id = v_curso_id AND unidade_curricular_id = v_uc_id;
+    IF (v_total + v_nova) > PKG_CONSTANTES.LIMITE_ECTS_ANUAL(v_curso_id) THEN
+        :NEW.status := '0';
+        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Inscrição bloqueada: Excesso de ECTS.');
+    END IF;
+END;
+/
 
-    IF v_existe = 0 THEN RAISE e_plano_invalido; END IF;
-EXCEPTION
-    WHEN e_plano_invalido THEN
-        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Inscrição numa UC fora do plano do curso do aluno.');
+-- -----------------------------------------------------------------------------
+-- 5.6. Agregação de Notas (Cascata Recursiva)
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_NOTA_SINALIZA_CALCULO
+AFTER INSERT OR UPDATE ON nota FOR EACH ROW
+DECLARE v_pai NUMBER;
+BEGIN
+    PKG_BUFFER_NOTA.ADICIONAR_FINAL(:NEW.inscricao_id);
+    SELECT avaliacao_pai_id INTO v_pai FROM avaliacao WHERE id = :NEW.avaliacao_id;
+    IF v_pai IS NOT NULL THEN PKG_BUFFER_NOTA.ADICIONAR_PAI(:NEW.inscricao_id, v_pai); END IF;
+EXCEPTION WHEN NO_DATA_FOUND THEN NULL;
+END;
+/
+
+CREATE OR REPLACE TRIGGER TRG_NOTA_EXECUTA_CALCULOS
+AFTER INSERT OR UPDATE ON nota
+DECLARE v_nota_pai NUMBER; v_pai_do_pai NUMBER; i NUMBER; j NUMBER;
+BEGIN
+    i := PKG_BUFFER_NOTA.v_lista.FIRST;
+    LOOP
+        EXIT WHEN i IS NULL;
+        SELECT SUM(n.nota * (NVL(a.peso, 0) / 100)) INTO v_nota_pai FROM nota n JOIN avaliacao a ON n.avaliacao_id = a.id
+        WHERE n.inscricao_id = PKG_BUFFER_NOTA.v_lista(i).inscricao_id AND a.avaliacao_pai_id = PKG_BUFFER_NOTA.v_lista(i).pai_id AND n.status = '1';
+        UPDATE nota SET nota = v_nota_pai, updated_at = SYSDATE WHERE inscricao_id = PKG_BUFFER_NOTA.v_lista(i).inscricao_id AND avaliacao_id = PKG_BUFFER_NOTA.v_lista(i).pai_id;
+        IF SQL%ROWCOUNT = 0 THEN INSERT INTO nota (inscricao_id, avaliacao_id, nota, status) VALUES (PKG_BUFFER_NOTA.v_lista(i).inscricao_id, PKG_BUFFER_NOTA.v_lista(i).pai_id, v_nota_pai, '1'); END IF;
+        SELECT MAX(avaliacao_pai_id) INTO v_pai_do_pai FROM avaliacao WHERE id = PKG_BUFFER_NOTA.v_lista(i).pai_id;
+        IF v_pai_do_pai IS NOT NULL THEN PKG_BUFFER_NOTA.ADICIONAR_PAI(PKG_BUFFER_NOTA.v_lista(i).inscricao_id, v_pai_do_pai); END IF;
+        i := PKG_BUFFER_NOTA.v_lista.NEXT(i);
+    END LOOP;
+    j := PKG_BUFFER_NOTA.v_lista_insc.FIRST;
+    LOOP
+        EXIT WHEN j IS NULL;
+        SELECT SUM(n.nota * (NVL(a.peso, 100) / 100)) INTO v_nota_pai FROM nota n JOIN avaliacao a ON n.avaliacao_id = a.id
+        WHERE n.inscricao_id = j AND a.avaliacao_pai_id IS NULL AND n.status = '1';
+        UPDATE inscricao SET nota_final = v_nota_pai, updated_at = SYSDATE WHERE id = j;
+        j := PKG_BUFFER_NOTA.v_lista_insc.NEXT(j);
+    END LOOP;
+    PKG_BUFFER_NOTA.LIMPAR;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- 5.7. Média Geral e Conclusão de Curso
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_INSCRICAO_POST_PROCESS
+AFTER UPDATE OF nota_final ON inscricao FOR EACH ROW
+DECLARE v_media NUMBER; v_ects NUMBER; v_cur_id NUMBER; v_total_obr NUMBER; v_aprov NUMBER;
+BEGIN
+    SELECT curso_id INTO v_cur_id FROM matricula WHERE id = :NEW.matricula_id;
+    SELECT SUM(i.nota_final * uc.ects), SUM(uc.ects) INTO v_media, v_ects FROM inscricao i JOIN turma t ON i.turma_id = t.id JOIN uc_curso uc ON (t.unidade_curricular_id = uc.unidade_curricular_id)
+    WHERE i.matricula_id = :NEW.matricula_id AND i.nota_final IS NOT NULL AND i.status = '1' AND uc.curso_id = v_cur_id;
+    IF v_ects > 0 THEN UPDATE matricula SET media_geral = (v_media / v_ects), updated_at = SYSDATE WHERE id = :NEW.matricula_id; END IF;
+    SELECT COUNT(*) INTO v_total_obr FROM uc_curso WHERE curso_id = v_cur_id;
+    SELECT COUNT(*) INTO v_aprov FROM inscricao WHERE matricula_id = :NEW.matricula_id AND nota_final >= PKG_CONSTANTES.NOTA_APROVACAO AND status = '1';
+    IF v_aprov >= v_total_obr AND v_total_obr > 0 THEN 
+        UPDATE matricula SET estado_matricula_id = PKG_CONSTANTES.EST_MATRICULA_CONCLUIDA WHERE id = :NEW.matricula_id;
+    END IF;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- 5.8. Automação: Presenças ao criar Aula
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUTO_PRESENCA_AULA
+AFTER INSERT ON aula FOR EACH ROW
+BEGIN
+    INSERT INTO presenca (inscricao_id, aula_id, presente, status)
+    SELECT id, :NEW.id, '0', '1' FROM inscricao WHERE turma_id = :NEW.turma_id AND status = '1';
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- 5.9. Automação: Presenças ao inscrever Aluno
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUTO_PRESENCA_ALUNO
+AFTER INSERT ON inscricao FOR EACH ROW
+BEGIN
+    INSERT INTO presenca (inscricao_id, aula_id, presente, status)
+    SELECT :NEW.id, id, '0', '1' FROM aula WHERE turma_id = :NEW.turma_id AND status = '1';
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- 5.10. Automação: Gerar Propinas ao Matricular
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUTO_GERAR_PROPINAS
+AFTER INSERT ON matricula FOR EACH ROW
+BEGIN
+    PKG_TESOURARIA.PRC_GERAR_PLANO_PAGAMENTO(:NEW.id);
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- 5.11. Propagação de Peso de Avaliação
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AVAL_RECALCULA_NOTAS
+AFTER UPDATE OF peso ON avaliacao FOR EACH ROW
+BEGIN
+    UPDATE nota SET updated_at = SYSDATE WHERE avaliacao_id = :NEW.id;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- 5.12. Tamanho de Grupo
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_VAL_TAMANHO_GRUPO
+BEFORE INSERT ON estudante_entrega FOR EACH ROW
+DECLARE v_max NUMBER; v_at NUMBER;
+BEGIN
+    SELECT a.max_alunos INTO v_max FROM entrega e JOIN avaliacao a ON e.avaliacao_id = a.id WHERE e.id = :NEW.entrega_id;
+    SELECT COUNT(*) INTO v_at FROM estudante_entrega WHERE entrega_id = :NEW.entrega_id AND status = '1';
+    IF v_at >= v_max THEN 
+        :NEW.status := '0';
+        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Grupo completo para a entrega ' || :NEW.entrega_id);
+    END IF;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- 5.13. Conflito de Horário do Aluno
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_VAL_CONFLITO_ALUNO
+BEFORE INSERT ON inscricao FOR EACH ROW
+DECLARE v_count NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_count FROM aula a_nova JOIN aula a_ex ON a_nova.data = a_ex.data
+    JOIN inscricao i ON i.turma_id = a_ex.turma_id
+    WHERE a_nova.turma_id = :NEW.turma_id AND i.matricula_id = :NEW.matricula_id AND i.status = '1'
+      AND (a_nova.hora_inicio < a_ex.hora_fim AND a_nova.hora_fim > a_ex.hora_inicio);
+    IF v_count > 0 THEN 
+        :NEW.status := '0';
+        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Inscrição inválida: Sobreposição de horários para o aluno.');
+    END IF;
 END;
 /
