@@ -24,17 +24,14 @@ O sistema permite escolher quais ações em quais tabelas são registadas na tab
     *   `EXEC PKG_CONFIG_LOG.ATIVAR('ESTUDANTE', 'DELETE');` -- Ativa registo de remoção de alunos.
 *   **Triggers:** Todos os triggers de auditoria consultam `DEVE_REGISTAR` antes de inserir no log.
 
-### Mecanismo de Eliminação Dinâmico (Inteligente)
-O sistema decidirá automaticamente o tipo de eliminação baseando-se na estrutura da própria tabela, sem necessidade de tabelas de configuração extra.
+### Mecanismo de Eliminação Estático (Hard-Coded)
+O tipo de eliminação é definido por constantes booleanas dentro do pacote de gestão.
 
 **Procedimento Central (`PKG_GESTAO_DADOS.PRC_REMOVER`):**
-*   **Parâmetros:** `p_nome_tabela` (VARCHAR2), `p_id_registo` (NUMBER), `p_forcar_hard_delete` (BOOLEAN DEFAULT FALSE).
-*   **Lógica de Decisão:**
-    1.  O procedimento consulta o dicionário de dados (`USER_TAB_COLUMNS`) para verificar se a tabela `p_nome_tabela` possui a coluna `status`.
-    2.  **Cenário A (Soft Delete):** Se a coluna `status` EXISTIR e `p_forcar_hard_delete` for FALSE:
-        *   Executa: `UPDATE [p_nome_tabela] SET status = '0' WHERE id = [p_id_registo]`.
-    3.  **Cenário B (Hard Delete):** Se `p_forcar_hard_delete` for TRUE:
-        *   Executa: `DELETE FROM [p_nome_tabela] WHERE id = [p_id_registo]`.
+*   **Como configurar:** Edite as constantes `C_[TABELA]_SOFT` no corpo do pacote `PKG_GESTAO_DADOS`.
+    *   `TRUE`: Realiza Soft Delete (`status = '0'`).
+    *   `FALSE`: Realiza Hard Delete (`DELETE`).
+*   **Parâmetros:** `p_nome_tabela`, `p_id_registo`, `p_forcar_hard_delete` (opcional).
 
 ---
 
@@ -77,14 +74,3 @@ O sistema decidirá automaticamente o tipo de eliminação baseando-se na estrut
 
 ---
 
-
-
-## 5. Tratamento de Exceções (Exceptions)
-
-
-
-Pacote `PKG_ERROS`:
-
-*   **EXC_TURMA_CHEIA** (-20001): 'Lotação da sala excedida.'
-
-*   **EXC_REGISTO_NAO_ENCONTRADO** (-20005): 'O registo solicitado não existe ou foi inativado.'

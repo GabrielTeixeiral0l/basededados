@@ -1,109 +1,101 @@
 -- =============================================================================
--- 2. AUDITORIA E MANUTENÇÃO (SISTEMA DE FLAGS DINÂMICO)
+-- 2. GATILHOS DE AUDITORIA E MANUTENÇÃO (COMPATÍVEL DDLV3)
+-- Atualiza 'updated_at' e insere registos na tabela 'log' (texto simples).
 -- =============================================================================
 
 -- -----------------------------------------------------------------------------
--- 2.1. Triggers de updated_at
+-- Gatilho Genérico de Updated_At (Exemplo para tabela NOTA)
+-- Deve ser replicado para outras tabelas se necessário.
 -- -----------------------------------------------------------------------------
-CREATE OR REPLACE TRIGGER TRG_UPD_AULA BEFORE UPDATE ON aula FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_AVALIACAO BEFORE UPDATE ON avaliacao FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_CURSO BEFORE UPDATE ON curso FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_DOCENTE BEFORE UPDATE ON docente FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_ENTREGA BEFORE UPDATE ON entrega FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_ESTUDANTE BEFORE UPDATE ON estudante FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_ESTUDANTE_ENTREGA BEFORE UPDATE ON estudante_entrega FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_FICHEIRO_ENTREGA BEFORE UPDATE ON ficheiro_entrega FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_FICHEIRO_RECURSO BEFORE UPDATE ON ficheiro_recurso FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_INSCRICAO BEFORE UPDATE ON inscricao FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_MATRICULA BEFORE UPDATE ON matricula FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_NOTA BEFORE UPDATE ON nota FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_PARCELA_PROPINA BEFORE UPDATE ON parcela_propina FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_PRESENCA BEFORE UPDATE ON presenca FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_RECURSO BEFORE UPDATE ON recurso FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_SALA BEFORE UPDATE ON sala FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_TURMA BEFORE UPDATE ON turma FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_UC_CURSO BEFORE UPDATE ON uc_curso FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_UC_DOCENTE BEFORE UPDATE ON uc_docente FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
-/
-CREATE OR REPLACE TRIGGER TRG_UPD_UNIDADE_CURRICULAR BEFORE UPDATE ON unidade_curricular FOR EACH ROW BEGIN :NEW.updated_at := SYSDATE; END;
+CREATE OR REPLACE TRIGGER TRG_NOTA_UPDATED_AT
+BEFORE UPDATE ON nota
+FOR EACH ROW
+BEGIN
+    :NEW.updated_at := SYSDATE;
+END;
 /
 
 -- -----------------------------------------------------------------------------
--- 2.2. Triggers de Auditoria com verificação de FLAGS (PKG_CONFIG_LOG)
+-- Gatilho de Auditoria: NOTA
 -- -----------------------------------------------------------------------------
-
--- Auditoria: NOTA
 CREATE OR REPLACE TRIGGER TRG_AUDIT_NOTA
 AFTER INSERT OR UPDATE OR DELETE ON nota
 FOR EACH ROW
 DECLARE
-    v_acao VARCHAR2(10);
+    v_acao VARCHAR2(20);
+    v_msg  VARCHAR2(4000);
 BEGIN
-    v_acao := CASE WHEN INSERTING THEN 'INSERT' WHEN UPDATING THEN 'UPDATE' ELSE 'DELETE' END;
+    IF DELETING THEN
+        v_acao := 'DELETE';
+        v_msg := 'Nota apagada. ID Inscrição: ' || :OLD.inscricao_id;
+    ELSIF INSERTING THEN
+        v_acao := 'INSERT';
+        v_msg := 'Nova nota: ' || :NEW.nota || ' (Inscrição: ' || :NEW.inscricao_id || ')';
+    ELSE
+        v_acao := 'UPDATE';
+        v_msg := 'Nota alterada de ' || :OLD.nota || ' para ' || :NEW.nota;
+    END IF;
+
+    -- Verifica configuração global
     IF PKG_CONFIG_LOG.DEVE_REGISTAR('NOTA', v_acao) THEN
-        INSERT INTO log (acao, tabela, data) VALUES (v_acao, 'NOTA', 
-        'Insc: ' || NVL(:NEW.inscricao_id, :OLD.inscricao_id) || ', Aval: ' || NVL(:NEW.avaliacao_id, :OLD.avaliacao_id) || 
-        ', Valor: ' || :NEW.nota);
+        INSERT INTO log (id, acao, tabela, data, created_at)
+        VALUES (seq_log.NEXTVAL, v_acao, 'NOTA', v_msg, SYSDATE);
     END IF;
 END;
 /
 
--- Auditoria: ESTUDANTE
+-- -----------------------------------------------------------------------------
+-- Gatilho de Auditoria: ESTUDANTE
+-- -----------------------------------------------------------------------------
 CREATE OR REPLACE TRIGGER TRG_AUDIT_ESTUDANTE
 AFTER INSERT OR UPDATE OR DELETE ON estudante
 FOR EACH ROW
 DECLARE
-    v_acao VARCHAR2(10);
+    v_acao VARCHAR2(20);
+    v_msg  VARCHAR2(4000);
 BEGIN
-    v_acao := CASE WHEN INSERTING THEN 'INSERT' WHEN UPDATING THEN 'UPDATE' ELSE 'DELETE' END;
+    IF DELETING THEN
+        v_acao := 'DELETE';
+        v_msg := 'Estudante apagado: ' || :OLD.nome;
+    ELSIF INSERTING THEN
+        v_acao := 'INSERT';
+        v_msg := 'Novo estudante: ' || :NEW.nome;
+    ELSE
+        v_acao := 'UPDATE';
+        v_msg := 'Estudante atualizado: ' || :NEW.nome;
+    END IF;
+
     IF PKG_CONFIG_LOG.DEVE_REGISTAR('ESTUDANTE', v_acao) THEN
-        INSERT INTO log (acao, tabela, data) VALUES (v_acao, 'ESTUDANTE', 'ID: ' || NVL(:NEW.id, :OLD.id) || ', Nome: ' || NVL(:NEW.nome, :OLD.nome));
+        INSERT INTO log (id, acao, tabela, data, created_at)
+        VALUES (seq_log.NEXTVAL, v_acao, 'ESTUDANTE', v_msg, SYSDATE);
     END IF;
 END;
 /
 
--- Auditoria: DOCENTE
-CREATE OR REPLACE TRIGGER TRG_AUDIT_DOCENTE
-AFTER INSERT OR UPDATE OR DELETE ON docente
-FOR EACH ROW
-DECLARE
-    v_acao VARCHAR2(10);
-BEGIN
-    v_acao := CASE WHEN INSERTING THEN 'INSERT' WHEN UPDATING THEN 'UPDATE' ELSE 'DELETE' END;
-    IF PKG_CONFIG_LOG.DEVE_REGISTAR('DOCENTE', v_acao) THEN
-        INSERT INTO log (acao, tabela, data) VALUES (v_acao, 'DOCENTE', 'ID: ' || NVL(:NEW.id, :OLD.id) || ', Nome: ' || NVL(:NEW.nome, :OLD.nome));
-    END IF;
-END;
-/
-
--- Auditoria: MATRICULA
+-- -----------------------------------------------------------------------------
+-- Gatilho de Auditoria: MATRICULA
+-- -----------------------------------------------------------------------------
 CREATE OR REPLACE TRIGGER TRG_AUDIT_MATRICULA
 AFTER INSERT OR UPDATE OR DELETE ON matricula
 FOR EACH ROW
 DECLARE
-    v_acao VARCHAR2(10);
+    v_acao VARCHAR2(20);
+    v_msg  VARCHAR2(4000);
 BEGIN
-    v_acao := CASE WHEN INSERTING THEN 'INSERT' WHEN UPDATING THEN 'UPDATE' ELSE 'DELETE' END;
+    IF DELETING THEN
+        v_acao := 'DELETE';
+        v_msg := 'Matrícula apagada: ' || :OLD.id;
+    ELSIF INSERTING THEN
+        v_acao := 'INSERT';
+        v_msg := 'Nova matrícula: ' || :NEW.id;
+    ELSE
+        v_acao := 'UPDATE';
+        v_msg := 'Matrícula atualizada. Estado ID: ' || :NEW.estado_matricula_id;
+    END IF;
+
     IF PKG_CONFIG_LOG.DEVE_REGISTAR('MATRICULA', v_acao) THEN
-        INSERT INTO log (acao, tabela, data) VALUES (v_acao, 'MATRICULA', 'ID: ' || NVL(:NEW.id, :OLD.id) || ', Aluno: ' || NVL(:NEW.estudante_id, :OLD.estudante_id));
+        INSERT INTO log (id, acao, tabela, data, created_at)
+        VALUES (seq_log.NEXTVAL, v_acao, 'MATRICULA', v_msg, SYSDATE);
     END IF;
 END;
 /

@@ -28,7 +28,6 @@ Apagados:
 	funcao_docente
 	turno_aula
 	propina
-	estado_matricula
 	estado_inscricao
 	turma_docente*
 	uc_docente*

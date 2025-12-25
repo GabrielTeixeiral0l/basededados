@@ -9,11 +9,15 @@ Este documento descreve as automações, regras de negócio e componentes de ló
 * Rastreabilidade Temporal: Triggers que atualizam automaticamente a coluna 'updated_at' em todas as tabelas sempre que um registo é modificado.
 
 ## 2. Auditoria Flexível (Painel de Controlo)
-* Sistema de Flags: Pacote 'PKG_CONFIG_LOG' que permite ativar/desativar em tempo real os logs de INSERT, UPDATE ou DELETE por tabela, sem criar tabelas físicas extra.
-* Triggers de Log: Triggers nas tabelas críticas (nota, estudante, docente, matrícula) que consultam as flags de configuração antes de registar na tabela de 'log'.
+* Sistema de Flags: Pacote 'PKG_CONFIG_LOG' simplificado com uma variável global (TRUE/FALSE) que define o comportamento padrão.
+    - Permite definir exceções específicas por tabela diretamente no código (bloco IF).
+* Triggers de Log: Triggers nas tabelas críticas consultam este pacote antes de registar na tabela de 'log'.
 
 ## 3. Gestão de Dados Inteligente
-* Soft Delete vs Hard Delete: Pacote 'PKG_GESTAO_DADOS' que verifica dinamicamente a estrutura da tabela através do dicionário de dados do Oracle.
+* Soft Delete vs Hard Delete: Pacote 'PKG_GESTAO_DADOS' com variável global de configuração.
+    - Define se, por defeito, a eliminação é Lógica (Soft) ou Física (Hard).
+    - Permite configurar exceções para tabelas específicas (ex: apagar sempre logs fisicamente).
+    - Suporta forçar Hard Delete via parâmetro no procedimento.
 
 ## 4. Integridade e Regras de Negócio Avançadas
 * Validação de Notas: Impede o registo de notas fora do intervalo 0 a 20.
