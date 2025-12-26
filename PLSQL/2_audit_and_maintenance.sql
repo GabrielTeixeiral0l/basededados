@@ -185,7 +185,7 @@ BEGIN
     END IF;
 
     IF PKG_CONFIG_LOG.DEVE_REGISTAR('NOTA', v_acao) THEN
-        INSERT INTO log (id, acao, tabela, data, created_at) 
+        INSERT INTO log (id, acao, tabela, "DATA", created_at) 
         VALUES (seq_log.NEXTVAL, v_acao, 'NOTA', v_msg, SYSDATE);
     END IF;
 END;

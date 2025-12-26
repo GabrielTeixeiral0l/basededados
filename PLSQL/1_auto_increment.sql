@@ -1,39 +1,50 @@
 -- =============================================================================
 -- 1. GATILHOS DE AUTO-INCREMENTO (SINCRONIZADO COM DDLV3)
+-- Corrigido para permitir IDs explícitos em testes
 -- =============================================================================
 
 CREATE OR REPLACE TRIGGER TRG_AI_AULA 
     BEFORE INSERT ON aula FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_aula.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_aula.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_AVALIACAO 
     BEFORE INSERT ON avaliacao FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_avaliacao.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_avaliacao.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_CURSO 
     BEFORE INSERT ON curso FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_curso.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_curso.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_DOCENTE 
     BEFORE INSERT ON docente FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_docente.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_docente.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_ENTREGA 
     BEFORE INSERT ON entrega FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_entrega.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_entrega.NEXTVAL; 
+    END IF;
 END;
 /
 
@@ -41,107 +52,139 @@ CREATE OR REPLACE TRIGGER TRG_AI_ESTUDANTE
     BEFORE INSERT ON estudante FOR EACH ROW 
 BEGIN 
     -- ID Interno (PK)
-    :NEW.id := seq_estudante.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_estudante.NEXTVAL; 
+    END IF;
     
     -- Número de Aluno (Código Público): Ano (4 dig) + Sequência (6 dig)
-    :NEW.codigo := TO_CHAR(SYSDATE, 'YYYY') || LPAD(seq_num_aluno.NEXTVAL, 6, '0'); 
+    IF :NEW.codigo IS NULL THEN
+        :NEW.codigo := TO_CHAR(SYSDATE, 'YYYY') || LPAD(seq_num_aluno.NEXTVAL, 6, '0'); 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_FICH_ENTREGA 
     BEFORE INSERT ON ficheiro_entrega FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_ficheiro_entrega.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_ficheiro_entrega.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_FICH_RECURSO 
     BEFORE INSERT ON ficheiro_recurso FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_ficheiro_recurso.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_ficheiro_recurso.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_INSCRICAO 
     BEFORE INSERT ON inscricao FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_inscricao.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_inscricao.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_LOG 
     BEFORE INSERT ON log FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_log.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_log.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_MATRICULA 
     BEFORE INSERT ON matricula FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_matricula.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_matricula.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_PARCELA 
     BEFORE INSERT ON parcela_propina FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_parcela_propina.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_parcela_propina.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_RECURSO 
     BEFORE INSERT ON recurso FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_recurso.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_recurso.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_SALA 
     BEFORE INSERT ON sala FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_sala.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_sala.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_TIPO_AULA 
     BEFORE INSERT ON tipo_aula FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_tipo_aula.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_tipo_aula.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_TIPO_AVAL 
     BEFORE INSERT ON tipo_avaliacao FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_tipo_avaliacao.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_tipo_avaliacao.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_TIPO_CURSO 
     BEFORE INSERT ON tipo_curso FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_tipo_curso.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_tipo_curso.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_TURMA 
     BEFORE INSERT ON turma FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_turma.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_turma.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_UC 
     BEFORE INSERT ON unidade_curricular FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_unidade_curricular.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_unidade_curricular.NEXTVAL; 
+    END IF;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_AI_EST_MATRICULA 
     BEFORE INSERT ON estado_matricula FOR EACH ROW 
 BEGIN 
-    :NEW.id := seq_estado_matricula.NEXTVAL; 
+    IF :NEW.id IS NULL THEN
+        :NEW.id := seq_estado_matricula.NEXTVAL; 
+    END IF;
 END;
 /

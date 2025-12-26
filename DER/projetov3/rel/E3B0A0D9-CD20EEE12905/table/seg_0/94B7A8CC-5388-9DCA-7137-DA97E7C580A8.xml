@@ -70,8 +70,8 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>8</dataTypeSize>
-<ownDataTypeParameters>8,,</ownDataTypeParameters>
+<dataTypeSize>12 CHAR</dataTypeSize>
+<ownDataTypeParameters>12 CHAR,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 <Column name="nif" id="57FB186A-FB33-AE6F-9769-D340304C9F3E">

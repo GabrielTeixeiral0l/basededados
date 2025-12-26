@@ -54,6 +54,31 @@
 <colAssociation fkAssociation="C26772B0-0328-064E-4670-0028CA1C60FA" referredColumn="36FF0EB3-4260-4E65-33DB-2225D626EF4B"/>
 </associations>
 </Column>
+<Column name="max_alunos" id="4EB6FF49-1A97-2F1A-E73A-9D7FD4C4A127">
+<createdBy>teixe</createdBy>
+<createdTime>2025-12-26 13:21:35 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="docente_id" id="E5DC6236-E929-BF95-6E32-B8AC2AB89B83">
+<createdBy>teixe</createdBy>
+<createdTime>2025-11-10 15:09:30 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="6FCC5172-3B45-3416-0D96-15A36F8BC8AD" referredColumn="054BB055-E807-28B7-BFC3-3090901384A8"/>
+</associations>
+</Column>
 <Column name="created_at" id="CF66DB29-C22A-0070-BF62-F3C18AD80547">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-09 09:31:51 UTC</createdTime>
@@ -86,20 +111,6 @@
 <defaultValue>1</defaultValue>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column name="docente_id" id="E5DC6236-E929-BF95-6E32-B8AC2AB89B83">
-<createdBy>teixe</createdBy>
-<createdTime>2025-11-10 15:09:30 UTC</createdTime>
-<ownerDesignName>projetov3</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-<previousColumn>false</previousColumn>
-<autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="6FCC5172-3B45-3416-0D96-15A36F8BC8AD" referredColumn="054BB055-E807-28B7-BFC3-3090901384A8"/>
-</associations>
 </Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">

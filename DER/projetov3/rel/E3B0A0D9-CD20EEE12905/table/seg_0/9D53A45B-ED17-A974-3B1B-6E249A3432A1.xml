@@ -71,6 +71,17 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="max_alunos" id="2A249D20-8CA0-24BD-8A6D-75C90EBD0EFA">
+<createdBy>teixe</createdBy>
+<createdTime>2025-12-26 13:18:54 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column name="tipo_curso_id" id="EAD30D23-E81C-AAAD-7905-BA199B0EA33E">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-08 10:01:31 UTC</createdTime>

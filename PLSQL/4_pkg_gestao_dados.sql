@@ -1,5 +1,5 @@
 -- =============================================================================
--- 4. PACOTE DE GESTÃO DE DADOS (DINÂMICO COM VERSÃO ESTÁTICA COMENTADA)
+-- 4. PACOTE DE GESTÃO DE DADOS (NOMES ORIGINAIS - CORREÇÃO SQLERRM)
 -- =============================================================================
 
 CREATE OR REPLACE PACKAGE PKG_GESTAO_DADOS IS
@@ -20,15 +20,22 @@ CREATE OR REPLACE PACKAGE BODY PKG_GESTAO_DADOS IS
     END DEVE_FAZER_SOFT_DELETE;
 
     PROCEDURE PRC_LOG_ALERTA(p_msg IN VARCHAR2) IS
+        PRAGMA AUTONOMOUS_TRANSACTION;
     BEGIN
-        INSERT INTO log (id, acao, tabela, data, created_at)
-        VALUES (seq_log.NEXTVAL, 'ALERTA', 'SISTEMA', p_msg, SYSDATE);
+        INSERT INTO log (id, acao, tabela, data)
+        VALUES (seq_log.NEXTVAL, 'ALERTA', 'SISTEMA', p_msg);
+        COMMIT;
+    EXCEPTION WHEN OTHERS THEN ROLLBACK;
     END PRC_LOG_ALERTA;
 
     PROCEDURE PRC_LOG_ERRO(p_contexto IN VARCHAR2) IS
+        v_err VARCHAR2(4000) := SUBSTR(SQLERRM, 1, 4000);
+        PRAGMA AUTONOMOUS_TRANSACTION;
     BEGIN
-        INSERT INTO log (id, acao, tabela, data, created_at)
-        VALUES (seq_log.NEXTVAL, 'ERROR_TECH', UPPER(p_contexto), SUBSTR(SQLERRM, 1, 4000), SYSDATE);
+        INSERT INTO log (id, acao, tabela, data)
+        VALUES (seq_log.NEXTVAL, 'ERROR_TECH', UPPER(p_contexto), v_err);
+        COMMIT;
+    EXCEPTION WHEN OTHERS THEN ROLLBACK;
     END PRC_LOG_ERRO;
 
     PROCEDURE PRC_REMOVER(p_nome_tabela IN VARCHAR2, p_id_registo IN NUMBER) IS
@@ -53,34 +60,5 @@ CREATE OR REPLACE PACKAGE BODY PKG_GESTAO_DADOS IS
     EXCEPTION WHEN OTHERS THEN PRC_LOG_ERRO('REMOVER_' || v_tab);
     END PRC_REMOVER;
 
-    /* -------------------------------------------------------------------------
-       VERSÃO ESTÁTICA COMPLETA (COMENTADA PARA REFERÊNCIA)
-       -------------------------------------------------------------------------
-    PROCEDURE PRC_REMOVER_ESTATICO(p_nome_tabela IN VARCHAR2, p_id_registo IN NUMBER) IS
-        v_tab VARCHAR2(30) := UPPER(p_nome_tabela);
-    BEGIN
-        IF DEVE_FAZER_SOFT_DELETE(v_tab) THEN
-            CASE v_tab
-                WHEN 'ESTUDANTE' THEN UPDATE estudante SET status = '0', updated_at = SYSDATE WHERE id = p_id_registo;
-                WHEN 'DOCENTE'   THEN UPDATE docente SET status = '0', updated_at = SYSDATE WHERE id = p_id_registo;
-                WHEN 'CURSO'     THEN UPDATE curso SET status = '0', updated_at = SYSDATE WHERE id = p_id_registo;
-                WHEN 'TURMA'     THEN UPDATE turma SET status = '0', updated_at = SYSDATE WHERE id = p_id_registo;
-                WHEN 'MATRICULA' THEN UPDATE matricula SET status = '0', updated_at = SYSDATE WHERE id = p_id_registo;
-                WHEN 'INSCRICAO' THEN UPDATE inscricao SET status = '0', updated_at = SYSDATE WHERE id = p_id_registo;
-                WHEN 'AULA'      THEN UPDATE aula SET status = '0', updated_at = SYSDATE WHERE id = p_id_registo;
-                WHEN 'AVALIACAO' THEN UPDATE avaliacao SET status = '0', updated_at = SYSDATE WHERE id = p_id_registo;
-                WHEN 'NOTA'      THEN UPDATE nota SET status = '0', updated_at = SYSDATE WHERE inscricao_id = p_id_registo;
-                -- (RESTANTES TABELAS...)
-                ELSE NULL;
-            END CASE;
-        ELSE
-            CASE v_tab
-                WHEN 'LOG'              THEN DELETE FROM log WHERE id = p_id_registo;
-                WHEN 'ESTADO_MATRICULA' THEN DELETE FROM estado_matricula WHERE id = p_id_registo;
-                ELSE NULL;
-            END CASE;
-        END IF;
-    END;
-    */
 END PKG_GESTAO_DADOS;
 /
