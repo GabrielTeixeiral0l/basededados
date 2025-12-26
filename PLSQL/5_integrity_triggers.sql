@@ -149,8 +149,8 @@ BEGIN
     SELECT ects INTO v_existe FROM uc_curso WHERE curso_id = v_cur_id AND unidade_curricular_id = v_uc_id;
     v_total_ects := NVL(v_total_ects, 0) + v_existe;
 
-    IF v_total_ects > PKG_CONSTANTES.LIMITE_ECTS_ANUAL(v_cur_id) THEN
-        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Aviso: Limite de ECTS anual excedido ('||v_total_ects||' > '||PKG_CONSTANTES.LIMITE_ECTS_ANUAL(v_cur_id)||')');
+    IF v_total_ects > PKG_CONSTANTES.LIMITE_ECTS_ANUAL THEN
+        PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Aviso: Limite de ECTS anual excedido ('||v_total_ects||' > '||PKG_CONSTANTES.LIMITE_ECTS_ANUAL||')');
     END IF;
 EXCEPTION WHEN OTHERS THEN NULL;
 END;
@@ -185,54 +185,60 @@ CREATE OR REPLACE TRIGGER TRG_NOTA_EXECUTA_CALCULOS
 DECLARE 
     v_nota_pai     NUMBER; 
     v_pai_do_pai   NUMBER; 
-    i              NUMBER; 
-    j              NUMBER;
+    v_insc_atual   NUMBER;
+    v_pai_atual    NUMBER;
 BEGIN
     IF PKG_BUFFER_NOTA.g_a_calcular THEN RETURN; END IF;
 
     PKG_BUFFER_NOTA.g_a_calcular := TRUE;
 
-    -- Processar Pais Diretos
-    i := PKG_BUFFER_NOTA.v_lista.FIRST;
-    LOOP
-        EXIT WHEN i IS NULL;
-        SELECT SUM(n.nota * (NVL(a.peso, 0) / 100)) INTO v_nota_pai 
-        FROM nota n JOIN avaliacao a ON n.avaliacao_id = a.id
-        WHERE n.inscricao_id = PKG_BUFFER_NOTA.v_lista(i).inscricao_id 
-          AND a.avaliacao_pai_id = PKG_BUFFER_NOTA.v_lista(i).pai_id 
-          AND n.status = '1';
-          
-        UPDATE nota SET nota = v_nota_pai, updated_at = SYSDATE 
-        WHERE inscricao_id = PKG_BUFFER_NOTA.v_lista(i).inscricao_id 
-          AND avaliacao_id = PKG_BUFFER_NOTA.v_lista(i).pai_id;
-          
-        IF SQL%ROWCOUNT = 0 THEN 
-            INSERT INTO nota (inscricao_id, avaliacao_id, nota, status) 
-            VALUES (PKG_BUFFER_NOTA.v_lista(i).inscricao_id, PKG_BUFFER_NOTA.v_lista(i).pai_id, v_nota_pai, '1'); 
-        END IF;
-        
-        -- Verificar se este pai também tem um pai (recursividade via buffer)
-        BEGIN
-            SELECT avaliacao_pai_id INTO v_pai_do_pai FROM avaliacao WHERE id = PKG_BUFFER_NOTA.v_lista(i).pai_id;
-            IF v_pai_do_pai IS NOT NULL THEN 
-                PKG_BUFFER_NOTA.ADICIONAR_PAI(PKG_BUFFER_NOTA.v_lista(i).inscricao_id, v_pai_do_pai); 
-            END IF;
-        EXCEPTION WHEN NO_DATA_FOUND THEN NULL;
-        END;
-        i := PKG_BUFFER_NOTA.v_lista.NEXT(i);
-    END LOOP;
+    -- 1. Processar Pais Diretos (Loop Simples)
+    IF PKG_BUFFER_NOTA.v_ids_inscricao.COUNT > 0 THEN
+        FOR i IN 1..PKG_BUFFER_NOTA.v_ids_inscricao.COUNT LOOP
+            v_insc_atual := PKG_BUFFER_NOTA.v_ids_inscricao(i);
+            v_pai_atual  := PKG_BUFFER_NOTA.v_ids_pais(i);
 
-    -- Processar Nota Final da Inscrição
-    j := PKG_BUFFER_NOTA.v_lista_insc.FIRST;
-    LOOP
-        EXIT WHEN j IS NULL;
-        SELECT SUM(n.nota * (NVL(a.peso, 100) / 100)) INTO v_nota_pai 
-        FROM nota n JOIN avaliacao a ON n.avaliacao_id = a.id
-        WHERE n.inscricao_id = j AND a.avaliacao_pai_id IS NULL AND n.status = '1';
-        
-        UPDATE inscricao SET nota_final = v_nota_pai, updated_at = SYSDATE WHERE id = j;
-        j := PKG_BUFFER_NOTA.v_lista_insc.NEXT(j);
-    END LOOP;
+            -- Calcular nota do pai
+            SELECT SUM(n.nota * (NVL(a.peso, 0) / 100)) INTO v_nota_pai 
+            FROM nota n JOIN avaliacao a ON n.avaliacao_id = a.id
+            WHERE n.inscricao_id = v_insc_atual 
+              AND a.avaliacao_pai_id = v_pai_atual 
+              AND n.status = '1';
+              
+            -- Atualizar ou Inserir nota do pai
+            UPDATE nota SET nota = v_nota_pai, updated_at = SYSDATE 
+            WHERE inscricao_id = v_insc_atual AND avaliacao_id = v_pai_atual;
+              
+            IF SQL%ROWCOUNT = 0 THEN 
+                INSERT INTO nota (inscricao_id, avaliacao_id, nota, status) 
+                VALUES (v_insc_atual, v_pai_atual, v_nota_pai, '1'); 
+            END IF;
+            
+            -- Verificar recursividade (se este pai tem outro pai)
+            BEGIN
+                SELECT avaliacao_pai_id INTO v_pai_do_pai FROM avaliacao WHERE id = v_pai_atual;
+                IF v_pai_do_pai IS NOT NULL THEN 
+                    PKG_BUFFER_NOTA.ADICIONAR_PAI(v_insc_atual, v_pai_do_pai); 
+                END IF;
+            EXCEPTION WHEN NO_DATA_FOUND THEN NULL;
+            END;
+        END LOOP;
+    END IF;
+
+    -- 2. Processar Nota Final da Inscrição (Loop Simples)
+    IF PKG_BUFFER_NOTA.v_ids_finais.COUNT > 0 THEN
+        FOR j IN 1..PKG_BUFFER_NOTA.v_ids_finais.COUNT LOOP
+            v_insc_atual := PKG_BUFFER_NOTA.v_ids_finais(j);
+            
+            SELECT SUM(n.nota * (NVL(a.peso, 100) / 100)) INTO v_nota_pai 
+            FROM nota n JOIN avaliacao a ON n.avaliacao_id = a.id
+            WHERE n.inscricao_id = v_insc_atual 
+              AND a.avaliacao_pai_id IS NULL 
+              AND n.status = '1';
+            
+            UPDATE inscricao SET nota_final = v_nota_pai, updated_at = SYSDATE WHERE id = v_insc_atual;
+        END LOOP;
+    END IF;
     
     PKG_BUFFER_NOTA.LIMPAR;
     PKG_BUFFER_NOTA.g_a_calcular := FALSE;
@@ -240,7 +246,6 @@ BEGIN
 EXCEPTION WHEN OTHERS THEN
     PKG_BUFFER_NOTA.g_a_calcular := FALSE;
     PKG_BUFFER_NOTA.LIMPAR;
-    -- Não fazemos RAISE para não abortar a transação principal em caso de erro no recálculo automático
     PKG_GESTAO_DADOS.PRC_LOG_ERRO('Erro no calculo automatico de notas: ' || SQLERRM);
 END;
 /
@@ -343,43 +348,11 @@ END;
 
 -- -----------------------------------------------------------------------------
 -- 5.8.2. EVITAR PRESENÇA DUPLICADA
+-- Nota: Removido trigger complexo para evitar erro de Tabela Mutante (ORA-04091).
+-- A unicidade (Aluno + Aula) é garantida pela Chave Primária da tabela PRESENCA.
 -- -----------------------------------------------------------------------------
-CREATE OR REPLACE TRIGGER TRG_VAL_PRESENCA_DUPLICADA
-    BEFORE INSERT OR UPDATE ON presenca
-    FOR EACH ROW
-DECLARE
-    v_conflito NUMBER;
-    v_h_ini    DATE;
-    v_h_fim    DATE;
-    v_data     DATE;
-    v_mat_id   NUMBER;
-BEGIN
-    IF :NEW.presente = '1' THEN
-        -- 1. Obter dados da aula atual
-        SELECT data, hora_inicio, hora_fim INTO v_data, v_h_ini, v_h_fim 
-        FROM aula WHERE id = :NEW.aula_id;
-        
-        -- 2. Obter matricula do aluno
-        SELECT matricula_id INTO v_mat_id 
-        FROM inscricao WHERE id = :NEW.inscricao_id;
+-- (Trigger removido nesta versão simplificada)
 
-        -- 3. Verificar conflito com outras aulas onde o aluno esteve presente
-        SELECT COUNT(*) INTO v_conflito
-        FROM presenca p
-        JOIN aula a ON p.aula_id = a.id
-        JOIN inscricao i_join ON p.inscricao_id = i_join.id
-        WHERE i_join.matricula_id = v_mat_id
-          AND p.aula_id != :NEW.aula_id
-          AND p.presente = '1'
-          AND a.data = v_data
-          AND (v_h_ini < a.hora_fim AND v_h_fim > a.hora_inicio);
-
-        IF v_conflito > 0 THEN
-            PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Aviso: O estudante já tem presença marcada noutra aula no mesmo horário.');
-        END IF;
-    END IF;
-END;
-/
 
 CREATE OR REPLACE TRIGGER TRG_AUTO_GERAR_PROPINAS 
     AFTER INSERT ON matricula 

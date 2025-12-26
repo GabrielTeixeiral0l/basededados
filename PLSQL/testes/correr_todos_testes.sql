@@ -6,6 +6,7 @@ SET SERVEROUTPUT ON;
 SET FEEDBACK OFF;
 SET VERIFY OFF;
 
+
 PROMPT 
 PROMPT ========================================================================
 PROMPT  INICIANDO SUITE DE TESTES DO PROJETO BD2

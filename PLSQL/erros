@@ -4,18 +4,18 @@ INICIANDO SUITE DE TESTES DO PROJETO BD2
 ========================================================================
 
 [1/6] Executando Testes Unitários (executar_testes.sql)...
-=== INICIANDO TESTES (Sufixo: 82680) ===
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10035
+=== INICIANDO TESTES (Sufixo: 84826) ===
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10077
 Valor Total: 1000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 [OK] Presença atualizada para Presente.
 === TESTES CONCLUÍDOS COM SUCESSO (COMMIT REALIZADO) ===
-Inscrição Gerada: 10028
+Inscrição Gerada: 10070
 
 -----------------------------------------------------------------------
 [2/6] Executando Lógica de Negócio (testes_logica_negocio.sql)...
 === INICIANDO TESTES DE LÓGICA DE NEGÓCIO ===
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10036
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10078
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 1. Testando Agregação de Notas (Pai/Filhos)...
@@ -26,11 +26,11 @@ Plano gerado com sucesso: 10 parcelas.
 
 -----------------------------------------------------------------------
 [3/6] Executando Testes Avançados (testes_avancados.sql)...
-=== INICIANDO TESTES AVANÇADOS (Sufixo: 82680) ===
+=== INICIANDO TESTES AVANÇADOS (Sufixo: 84826) ===
 1. Testando NIF Inválido...
 [OK] Trigger de validação de NIF detectou erro e registou log.
 2. Testando Plano de Pagamento...
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10037
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10079
 Valor Total: 1200, Parcelas: 12
 Plano gerado com sucesso: 12 parcelas.
 [OK] Plano de pagamento gerado: 12 parcelas, total 1200€.
@@ -43,11 +43,11 @@ Plano gerado com sucesso: 12 parcelas.
 -----------------------------------------------------------------------
 [4/6] Executando Testes de Limites (testes_limites.sql)...
 === INICIANDO TESTES DE LIMITES ===
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10038
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10080
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 1. Testando Limite de Capacidade da Turma...
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10039
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10081
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 [OK] Sistema detectou turma cheia.
@@ -58,7 +58,7 @@ Plano gerado com sucesso: 10 parcelas.
 -----------------------------------------------------------------------
 [5/6] Validando Vistas e Relatórios (testar_vistas.sql)...
 --- Iniciando Teste de Vistas ---
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10040
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10082
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 --- Verificando VW_PAUTA_TURMA ---
@@ -71,7 +71,7 @@ Plano gerado com sucesso: 10 parcelas.
 -----------------------------------------------------------------------
 [6/6] Gerando Dados de Demonstração Finais (demo_data.sql)...
 --- Criando Dados de Demonstração ---
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10041
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10083
 Valor Total: 6000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 Dados inseridos e gravados (COMMIT).
