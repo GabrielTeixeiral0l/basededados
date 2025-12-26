@@ -1,5 +1,6 @@
 -- =============================================================================
--- 4. PACOTE DE GESTÃO DE DADOS (NOMES ORIGINAIS - CORREÇÃO SQLERRM)
+-- 4. PACOTE DE GESTÃO DE DADOS (BASE DO SISTEMA)
+-- Corrigido: Coluna "DATA" entre aspas para evitar conflitos de palavras reservadas
 -- =============================================================================
 
 CREATE OR REPLACE PACKAGE PKG_GESTAO_DADOS IS
@@ -22,7 +23,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_GESTAO_DADOS IS
     PROCEDURE PRC_LOG_ALERTA(p_msg IN VARCHAR2) IS
         PRAGMA AUTONOMOUS_TRANSACTION;
     BEGIN
-        INSERT INTO log (id, acao, tabela, data)
+        INSERT INTO log (id, acao, tabela, "DATA")
         VALUES (seq_log.NEXTVAL, 'ALERTA', 'SISTEMA', p_msg);
         COMMIT;
     EXCEPTION WHEN OTHERS THEN ROLLBACK;
@@ -32,7 +33,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_GESTAO_DADOS IS
         v_err VARCHAR2(4000) := SUBSTR(SQLERRM, 1, 4000);
         PRAGMA AUTONOMOUS_TRANSACTION;
     BEGIN
-        INSERT INTO log (id, acao, tabela, data)
+        INSERT INTO log (id, acao, tabela, "DATA")
         VALUES (seq_log.NEXTVAL, 'ERROR_TECH', UPPER(p_contexto), v_err);
         COMMIT;
     EXCEPTION WHEN OTHERS THEN ROLLBACK;

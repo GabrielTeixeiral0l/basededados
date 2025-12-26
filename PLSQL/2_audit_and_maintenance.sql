@@ -1,5 +1,6 @@
 -- =============================================================================
 -- 2. GATILHOS DE MANUTENÇÃO (UPDATED_AT) E AUDITORIA
+-- Corrigido: Coluna "DATA" entre aspas no trigger de audit
 -- =============================================================================
 
 CREATE OR REPLACE TRIGGER TRG_AULA_UPDATED_AT 
