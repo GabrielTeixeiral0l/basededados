@@ -52,6 +52,17 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="codigo" id="BDB55F4C-2431-B8AB-C4FF-464042F9D01E">
+<createdBy>teixe</createdBy>
+<createdTime>2025-12-26 10:54:32 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10 CHAR</dataTypeSize>
+<ownDataTypeParameters>10 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column name="cc" id="74FC0616-D012-1FAF-8993-1FD6C765A4CB">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-08 11:49:43 UTC</createdTime>
