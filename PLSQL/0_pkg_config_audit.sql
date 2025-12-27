@@ -16,7 +16,6 @@ CREATE OR REPLACE PACKAGE BODY PKG_LOG AS
     PROCEDURE REGISTAR(p_acao VARCHAR2, p_msg VARCHAR2, p_tabela VARCHAR2 DEFAULT NULL) IS
         PRAGMA AUTONOMOUS_TRANSACTION;
     BEGIN
-        -- Ajustado para as colunas reais do DDL V3: id, acao, tabela, data, created_at
         INSERT INTO log (acao, tabela, data, created_at)
         VALUES (p_acao, p_tabela, p_msg, CURRENT_TIMESTAMP);
         COMMIT;

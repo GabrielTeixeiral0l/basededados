@@ -122,19 +122,24 @@ EXCEPTION WHEN OTHERS THEN
 END;
 /
 
--- 5.2. VALIDAÇÃO DE REGRAS DE AVALIAÇÃO
+-- 5.2. VALIDAÇÃO DE REGRAS DE AVALIAÇÃO (FORÇAR MAX_ALUNOS = 1)
 CREATE OR REPLACE TRIGGER TRG_VAL_AVALIACAO_REGRAS
 BEFORE INSERT OR UPDATE ON AVALIACAO
 FOR EACH ROW
 DECLARE
-    v_tipo_req_entrega CHAR(1);
-    v_tipo_perm_filhos CHAR(1);
+    v_permite_grupo CHAR(1);
 BEGIN
-    SELECT requer_entrega, permite_filhos
-    INTO v_tipo_req_entrega, v_tipo_perm_filhos
+    -- Busca a regra no tipo de avaliação
+    SELECT permite_grupo INTO v_permite_grupo
     FROM tipo_avaliacao
     WHERE id = :NEW.tipo_avaliacao_id;
 
+    -- Se não permite grupo, forçar obrigatoriamente max_alunos = 1
+    IF v_permite_grupo = '0' THEN
+        :NEW.max_alunos := 1;
+    END IF;
+
+    -- Validar se o pai permite sub-avaliacoes (lógica existente)
     IF :NEW.avaliacao_pai_id IS NOT NULL THEN
         DECLARE
             v_pai_permite_filhos CHAR(1);
@@ -152,6 +157,38 @@ BEGIN
     END IF;
 END;
 /
+
+-- 5.2.1. VALIDAÇÃO DE LIMITE DE GRUPO NA ENTREGA
+CREATE OR REPLACE TRIGGER TRG_VAL_LIMITE_GRUPO_ENTREGA
+BEFORE INSERT ON ESTUDANTE_ENTREGA
+FOR EACH ROW
+DECLARE
+    v_max_alunos NUMBER;
+    v_atual      NUMBER;
+BEGIN
+    -- 1. Buscar o limite da avaliação
+    SELECT a.max_alunos INTO v_max_alunos
+    FROM entrega e
+    JOIN avaliacao a ON e.avaliacao_id = a.id
+    WHERE e.id = :NEW.entrega_id;
+
+    -- 2. Contar alunos já inscritos nesta entrega específica
+    SELECT COUNT(*) INTO v_atual
+    FROM estudante_entrega
+    WHERE entrega_id = :NEW.entrega_id;
+
+    -- 3. Se exceder, gerar alerta no LOG
+    IF v_atual + 1 > v_max_alunos THEN
+        PKG_LOG.ALERTA('Aviso de Limite: O limite de ' || v_max_alunos || 
+                       ' aluno(s) foi excedido para a entrega ID ' || :NEW.entrega_id);
+    END IF;
+EXCEPTION 
+    WHEN NO_DATA_FOUND THEN NULL;
+    WHEN OTHERS THEN PKG_LOG.ERRO('Erro em TRG_VAL_LIMITE_GRUPO_ENTREGA: ' || SQLERRM);
+END;
+/
+
+
 
 -- 5.2.1. VALIDAÇÃO DE ENTREGAS
 CREATE OR REPLACE TRIGGER TRG_VAL_ENTREGA_REGRAS

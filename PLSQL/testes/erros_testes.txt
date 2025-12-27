@@ -1,16 +1,16 @@
 ========================================================================
-INICIANDO SUITE DE TESTES DO PROJETO BD2
+INICIANDO SUITE DE TESTES DO PROJETO BD2 (V2 - LIMITES DE GRUPOS)
 ========================================================================
-[1/8] Executando Testes Unitários...
-=== INICIANDO TESTES (Sufixo: 59880) ===
+[1/9] Executando Testes Unitários...
+=== INICIANDO TESTES (Sufixo: 63243) ===
 Valor Total: 1000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 [AVISO] Nenhuma presença atualizada. Verifique se o trigger TRG_AUTO_PRESENCA funcionou.
 === TESTES CONCLUÍDOS COM SUCESSO (COMMIT REALIZADO) ===
-Inscrição Gerada: 10380
+Inscrição Gerada: 10423
 
 
---------------------------------------------------------------------- PROMPT [2/8] Executando Lógica de Negócio...
+--------------------------------------------------------------------- PROMPT [2/9] Executando Lógica de Negócio (Médias e Pagamentos)...
 === INICIANDO TESTES DE LÓGICA DE NEGÓCIO ===
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
@@ -22,8 +22,8 @@ Plano gerado com sucesso: 10 parcelas.
 === TESTES DE LÓGICA FINALIZADOS ===
 
 
---------------------------------------------------------------------- PROMPT [3/8] Executando Testes Avançados...
-=== INICIANDO TESTES AVANÇADOS (Sufixo: 59881) ===
+--------------------------------------------------------------------- PROMPT [3/9] Executando Testes Avançados (NIF, Conflitos)...
+=== INICIANDO TESTES AVANÇADOS (Sufixo: 63243) ===
 1. Testando NIF Inválido...
 [OK] Trigger de validação de NIF detectou erro e registou log.
 2. Testando Plano de Pagamento...
@@ -37,9 +37,9 @@ Plano gerado com sucesso: 12 parcelas.
 === TESTES AVANÇADOS FINALIZADOS ===
 
 
---------------------------------------------------------------------- PROMPT [4/8] Executando Testes de Limites...
+--------------------------------------------------------------------- PROMPT [4/9] Executando Testes de Limites de ECTS...
 === TESTANDO LIMITES DE ECTS ===
-Estudante criado ID: 10342
+Estudante criado ID: 10373
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 -> Criando UC Cadeira_A com 30 ECTS...
@@ -52,7 +52,7 @@ Tentando inscrever +10 ECTS (Total seria 65)...
 === TESTE DE LIMITES: SUCESSO (Alerta detetado no LOG) ===
 
 
---------------------------------------------------------------------- PROMPT [5/8] Executando Regras de Avaliação...
+--------------------------------------------------------------------- PROMPT [5/9] Executando Regras de Avaliação (Hierarquia e Entregas)...
 === INICIANDO TESTES DE REGRAS DE AVALIAÇÃO ===
 --- Teste 1: Validacao de Grupo (Ignorado - Sem coluna de grupo na tabela Avaliacao) ---
 --- Teste 2: Tentar criar sub-avaliação onde pai não permite ---
@@ -62,15 +62,30 @@ Tentando inscrever +10 ECTS (Total seria 65)...
 === TESTES DE REGRAS CONCLUÍDOS ===
 
 
---------------------------------------------------------------------- PROMPT [6/8] Executando Teste de Segurança de Logs...
+--------------------------------------------------------------------- PROMPT [6/9] Executando Regras de Max_Alunos e Grupos...
+=== INICIANDO TESTE: REGRAS DE GRUPOS E LIMITES ===
+Valor Total: 1000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Valor Total: 1000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Valor Total: 1000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Cenario 1: Inserindo Avaliacao Individual com max_alunos = 10...
+[SUCESSO] O Trigger corrigiu max_alunos para 1.
+Cenario 2: Testando limite de 2 alunos numa entrega...
+[SUCESSO] O sistema registrou o alerta no LOG.
+=== FIM DOS TESTES DE GRUPOS ===
+
+
+--------------------------------------------------------------------- PROMPT [7/9] Executando Teste de Segurança de Logs (Imutabilidade)...
 === INICIANDO TESTE DE SEGURANÇA DE LOGS ===
-[OK] Insert no LOG permitido. ID: 23759
+[OK] Insert no LOG permitido. ID: 24773
 [OK] UPDATE bloqueado por imutabilidade.
 [OK] DELETE bloqueado por imutabilidade.
 === TESTE DE SEGURANÇA CONCLUÍDO ===
 
 
---------------------------------------------------------------------- PROMPT [7/8] Validando Vistas e Relatórios...
+--------------------------------------------------------------------- PROMPT [8/9] Validando Vistas e Relatórios...
 === INICIANDO TESTE DE VISTAS ===
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
@@ -80,7 +95,7 @@ CONSULTANDO PAUTA DA TURMA:
 ALUNO: Erika Pinto-Abreu | RESULTADO: REPROVADO
 
 
---------------------------------------------------------------------- PROMPT [8/8] Gerando Dados de Demonstração Finais...
+--------------------------------------------------------------------- PROMPT [9/9] Gerando Dados de Demonstração Finais (Cenário Realista)...
 === GERANDO DADOS DE DEMONSTRAÇÃO (Cenário Realista) ===
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
@@ -91,12 +106,11 @@ Plano gerado com sucesso: 10 parcelas.
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 Dados gerados com sucesso.
-Turma criada: 10347
-Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 10347
+Turma criada: 10381
+Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 10381
 
 
 --------------------------------------------------------------------- PROMPT ========================================================================
-TODOS OS TESTES FORAM EXECUTADOS.
+TODOS OS TESTES FORAM EXECUTADOS COM SUCESSO.
 OS DADOS FORAM PERSISTIDOS (COMMIT).
 ========================================================================
-Disconnected from Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
