@@ -135,32 +135,6 @@ END;
 /
 
 -- -----------------------------------------------------------------------------
--- TRG_AUDIT_ESTADO_MATRICULA
--- -----------------------------------------------------------------------------
-CREATE OR REPLACE TRIGGER TRG_AUDIT_ESTADO_MATRICULA
-    AFTER INSERT OR UPDATE OR DELETE ON ESTADO_MATRICULA
-    FOR EACH ROW
-DECLARE
-    v_id   VARCHAR2(255);
-    v_acao VARCHAR2(20);
-BEGIN
-    IF DELETING THEN
-        v_id   := TO_CHAR(:OLD.ID);
-        v_acao := 'DELETE';
-    ELSIF UPDATING THEN
-        v_id   := TO_CHAR(:NEW.ID);
-        v_acao := 'UPDATE';
-    ELSE
-        v_id   := TO_CHAR(:NEW.ID);
-        v_acao := 'INSERT';
-    END IF;
-    PKG_LOG.REGISTAR_DML('ESTADO_MATRICULA', v_acao, v_id);
-EXCEPTION
-    WHEN OTHERS THEN NULL;
-END;
-/
-
--- -----------------------------------------------------------------------------
 -- TRG_AUDIT_ESTUDANTE
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE TRIGGER TRG_AUDIT_ESTUDANTE

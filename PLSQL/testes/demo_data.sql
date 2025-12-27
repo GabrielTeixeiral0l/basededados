@@ -31,9 +31,6 @@ BEGIN
 
     -- 1. INFRAESTRUTURA
     -- Garantir tipos básicos
-    BEGIN SELECT MIN(id) INTO v_em_id FROM estado_matricula; EXCEPTION WHEN OTHERS THEN NULL; END;
-    IF v_em_id IS NULL THEN INSERT INTO estado_matricula (nome) VALUES ('Ativo') RETURNING id INTO v_em_id; END IF;
-    
     INSERT INTO tipo_curso (nome, valor_propinas) VALUES ('Licenciatura Demo', 1500) RETURNING id INTO v_tc_id;
     INSERT INTO tipo_aula (nome) VALUES ('Teórica') RETURNING id INTO v_ta_id;
     INSERT INTO sala (nome, capacidade) VALUES ('Sala Demo', 50) RETURNING id INTO v_sal_id;
@@ -67,8 +64,8 @@ BEGIN
     VALUES ('Aluno Exemplar', SUBSTR(v_sufixo||'1',1,9), 'CC1'||v_sufixo, SYSDATE-7000, '910000001', 'a1@demo.pt') 
     RETURNING id INTO v_est1_id;
     
-    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas) 
-    VALUES (v_cur_id, v_est1_id, v_em_id, 2025, 10) RETURNING id INTO v_mat1_id;
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
+    VALUES (v_cur_id, v_est1_id, 'Ativa', 2025, 10) RETURNING id INTO v_mat1_id;
     
     INSERT INTO inscricao (turma_id, matricula_id, data) 
     VALUES (v_tur_id, v_mat1_id, SYSDATE) RETURNING id INTO v_ins1_id;
@@ -78,8 +75,8 @@ BEGIN
     VALUES ('Aluno Seguro', SUBSTR(v_sufixo||'2',1,9), 'CC2'||v_sufixo, SYSDATE-7000, '910000002', 'a2@demo.pt') 
     RETURNING id INTO v_est2_id;
     
-    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas) 
-    VALUES (v_cur_id, v_est2_id, v_em_id, 2025, 10) RETURNING id INTO v_mat2_id;
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
+    VALUES (v_cur_id, v_est2_id, 'Ativa', 2025, 10) RETURNING id INTO v_mat2_id;
     
     INSERT INTO inscricao (turma_id, matricula_id, data) 
     VALUES (v_tur_id, v_mat2_id, SYSDATE) RETURNING id INTO v_ins2_id;
@@ -89,8 +86,8 @@ BEGIN
     VALUES ('Aluno Risco', SUBSTR(v_sufixo||'3',1,9), 'CC3'||v_sufixo, SYSDATE-7000, '910000003', 'a3@demo.pt') 
     RETURNING id INTO v_est3_id;
     
-    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas) 
-    VALUES (v_cur_id, v_est3_id, v_em_id, 2025, 10) RETURNING id INTO v_mat3_id;
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
+    VALUES (v_cur_id, v_est3_id, 'Ativa', 2025, 10) RETURNING id INTO v_mat3_id;
     
     INSERT INTO inscricao (turma_id, matricula_id, data) 
     VALUES (v_tur_id, v_mat3_id, SYSDATE) RETURNING id INTO v_ins3_id;
@@ -100,8 +97,8 @@ BEGIN
     VALUES ('Aluno Fantasma', SUBSTR(v_sufixo||'4',1,9), 'CC4'||v_sufixo, SYSDATE-7000, '910000004', 'a4@demo.pt') 
     RETURNING id INTO v_est4_id;
     
-    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas) 
-    VALUES (v_cur_id, v_est4_id, v_em_id, 2025, 10) RETURNING id INTO v_mat4_id;
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
+    VALUES (v_cur_id, v_est4_id, 'Ativa', 2025, 10) RETURNING id INTO v_mat4_id;
     
     INSERT INTO inscricao (turma_id, matricula_id, data) 
     VALUES (v_tur_id, v_mat4_id, SYSDATE) RETURNING id INTO v_ins4_id;

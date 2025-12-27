@@ -10,6 +10,7 @@ Este documento resume todos os componentes de lógica de servidor (Server-Side L
     *   **Emails:** Convertidos automaticamente para minúsculas.
     *   **Nomes:** Convertidos para *Title Case* (Iniciais maiúsculas).
     *   **Códigos (Cursos/UCs):** Convertidos para maiúsculas e sem espaços extra.
+    *   **Estados de Matrícula:** Normalização de texto (ex: "Ativa", "Suspensa").
 *   **Número de Aluno:** Geração automática sequencial (ex: `2025000001`) separada do ID interno.
 
 ## 2. Integridade e Regras de Negócio (Triggers Complexos)
@@ -17,15 +18,14 @@ Este documento resume todos os componentes de lógica de servidor (Server-Side L
 
 *   **Validação de Notas:** Impede inserção de notas fora do intervalo 0-20.
 *   **Gestão de Horários:** Deteta e alerta sobre **sobreposição de aulas** (mesma sala ou mesmo docente no mesmo horário).
-*   **Capacidade de Turmas:** Monitoriza o limite de alunos (`max_alunos`) e emite alertas se excedido.
 *   **Regras Financeiras:**
     *   A função `FUN_IS_DEVEDOR` verifica pagamentos em atraso.
     *   Alerta se um aluno devedor tentar realizar inscrições.
 *   **Regras Académicas:**
-    *   **Limite de ECTS:** Valida se o aluno excede 72 ECTS num ano letivo.
-    *   **Plano de Estudos:** Verifica se a UC pertence efetivamente ao curso do aluno.
+    *   **Limite de ECTS:** Valida se o aluno excede 60 ECTS anuais.
     *   **Avaliações:** Garante que a soma dos pesos das avaliações não excede 100%.
-*   **Validação de Documentos:** Validação algorítmica rigorosa de **NIF** e **Cartão de Cidadão** (configurável em `PKG_CONSTANTES`).
+*   **Validação de Documentos:** Validação algorítmica rigorosa de **NIF** (Cartão de Cidadão planeado).
+*   **Estados Descritivos:** Remoção de tabelas de dicionário (*lookup tables*) para estados, utilizando agora campos descritivos (VARCHAR2) para maior legibilidade e performance (ex: `matricula.estado_matricula`).
 
 ## 3. Motor de Cálculo de Notas (Agregação)
 **Ficheiros:** `11_pkg_buffer_nota.sql`, `5_integrity_triggers.sql`

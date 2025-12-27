@@ -18,7 +18,6 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('=== INICIANDO TESTES (Sufixo: '||v_sufixo||') ===');
 
     -- 1. CONFIGURAÇÃO BASE
-    INSERT INTO estado_matricula (nome) VALUES ('Ativo '||v_sufixo) RETURNING id INTO v_em_id;
     INSERT INTO tipo_curso (nome, valor_propinas) VALUES ('L '||v_sufixo, 1000) RETURNING id INTO v_tc_id;
     INSERT INTO tipo_aula (nome) VALUES ('T '||v_sufixo) RETURNING id INTO v_ta_id;
     INSERT INTO tipo_avaliacao (nome, requer_entrega, permite_grupo, permite_filhos) 
@@ -36,8 +35,8 @@ BEGIN
     VALUES ('Eng '||v_sufixo, 'C'||v_sufixo, 'Desc', 3, 180, 30, v_tc_id)
     RETURNING id INTO v_cur_id;
 
-    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas)
-    VALUES (v_cur_id, v_est_id, v_em_id, 2025, 10)
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas)
+    VALUES (v_cur_id, v_est_id, 'Ativa', 2025, 10)
     RETURNING id INTO v_mat_id;
 
     -- 3. ACADÉMICO

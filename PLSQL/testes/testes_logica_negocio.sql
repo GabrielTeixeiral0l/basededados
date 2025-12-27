@@ -30,8 +30,8 @@ BEGIN
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, max_alunos, docente_id)
     VALUES ('T_'||v_sufixo, '25/26', v_uc_id, 30, v_doc_id) RETURNING id INTO v_tur_id;
 
-    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas)
-    VALUES (v_curso_id, v_est_id, 1, 2025, 10)
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas)
+    VALUES (v_curso_id, v_est_id, 'Ativa', 2025, 10)
     RETURNING id INTO v_mat_id;
 
     INSERT INTO inscricao (turma_id, matricula_id, data)

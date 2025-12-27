@@ -46,7 +46,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
         DBMS_OUTPUT.PUT_LINE('Valor Total: ' || v_valor_total || ', Parcelas: ' || v_num_parcelas);
 
         IF NVL(v_num_parcelas, 0) <= 0 THEN 
-            DBMS_OUTPUT.PUT_LINE('Número de parcelas inválido. Abortando.');
+            DBMS_OUTPUT.PUT_LINE('Número de parcelas inválido.');
             RETURN; 
         END IF;
 

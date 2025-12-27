@@ -34,14 +34,13 @@ BEGIN
 
     -- 2. TESTE DE GERAÇÃO AUTOMÁTICA DE PROPINAS E PARCELAS
     DBMS_OUTPUT.PUT_LINE('2. Testando Plano de Pagamento...');
-    INSERT INTO estado_matricula (id, nome) VALUES (seq_estado_matricula.NEXTVAL, 'Ativo '||v_sufixo) RETURNING id INTO v_em_id;
     INSERT INTO tipo_curso (nome, valor_propinas) VALUES ('Lic '||v_sufixo, 1200) RETURNING id INTO v_tc_id;
     INSERT INTO curso (nome, codigo, descricao, duracao, ects, max_alunos, tipo_curso_id)
     VALUES ('Curso Teste '||v_sufixo, 'CT'||v_sufixo, 'Desc', 3, 180, 30, v_tc_id)
     RETURNING id INTO v_cur_id;
 
-    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas)
-    VALUES (v_cur_id, v_est_id, v_em_id, 2025, 12)
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas)
+    VALUES (v_cur_id, v_est_id, 'Ativa', 2025, 12)
     RETURNING id INTO v_mat_id;
 
     SELECT COUNT(*) INTO v_log_count FROM parcela_propina WHERE matricula_id = v_mat_id;

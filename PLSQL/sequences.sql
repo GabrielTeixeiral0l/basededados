@@ -18,7 +18,6 @@ CREATE SEQUENCE seq_tipo_avaliacao START WITH 10000;
 CREATE SEQUENCE seq_tipo_curso START WITH 10000;
 CREATE SEQUENCE seq_turma START WITH 10000;
 CREATE SEQUENCE seq_unidade_curricular START WITH 10000;
-CREATE SEQUENCE seq_estado_matricula START WITH 10000;
 
 -- Sequência para o número de aluno (000001 a 999999)
 CREATE SEQUENCE seq_num_aluno START WITH 1 MAXVALUE 999999 CYCLE;

@@ -13,7 +13,7 @@ CREATE INDEX idx_inscricao_matricula ON inscricao(matricula_id);
 -- Tabela: MATRICULA
 CREATE INDEX idx_matricula_estudante ON matricula(estudante_id);
 CREATE INDEX idx_matricula_curso ON matricula(curso_id);
-CREATE INDEX idx_matricula_estado ON matricula(estado_matricula_id);
+CREATE INDEX idx_matricula_estado ON matricula(estado_matricula);
 
 -- Tabela: TURMA
 CREATE INDEX idx_turma_uc ON turma(unidade_curricular_id);

@@ -31,3 +31,10 @@ BEGIN
     :NEW.codigo := UPPER(TRIM(:NEW.codigo));
 END;
 /
+
+CREATE OR REPLACE TRIGGER TRG_FMT_MATRICULA
+    BEFORE INSERT OR UPDATE ON matricula FOR EACH ROW
+BEGIN
+    :NEW.estado_matricula := INITCAP(TRIM(:NEW.estado_matricula));
+END;
+/

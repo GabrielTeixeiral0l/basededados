@@ -2,18 +2,16 @@
 INICIANDO SUITE DE TESTES DO PROJETO BD2
 ========================================================================
 [1/8] Executando Testes Unitários...
-=== INICIANDO TESTES (Sufixo: 57083) ===
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10360
+=== INICIANDO TESTES (Sufixo: 59880) ===
 Valor Total: 1000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 [AVISO] Nenhuma presença atualizada. Verifique se o trigger TRG_AUTO_PRESENCA funcionou.
 === TESTES CONCLUÍDOS COM SUCESSO (COMMIT REALIZADO) ===
-Inscrição Gerada: 10357
+Inscrição Gerada: 10380
 
 
 --------------------------------------------------------------------- PROMPT [2/8] Executando Lógica de Negócio...
 === INICIANDO TESTES DE LÓGICA DE NEGÓCIO ===
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10361
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 1. Testando Agregação de Notas (Exemplos Variados)...
@@ -25,11 +23,10 @@ Plano gerado com sucesso: 10 parcelas.
 
 
 --------------------------------------------------------------------- PROMPT [3/8] Executando Testes Avançados...
-=== INICIANDO TESTES AVANÇADOS (Sufixo: 57084) ===
+=== INICIANDO TESTES AVANÇADOS (Sufixo: 59881) ===
 1. Testando NIF Inválido...
 [OK] Trigger de validação de NIF detectou erro e registou log.
 2. Testando Plano de Pagamento...
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10362
 Valor Total: 1200, Parcelas: 12
 Plano gerado com sucesso: 12 parcelas.
 [OK] Plano de pagamento gerado: 12 parcelas, total 1200€.
@@ -42,8 +39,7 @@ Plano gerado com sucesso: 12 parcelas.
 
 --------------------------------------------------------------------- PROMPT [4/8] Executando Testes de Limites...
 === TESTANDO LIMITES DE ECTS ===
-Estudante criado ID: 10331
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10363
+Estudante criado ID: 10342
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 -> Criando UC Cadeira_A com 30 ECTS...
@@ -68,7 +64,7 @@ Tentando inscrever +10 ECTS (Total seria 65)...
 
 --------------------------------------------------------------------- PROMPT [6/8] Executando Teste de Segurança de Logs...
 === INICIANDO TESTE DE SEGURANÇA DE LOGS ===
-[OK] Insert no LOG permitido. ID: 23521
+[OK] Insert no LOG permitido. ID: 23759
 [OK] UPDATE bloqueado por imutabilidade.
 [OK] DELETE bloqueado por imutabilidade.
 === TESTE DE SEGURANÇA CONCLUÍDO ===
@@ -76,7 +72,6 @@ Tentando inscrever +10 ECTS (Total seria 65)...
 
 --------------------------------------------------------------------- PROMPT [7/8] Validando Vistas e Relatórios...
 === INICIANDO TESTE DE VISTAS ===
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10364
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 RELATORIO DE ASSIDUIDADE (Esperado Aluno com 50% Faltas):
@@ -87,21 +82,17 @@ ALUNO: Erika Pinto-Abreu | RESULTADO: REPROVADO
 
 --------------------------------------------------------------------- PROMPT [8/8] Gerando Dados de Demonstração Finais...
 === GERANDO DADOS DE DEMONSTRAÇÃO (Cenário Realista) ===
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10365
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10366
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10367
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10368
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 Dados gerados com sucesso.
-Turma criada: 10339
-Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 10339
+Turma criada: 10347
+Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 10347
 
 
 --------------------------------------------------------------------- PROMPT ========================================================================

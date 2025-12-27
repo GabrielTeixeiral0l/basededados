@@ -60,8 +60,8 @@ BEGIN
     SELECT id INTO v_curso_id FROM (SELECT id FROM curso ORDER BY id) WHERE ROWNUM = 1;
     
     -- 3. Criar Matrícula
-    INSERT INTO matricula (curso_id, ano_inscricao, estudante_id, estado_matricula_id, numero_parcelas)
-    VALUES (v_curso_id, 2025, v_est_id, 1, 10)
+    INSERT INTO matricula (curso_id, ano_inscricao, estudante_id, estado_matricula, numero_parcelas)
+    VALUES (v_curso_id, 2025, v_est_id, 'Ativa', 10)
     RETURNING id INTO v_mat_id;
 
     -- 4. Testes de Inscrição

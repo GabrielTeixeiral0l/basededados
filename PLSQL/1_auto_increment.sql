@@ -179,12 +179,3 @@ BEGIN
     END IF;
 END;
 /
-
-CREATE OR REPLACE TRIGGER TRG_AI_EST_MATRICULA 
-    BEFORE INSERT ON estado_matricula FOR EACH ROW 
-BEGIN 
-    IF :NEW.id IS NULL THEN
-        :NEW.id := seq_estado_matricula.NEXTVAL; 
-    END IF;
-END;
-/
