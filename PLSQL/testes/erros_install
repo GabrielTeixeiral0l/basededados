@@ -199,7 +199,28 @@ No errors.
 Trigger TRG_VAL_NOTA compiled
 
 
+Trigger TRG_NOTA_MEDIA_BS compiled
+
+
+Trigger TRG_NOTA_MEDIA_AR compiled
+
+
+Trigger TRG_NOTA_MEDIA_AS compiled
+
+
+Trigger TRG_AUTO_PRESENCA compiled
+
+
 Trigger TRG_VAL_AVALIACAO_REGRAS compiled
+
+
+Trigger TRG_VAL_ENTREGA_REGRAS compiled
+
+
+Trigger TRG_VAL_NIF_ESTUDANTE compiled
+
+
+Trigger TRG_VAL_NIF_DOCENTE compiled
 
 
 Trigger TRG_VAL_HORARIO_AULA compiled

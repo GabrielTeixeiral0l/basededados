@@ -23,10 +23,9 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
         v_valor_parcela NUMBER; 
         v_pagas NUMBER; 
     BEGIN
-        DBMS_OUTPUT.PUT_LINE('Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: ' || p_matricula_id);
         
         -- Verificar se já existem pagamentos para não sobrescrever plano ativo com histórico
-        SELECT COUNT(*) INTO v_pagas FROM parcela_propina WHERE matricula_id = p_matricula_id AND estado = 'P';
+        SELECT COUNT(*) INTO v_pagas FROM parcela_propina WHERE matricula_id = p_matricula_id AND estado = '1';
         IF v_pagas > 0 THEN 
             PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Plano de pagamento não gerado: Já existem parcelas pagas.');
             RETURN; 
@@ -36,7 +35,6 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
 
         -- Se os valores não foram passados (chamada manual), busca na base
         IF v_valor_total IS NULL OR v_num_parcelas IS NULL THEN
-            DBMS_OUTPUT.PUT_LINE('Buscando valores na base...');
             SELECT tc.valor_propinas, m.numero_parcelas 
             INTO v_valor_total, v_num_parcelas
             FROM matricula m 
@@ -56,7 +54,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
 
         FOR i IN 1..v_num_parcelas LOOP
             INSERT INTO parcela_propina (valor, data_vencimento, numero, estado, matricula_id, status)
-            VALUES (v_valor_parcela, ADD_MONTHS(SYSDATE, i), i, 'N', p_matricula_id, '1');
+            VALUES (v_valor_parcela, ADD_MONTHS(SYSDATE, i), i, '0', p_matricula_id, '1');
         END LOOP;
         
         DBMS_OUTPUT.PUT_LINE('Plano gerado com sucesso: ' || v_num_parcelas || ' parcelas.');
@@ -76,7 +74,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
             v_multa := v_orig * PKG_CONSTANTES.TAXA_MULTA_ATRASO;
             PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Multa de ' || v_multa || ' aplicada.');
         END IF;
-        UPDATE parcela_propina SET estado = 'P', data_pagamento = SYSDATE, valor = v_orig + v_multa, updated_at = SYSDATE WHERE id = p_parcela_id;
+        UPDATE parcela_propina SET estado = '1', data_pagamento = SYSDATE, valor = v_orig + v_multa, updated_at = SYSDATE WHERE id = p_parcela_id;
     EXCEPTION WHEN OTHERS THEN PKG_GESTAO_DADOS.PRC_LOG_ERRO('PKG_TESOURARIA.PRC_PROCESSAR_PAGAMENTO');
     END PRC_PROCESSAR_PAGAMENTO;
 END PKG_TESOURARIA;

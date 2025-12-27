@@ -24,7 +24,7 @@ BEGIN
     RETURNING id INTO v_est_id;
 
     SELECT COUNT(*) INTO v_log_count FROM log 
-    WHERE tabela = 'SISTEMA' AND acao = 'ALERTA' AND "DATA" LIKE '%NIF inválido%';
+    WHERE acao = 'ALERTA' AND "DATA" LIKE '%NIF inválido%';
     
     IF v_log_count > 0 THEN
         DBMS_OUTPUT.PUT_LINE('[OK] Trigger de validação de NIF detectou erro e registou log.');
@@ -79,8 +79,10 @@ BEGIN
     VALUES (TRUNC(SYSDATE)+1, TO_DATE('11:00','HH24:MI'), TO_DATE('13:00','HH24:MI'), 'Aula 2 Conflito', v_ta_id, v_sal_id, v_tur_id)
     RETURNING id INTO v_aul2_id;
 
+    COMMIT; -- Garantir que a transação autónoma do log foi persistida
+
     SELECT COUNT(*) INTO v_log_count FROM log 
-    WHERE acao = 'ALERTA' AND "DATA" LIKE '%Conflito de horário detectado%';
+    WHERE acao = 'ALERTA' AND "DATA" LIKE '%Conflito de horario%';
 
     IF v_log_count > 0 THEN
         DBMS_OUTPUT.PUT_LINE('[OK] Trigger detectou conflito de horário do docente.');

@@ -15,12 +15,12 @@ BEGIN
     JOIN matricula m ON p.matricula_id = m.id
     WHERE m.estudante_id = p_estudante_id
       AND p.data_vencimento < SYSDATE
-      AND p.estado != 'P'
+      AND p.estado != '1'
       AND p.status = '1';
 
-    IF v_atrasos > 0 THEN RETURN 'S'; END IF;
-    RETURN 'N';
-EXCEPTION WHEN OTHERS THEN RETURN 'N';
+    IF v_atrasos > 0 THEN RETURN '1'; END IF;
+    RETURN '0';
+EXCEPTION WHEN OTHERS THEN RETURN '0';
 END;
 /
 

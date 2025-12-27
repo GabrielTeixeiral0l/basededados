@@ -2,34 +2,34 @@
 INICIANDO SUITE DE TESTES DO PROJETO BD2
 ========================================================================
 [1/8] Executando Testes Unitários...
-=== INICIANDO TESTES (Sufixo: 46829) ===
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10270
+=== INICIANDO TESTES (Sufixo: 57083) ===
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10360
 Valor Total: 1000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-[OK] Presença atualizada para Presente.
+[AVISO] Nenhuma presença atualizada. Verifique se o trigger TRG_AUTO_PRESENCA funcionou.
 === TESTES CONCLUÍDOS COM SUCESSO (COMMIT REALIZADO) ===
-Inscrição Gerada: 10260
+Inscrição Gerada: 10357
 
 
 --------------------------------------------------------------------- PROMPT [2/8] Executando Lógica de Negócio...
 === INICIANDO TESTES DE LÓGICA DE NEGÓCIO ===
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10271
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10361
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 1. Testando Agregação de Notas (Exemplos Variados)...
 [OK] Exemplo 1 (Pai A): Nota 16 (Esperado 16)
 [OK] Exemplo 2 (Pai B): Nota 15 (Esperado 15)
 2. Testando Liquidação de Parcela...
-[OK] Parcela liquidada com sucesso (Estado mudou para P).
+[OK] Parcela liquidada com sucesso (Estado mudou para 1).
 === TESTES DE LÓGICA FINALIZADOS ===
 
 
 --------------------------------------------------------------------- PROMPT [3/8] Executando Testes Avançados...
-=== INICIANDO TESTES AVANÇADOS (Sufixo: 46829) ===
+=== INICIANDO TESTES AVANÇADOS (Sufixo: 57084) ===
 1. Testando NIF Inválido...
 [OK] Trigger de validação de NIF detectou erro e registou log.
 2. Testando Plano de Pagamento...
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10272
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10362
 Valor Total: 1200, Parcelas: 12
 Plano gerado com sucesso: 12 parcelas.
 [OK] Plano de pagamento gerado: 12 parcelas, total 1200€.
@@ -42,40 +42,33 @@ Plano gerado com sucesso: 12 parcelas.
 
 --------------------------------------------------------------------- PROMPT [4/8] Executando Testes de Limites...
 === TESTANDO LIMITES DE ECTS ===
-Estudante criado ID: 10262
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10273
+Estudante criado ID: 10331
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10363
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-Matrícula criada ID: 10273
 -> Criando UC Cadeira_A com 30 ECTS...
-[OK] Inscrição realizada com sucesso. Total Acumulado: 30
+[INFO] Inscrição realizada. Total Acumulado: 30
 -> Criando UC Cadeira_B com 25 ECTS...
-[OK] Inscrição realizada com sucesso. Total Acumulado: 55
+[INFO] Inscrição realizada. Total Acumulado: 55
 Tentando inscrever +10 ECTS (Total seria 65)...
 -> Criando UC Cadeira_C com 10 ECTS...
-[SUCESSO] Bloqueio detetado conforme esperado para Cadeira_C: ORA-20005: Limite de 60 ECTS anuais excedido.
-ORA-06512: at "OPR_PROJETO.TRG_VAL_ESTUDANTE_REGRAS", line 26
-ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_ESTUDANTE_REGRAS'
-=== TESTE DE LIMITES: SUCESSO (Bloqueou a última inscrição) ===
+[INFO] Inscrição realizada. Total Acumulado: 65
+=== TESTE DE LIMITES: SUCESSO (Alerta detetado no LOG) ===
 
 
 --------------------------------------------------------------------- PROMPT [5/8] Executando Regras de Avaliação...
 === INICIANDO TESTES DE REGRAS DE AVALIAÇÃO ===
 --- Teste 1: Validacao de Grupo (Ignorado - Sem coluna de grupo na tabela Avaliacao) ---
 --- Teste 2: Tentar criar sub-avaliação onde pai não permite ---
-[OK] Regra detetada: ORA-20002: A avaliacao pai nao permite sub-avaliacoes.
-ORA-06512: at "OPR_PROJETO.TRG_VAL_AVALIACAO_REGRAS", line 20
-ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_AVALIACAO_REGRAS'
+[OK] Regra detectada no log via ALERTA.
 --- Teste 3: Tentar entregar ficheiro onde não é requerido ---
-[OK] Regra detetada: ORA-20006: Esta avaliacao nao requer entrega de ficheiros.
-ORA-06512: at "OPR_PROJETO.TRG_VAL_ENTREGA_REGRAS", line 10
-ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_ENTREGA_REGRAS'
+[OK] Regra detectada no log via ALERTA.
 === TESTES DE REGRAS CONCLUÍDOS ===
 
 
 --------------------------------------------------------------------- PROMPT [6/8] Executando Teste de Segurança de Logs...
 === INICIANDO TESTE DE SEGURANÇA DE LOGS ===
-[OK] Insert no LOG permitido. ID: 21266
+[OK] Insert no LOG permitido. ID: 23521
 [OK] UPDATE bloqueado por imutabilidade.
 [OK] DELETE bloqueado por imutabilidade.
 === TESTE DE SEGURANÇA CONCLUÍDO ===
@@ -83,7 +76,7 @@ ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_ENTREGA_REGRAS
 
 --------------------------------------------------------------------- PROMPT [7/8] Validando Vistas e Relatórios...
 === INICIANDO TESTE DE VISTAS ===
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10274
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10364
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 RELATORIO DE ASSIDUIDADE (Esperado Aluno com 50% Faltas):
@@ -94,21 +87,21 @@ ALUNO: Erika Pinto-Abreu | RESULTADO: REPROVADO
 
 --------------------------------------------------------------------- PROMPT [8/8] Gerando Dados de Demonstração Finais...
 === GERANDO DADOS DE DEMONSTRAÇÃO (Cenário Realista) ===
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10275
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10365
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10276
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10366
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10277
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10367
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10278
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10368
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 Dados gerados com sucesso.
-Turma criada: 10262
-Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 10262
+Turma criada: 10339
+Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 10339
 
 
 --------------------------------------------------------------------- PROMPT ========================================================================

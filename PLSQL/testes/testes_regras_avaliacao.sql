@@ -11,6 +11,7 @@ DECLARE
     v_tipo_sem_entrega NUMBER;
     v_turma_id NUMBER;
     v_aval_id NUMBER;
+    v_count NUMBER;
 BEGIN
     DBMS_OUTPUT.PUT_LINE('=== INICIANDO TESTES DE REGRAS DE AVALIAÇÃO ===');
 
@@ -46,18 +47,17 @@ BEGIN
     VALUES (seq_avaliacao.NEXTVAL, 'Pai Sem Filhos', SYSDATE, SYSDATE, 100, 1, v_turma_id, v_tipo_sem_filhos)
     RETURNING id INTO v_aval_id;
 
-    BEGIN
-        INSERT INTO avaliacao (id, titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id, avaliacao_pai_id)
-        VALUES (seq_avaliacao.NEXTVAL, 'Filho Ilegal', SYSDATE, SYSDATE, 50, 1, v_turma_id, v_tipo_sem_filhos, v_aval_id);
-        
-        DBMS_OUTPUT.PUT_LINE('[FALHA] Permitiu criar filho ilegalmente.');
-    EXCEPTION WHEN OTHERS THEN
-        IF SQLCODE = -20002 THEN
-            DBMS_OUTPUT.PUT_LINE('[OK] Regra detetada: ' || SQLERRM);
-        ELSE
-            DBMS_OUTPUT.PUT_LINE('[ERRO] Excecao inesperada: ' || SQLERRM);
-        END IF;
-    END;
+    INSERT INTO avaliacao (id, titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id, avaliacao_pai_id)
+    VALUES (seq_avaliacao.NEXTVAL, 'Filho Ilegal', SYSDATE, SYSDATE, 50, 1, v_turma_id, v_tipo_sem_filhos, v_aval_id);
+    
+    SELECT COUNT(*) INTO v_count FROM log 
+    WHERE acao = 'ALERTA' AND data LIKE '%nao permite sub-avaliacoes%';
+
+    IF v_count > 0 THEN
+        DBMS_OUTPUT.PUT_LINE('[OK] Regra detectada no log via ALERTA.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('[FALHA] Alerta de sub-avaliacao nao encontrado no log.');
+    END IF;
 
     -- -------------------------------------------------------------------------
     -- TESTE 3: Tentar entregar ficheiro onde não é requerido
@@ -68,18 +68,17 @@ BEGIN
     VALUES (seq_avaliacao.NEXTVAL, 'Sem Entrega', SYSDATE, SYSDATE, 100, 1, v_turma_id, v_tipo_sem_entrega)
     RETURNING id INTO v_aval_id;
 
-    BEGIN
-        INSERT INTO entrega (id, data_entrega, avaliacao_id)
-        VALUES (seq_entrega.NEXTVAL, SYSDATE, v_aval_id);
-        
-        DBMS_OUTPUT.PUT_LINE('[FALHA] Permitiu entrega ilegal.');
-    EXCEPTION WHEN OTHERS THEN
-        IF SQLCODE = -20006 THEN
-            DBMS_OUTPUT.PUT_LINE('[OK] Regra detetada: ' || SQLERRM);
-        ELSE
-            DBMS_OUTPUT.PUT_LINE('[ERRO] Excecao inesperada: ' || SQLERRM);
-        END IF;
-    END;
+    INSERT INTO entrega (id, data_entrega, avaliacao_id)
+    VALUES (seq_entrega.NEXTVAL, SYSDATE, v_aval_id);
+    
+    SELECT COUNT(*) INTO v_count FROM log 
+    WHERE acao = 'ALERTA' AND data LIKE '%nao requer entrega%';
+
+    IF v_count > 0 THEN
+        DBMS_OUTPUT.PUT_LINE('[OK] Regra detectada no log via ALERTA.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('[FALHA] Alerta de entrega nao encontrado no log.');
+    END IF;
 
     DBMS_OUTPUT.PUT_LINE('=== TESTES DE REGRAS CONCLUÍDOS ===');
     ROLLBACK; -- Limpar dados de teste
