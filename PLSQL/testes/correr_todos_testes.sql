@@ -1,51 +1,53 @@
 -- =============================================================================
--- SUITE DE TESTES COMPLETA
--- Objetivo: Executar todos os cenários de teste de forma sequencial e persistente.
+-- SCRIPT PRINCIPAL DE TESTES
+-- Executa todos os testes do sistema em ordem.
 -- =============================================================================
-SET SERVEROUTPUT ON;
+
+SET SERVEROUTPUT ON SIZE UNLIMITED;
 SET FEEDBACK OFF;
-SET VERIFY OFF;
+SET TERMOUT ON;
 
-
-PROMPT 
 PROMPT ========================================================================
-PROMPT  INICIANDO SUITE DE TESTES DO PROJETO BD2
+PROMPT INICIANDO SUITE DE TESTES DO PROJETO BD2
 PROMPT ========================================================================
-PROMPT
 
--- 1. Testes Unitários Básicos (Fluxo Feliz)
-PROMPT [1/6] Executando Testes Unitários (executar_testes.sql)...
+PROMPT [1/7] Executando Testes Unitários (executar_testes.sql)...
 @@executar_testes.sql
-PROMPT ------------------------------------------------------------------------
 
--- 2. Lógica de Negócio (Notas, Médias e Pagamentos)
-PROMPT [2/6] Executando Lógica de Negócio (testes_logica_negocio.sql)...
+PROMPT
+PROMPT -----------------------------------------------------------------------
+PROMPT [2/7] Executando Lógica de Negócio (testes_logica_negocio.sql)...
 @@testes_logica_negocio.sql
-PROMPT ------------------------------------------------------------------------
 
--- 3. Regras Avançadas (Conflitos, Soft-Delete, Validações)
-PROMPT [3/6] Executando Testes Avançados (testes_avancados.sql)...
+PROMPT
+PROMPT -----------------------------------------------------------------------
+PROMPT [3/7] Executando Testes Avançados (testes_avancados.sql)...
 @@testes_avancados.sql
-PROMPT ------------------------------------------------------------------------
 
--- 4. Limites e Restrições (ECTS, Capacidade)
-PROMPT [4/6] Executando Testes de Limites (testes_limites.sql)...
+PROMPT
+PROMPT -----------------------------------------------------------------------
+PROMPT [4/7] Executando Testes de Limites (testes_limites.sql)...
 @@testes_limites.sql
-PROMPT ------------------------------------------------------------------------
 
--- 5. Vistas e Relatórios
-PROMPT [5/6] Validando Vistas e Relatórios (testar_vistas.sql)...
+PROMPT
+PROMPT -----------------------------------------------------------------------
+PROMPT [5/7] Executando Regras de Avaliação (testes_regras_avaliacao.sql)...
+@@testes_regras_avaliacao.sql
+
+PROMPT
+PROMPT -----------------------------------------------------------------------
+PROMPT [6/7] Validando Vistas e Relatórios (testar_vistas.sql)...
 @@testar_vistas.sql
-PROMPT ------------------------------------------------------------------------
 
--- 6. Dados de Demonstração (Massa de dados para inspeção manual)
-PROMPT [6/6] Gerando Dados de Demonstração Finais (demo_data.sql)...
+PROMPT
+PROMPT -----------------------------------------------------------------------
+PROMPT [7/7] Gerando Dados de Demonstração Finais (demo_data.sql)...
 @@demo_data.sql
-PROMPT ------------------------------------------------------------------------
 
 PROMPT
+PROMPT -----------------------------------------------------------------------
+
 PROMPT ========================================================================
-PROMPT  TODOS OS TESTES FORAM EXECUTADOS.
-PROMPT  OS DADOS FORAM PERSISTIDOS (COMMIT).
+PROMPT TODOS OS TESTES FORAM EXECUTADOS.
+PROMPT OS DADOS FORAM PERSISTIDOS (COMMIT).
 PROMPT ========================================================================
-PROMPT

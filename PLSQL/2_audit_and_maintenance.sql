@@ -1,193 +1,629 @@
 -- =============================================================================
--- 2. GATILHOS DE MANUTENÇÃO (UPDATED_AT) E AUDITORIA
--- Corrigido: Coluna "DATA" entre aspas no trigger de audit
+-- 2. TRIGGERS DE AUDITORIA (GERADOS E PADRONIZADOS)
+-- Este ficheiro contém os triggers de auditoria para todas as tabelas.
+-- Centralizado em PKG_LOG.REGISTAR_DML.
 -- =============================================================================
 
-CREATE OR REPLACE TRIGGER TRG_AULA_UPDATED_AT 
-    BEFORE UPDATE ON aula FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_AVALIACAO_UPDATED_AT 
-    BEFORE UPDATE ON avaliacao FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_CURSO_UPDATED_AT 
-    BEFORE UPDATE ON curso FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_DOCENTE_UPDATED_AT 
-    BEFORE UPDATE ON docente FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_ENTREGA_UPDATED_AT 
-    BEFORE UPDATE ON entrega FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_ESTUDANTE_UPDATED_AT 
-    BEFORE UPDATE ON estudante FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_EST_ENTREGA_UPDATED_AT 
-    BEFORE UPDATE ON estudante_entrega FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_FICH_ENTREGA_UPDATED_AT 
-    BEFORE UPDATE ON ficheiro_entrega FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_FICH_RECURSO_UPDATED_AT 
-    BEFORE UPDATE ON ficheiro_recurso FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_INSCRICAO_UPDATED_AT 
-    BEFORE UPDATE ON inscricao FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_MATRICULA_UPDATED_AT 
-    BEFORE UPDATE ON matricula FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_NOTA_UPDATED_AT 
-    BEFORE UPDATE ON nota FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_PARCELA_UPDATED_AT 
-    BEFORE UPDATE ON parcela_propina FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_PRESENCA_UPDATED_AT 
-    BEFORE UPDATE ON presenca FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_RECURSO_UPDATED_AT 
-    BEFORE UPDATE ON recurso FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_SALA_UPDATED_AT 
-    BEFORE UPDATE ON sala FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_T_AULA_UPDATED_AT 
-    BEFORE UPDATE ON tipo_aula FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_T_AVAL_UPDATED_AT 
-    BEFORE UPDATE ON tipo_avaliacao FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_T_CURSO_UPDATED_AT 
-    BEFORE UPDATE ON tipo_curso FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_TURMA_UPDATED_AT 
-    BEFORE UPDATE ON turma FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_UC_CURSO_UPDATED_AT 
-    BEFORE UPDATE ON uc_curso FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_UC_DOC_UPDATED_AT 
-    BEFORE UPDATE ON uc_docente FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
-END;
-/
-
-CREATE OR REPLACE TRIGGER TRG_UC_UPDATED_AT 
-    BEFORE UPDATE ON unidade_curricular FOR EACH ROW 
-BEGIN 
-    :NEW.updated_at := SYSDATE; 
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_AULA
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_AULA
+    AFTER INSERT OR UPDATE OR DELETE ON AULA
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('AULA', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
 END;
 /
 
 -- -----------------------------------------------------------------------------
--- Auditoria Forense para NOTA
+-- TRG_AUDIT_AVALIACAO
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_AVALIACAO
+    AFTER INSERT OR UPDATE OR DELETE ON AVALIACAO
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('AVALIACAO', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_CURSO
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_CURSO
+    AFTER INSERT OR UPDATE OR DELETE ON CURSO
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('CURSO', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_DOCENTE
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_DOCENTE
+    AFTER INSERT OR UPDATE OR DELETE ON DOCENTE
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('DOCENTE', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_ENTREGA
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_ENTREGA
+    AFTER INSERT OR UPDATE OR DELETE ON ENTREGA
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('ENTREGA', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_ESTADO_MATRICULA
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_ESTADO_MATRICULA
+    AFTER INSERT OR UPDATE OR DELETE ON ESTADO_MATRICULA
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('ESTADO_MATRICULA', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_ESTUDANTE
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_ESTUDANTE
+    AFTER INSERT OR UPDATE OR DELETE ON ESTUDANTE
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('ESTUDANTE', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_ESTUDANTE_ENTREGA (Chave Composta)
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_ESTUDANTE_ENTREGA
+    AFTER INSERT OR UPDATE OR DELETE ON ESTUDANTE_ENTREGA
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ENTREGA_ID) || '-' || TO_CHAR(:OLD.INSCRICAO_ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ENTREGA_ID) || '-' || TO_CHAR(:NEW.INSCRICAO_ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ENTREGA_ID) || '-' || TO_CHAR(:NEW.INSCRICAO_ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('ESTUDANTE_ENTREGA', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_FICHEIRO_ENTREGA
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_FICHEIRO_ENTREGA
+    AFTER INSERT OR UPDATE OR DELETE ON FICHEIRO_ENTREGA
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('FICHEIRO_ENTREGA', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_FICHEIRO_RECURSO
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_FICHEIRO_RECURSO
+    AFTER INSERT OR UPDATE OR DELETE ON FICHEIRO_RECURSO
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('FICHEIRO_RECURSO', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_INSCRICAO
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_INSCRICAO
+    AFTER INSERT OR UPDATE OR DELETE ON INSCRICAO
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('INSCRICAO', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_MATRICULA
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_MATRICULA
+    AFTER INSERT OR UPDATE OR DELETE ON MATRICULA
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('MATRICULA', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_NOTA (Chave Composta)
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE TRIGGER TRG_AUDIT_NOTA
-    AFTER INSERT OR UPDATE OR DELETE ON nota
+    AFTER INSERT OR UPDATE OR DELETE ON NOTA
     FOR EACH ROW
-DECLARE 
-    v_acao VARCHAR2(20); 
-    v_msg VARCHAR2(4000);
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
 BEGIN
-    IF DELETING THEN 
-        v_acao := 'DELETE'; 
-        v_msg := 'Nota apagada. Inscrição: ' || :OLD.inscricao_id;
-    ELSIF INSERTING THEN 
-        v_acao := 'INSERT'; 
-        v_msg := 'Nova nota: ' || :NEW.nota;
-    ELSE 
-        v_acao := 'UPDATE'; 
-        v_msg := 'Nota alterada: ' || :OLD.nota || ' -> ' || :NEW.nota;
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.AVALIACAO_ID) || '-' || TO_CHAR(:OLD.INSCRICAO_ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.AVALIACAO_ID) || '-' || TO_CHAR(:NEW.INSCRICAO_ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.AVALIACAO_ID) || '-' || TO_CHAR(:NEW.INSCRICAO_ID);
+        v_acao := 'INSERT';
     END IF;
+    PKG_LOG.REGISTAR_DML('NOTA', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
 
-    IF PKG_CONFIG_LOG.DEVE_REGISTAR('NOTA', v_acao) THEN
-        INSERT INTO log (id, acao, tabela, "DATA", created_at) 
-        VALUES (seq_log.NEXTVAL, v_acao, 'NOTA', v_msg, SYSDATE);
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_PARCELA_PROPINA
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_PARCELA_PROPINA
+    AFTER INSERT OR UPDATE OR DELETE ON PARCELA_PROPINA
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
     END IF;
+    PKG_LOG.REGISTAR_DML('PARCELA_PROPINA', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_PRESENCA (Chave Composta)
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_PRESENCA
+    AFTER INSERT OR UPDATE OR DELETE ON PRESENCA
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.AULA_ID) || '-' || TO_CHAR(:OLD.INSCRICAO_ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.AULA_ID) || '-' || TO_CHAR(:NEW.INSCRICAO_ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.AULA_ID) || '-' || TO_CHAR(:NEW.INSCRICAO_ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('PRESENCA', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_RECURSO
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_RECURSO
+    AFTER INSERT OR UPDATE OR DELETE ON RECURSO
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('RECURSO', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_SALA
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_SALA
+    AFTER INSERT OR UPDATE OR DELETE ON SALA
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('SALA', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_TIPO_AULA
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_TIPO_AULA
+    AFTER INSERT OR UPDATE OR DELETE ON TIPO_AULA
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('TIPO_AULA', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_TIPO_AVALIACAO
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_TIPO_AVALIACAO
+    AFTER INSERT OR UPDATE OR DELETE ON TIPO_AVALIACAO
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('TIPO_AVALIACAO', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_TIPO_CURSO
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_TIPO_CURSO
+    AFTER INSERT OR UPDATE OR DELETE ON TIPO_CURSO
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('TIPO_CURSO', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_TURMA
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_TURMA
+    AFTER INSERT OR UPDATE OR DELETE ON TURMA
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('TURMA', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_UC_CURSO (Chave Composta)
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_UC_CURSO
+    AFTER INSERT OR UPDATE OR DELETE ON UC_CURSO
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.CURSO_ID) || '-' || TO_CHAR(:OLD.UNIDADE_CURRICULAR_ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.CURSO_ID) || '-' || TO_CHAR(:NEW.UNIDADE_CURRICULAR_ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.CURSO_ID) || '-' || TO_CHAR(:NEW.UNIDADE_CURRICULAR_ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('UC_CURSO', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_UC_DOCENTE (Chave Composta)
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_UC_DOCENTE
+    AFTER INSERT OR UPDATE OR DELETE ON UC_DOCENTE
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.UNIDADE_CURRICULAR_ID) || '-' || TO_CHAR(:OLD.DOCENTE_ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.UNIDADE_CURRICULAR_ID) || '-' || TO_CHAR(:NEW.DOCENTE_ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.UNIDADE_CURRICULAR_ID) || '-' || TO_CHAR(:NEW.DOCENTE_ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('UC_DOCENTE', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_UNIDADE_CURRICULAR
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_UNIDADE_CURRICULAR
+    AFTER INSERT OR UPDATE OR DELETE ON UNIDADE_CURRICULAR
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('UNIDADE_CURRICULAR', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
 END;
 /

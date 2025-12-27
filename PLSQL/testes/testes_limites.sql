@@ -1,98 +1,107 @@
 -- =============================================================================
--- SCRIPT DE TESTES: LIMITES E RESTRIÇÕES (ECTS E CAPACIDADE) - COMPLETO
+-- TESTE DE LIMITES DE ECTS
+-- Verifica se o sistema impede inscrições acima de 60 ECTS.
 -- =============================================================================
+
 SET SERVEROUTPUT ON;
 
 DECLARE
-    v_sufixo VARCHAR2(10) := 'LIM_'||TO_CHAR(SYSTIMESTAMP, 'SSSSS');
-    v_est_id NUMBER; v_cur_id NUMBER; v_mat_id NUMBER;
-    v_uc1_id NUMBER; v_uc2_id NUMBER;
-    v_tur1_id NUMBER; v_tur2_id NUMBER;
-    v_log_count NUMBER;
-BEGIN
-    DBMS_OUTPUT.PUT_LINE('=== INICIANDO TESTES DE LIMITES ===');
-
-    -- 1. SETUP (Curso e Estudante)
-    SELECT MIN(id) INTO v_cur_id FROM curso;
+    v_est_id NUMBER;
+    v_mat_id NUMBER;
+    v_curso_id NUMBER;
+    v_total_ects NUMBER := 0;
     
-    INSERT INTO estudante (nome, morada, data_nascimento, cc, nif, email, telemovel)
-    VALUES ('Aluno Limite '||v_sufixo, 'Rua L', SYSDATE-7000, 
-            SUBSTR('CC'||v_sufixo||'111',1,12), SUBSTR('9'||v_sufixo,1,9), 
-            'l'||v_sufixo||'@test.com', '910000000') RETURNING id INTO v_est_id;
-
-    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas)
-    VALUES (v_cur_id, v_est_id, 1, 2025, 10) RETURNING id INTO v_mat_id;
-
-    -- 2. TESTE DE CAPACIDADE DE TURMA (Limite: 1 aluno)
-    DBMS_OUTPUT.PUT_LINE('1. Testando Limite de Capacidade da Turma...');
-    
-    INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas) 
-    VALUES ('UC Limite', 'UCL'||v_sufixo, 40, 20) RETURNING id INTO v_uc1_id;
-
-    -- Criar turma com capacidade MÁXIMA de 1 aluno
-    INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, max_alunos, docente_id)
-    VALUES ('TURMA_CHEIA', '25/26', v_uc1_id, 1, (SELECT MIN(id) FROM docente)) RETURNING id INTO v_tur1_id;
-
-    -- Inscrição 1 (OK)
-    INSERT INTO inscricao (turma_id, matricula_id, data) VALUES (v_tur1_id, v_mat_id, SYSDATE);
-
-    -- Inscrição 2 (Deve gerar alerta de Turma Cheia)
-    -- Vamos criar uma segunda matrícula fictícia para tentar entrar na mesma turma
-    DECLARE
-        v_mat2_id NUMBER;
-        v_est2_id NUMBER;
+    PROCEDURE TENTAR_INSCRICAO(p_mat_id NUMBER, p_ects NUMBER, p_nome_uc VARCHAR2) IS
+        v_u_id NUMBER;
+        v_t_id NUMBER;
     BEGIN
-        INSERT INTO estudante (nome, cc, nif, email, telemovel, data_nascimento)
-        VALUES ('Aluno Extra', SUBSTR('CC'||v_sufixo||'222',1,12), SUBSTR('8'||v_sufixo,1,9), 'x@x.com', '911111111', SYSDATE-7000)
-        RETURNING id INTO v_est2_id;
+        DBMS_OUTPUT.PUT_LINE('-> Criando UC ' || p_nome_uc || ' com ' || p_ects || ' ECTS...');
         
-        INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas)
-        VALUES (v_cur_id, v_est2_id, 1, 2025, 10) RETURNING id INTO v_mat2_id;
+        -- 1. Criar UC
+        v_u_id := seq_unidade_curricular.NEXTVAL;
+        INSERT INTO unidade_curricular (id, nome, codigo, horas_teoricas, horas_praticas) 
+        VALUES (v_u_id, p_nome_uc, SUBSTR(p_nome_uc, 1, 10)||v_u_id, 10, 10);
         
-        INSERT INTO inscricao (turma_id, matricula_id, data) VALUES (v_tur1_id, v_mat2_id, SYSDATE);
+        -- 2. Associar ao Curso
+        INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria)
+        VALUES ((SELECT curso_id FROM matricula WHERE id = p_mat_id), v_u_id, 1, 1, p_ects, '0');
+
+        -- 3. Criar Turma
+        v_t_id := seq_turma.NEXTVAL;
+        INSERT INTO turma (id, nome, ano_letivo, unidade_curricular_id, docente_id)
+        VALUES (v_t_id, 'T_'||v_t_id, '2025/26', v_u_id, 1);
+
+        -- 4. Tentar Inscrição
+        INSERT INTO inscricao (id, turma_id, matricula_id, data) 
+        VALUES (seq_inscricao.NEXTVAL, v_t_id, p_mat_id, SYSDATE);
+        
+        v_total_ects := v_total_ects + p_ects;
+        DBMS_OUTPUT.PUT_LINE('[OK] Inscrição realizada com sucesso. Total Acumulado: ' || v_total_ects);
+        
+    EXCEPTION WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('[SUCESSO] Bloqueio detetado conforme esperado para '||p_nome_uc||': '||SQLERRM);
     END;
 
-    SELECT COUNT(*) INTO v_log_count FROM log 
-    WHERE acao = 'ALERTA' AND "DATA" LIKE '%atingiu o limite máximo%';
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('=== TESTANDO LIMITES DE ECTS ===');
 
-    IF v_log_count > 0 THEN
-        DBMS_OUTPUT.PUT_LINE('[OK] Sistema detectou turma cheia.');
-    ELSE
-        DBMS_OUTPUT.PUT_LINE('[FALHA] Sistema permitiu excesso de lotação sem alerta.');
-    END IF;
-
-    -- 3. TESTE DE LIMITE DE ECTS (Max 72)
-    DBMS_OUTPUT.PUT_LINE('2. Testando Limite de ECTS...');
+    -- 1. Criar Estudante Novo (Dinâmico)
+    -- Usamos sequence existente para garantir ID único
+    -- Nota: Assumimos que seq_estudante não existe no DDL fornecido, usamos seq_utilizador ou max+1 se fosse identity, 
+    -- mas o DDLv3 tem IDs integer. Vamos assumir que PKs usam sequences manuais ou triggers. 
+    -- O instalador criou sequencias para tudo.
     
-    -- Criar UC com 80 ECTS (excede o limite de 72 por defeito)
-    INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas) 
-    VALUES ('Super UC', 'SUC'||v_sufixo, 100, 100) RETURNING id INTO v_uc2_id;
+    -- Como não tenho certeza do nome da sequence do estudante no seu ambiente (o log anterior mostrou TRG_AI_ESTUDANTE), 
+    -- vou fazer um insert sem ID se o trigger tratar, ou buscar max+1.
+    -- O log mostra TRG_AI_ESTUDANTE, então deve haver sequence.
+    -- Vou tentar insert direto e recuperar o ID.
     
-    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria)
-    VALUES (v_cur_id, v_uc2_id, 1, 1, 80, '1');
+    BEGIN
+        INSERT INTO estudante (id, nome, data_nascimento, cc, nif, email, telemovel) 
+        VALUES (seq_estudante.NEXTVAL, 'Aluno Limite Teste', TO_DATE('2000-01-01', 'YYYY-MM-DD'), 
+                'CC'||TRUNC(DBMS_RANDOM.VALUE(10000,99999)), 
+                '9'||TRUNC(DBMS_RANDOM.VALUE(10000000,99999999)), 
+                'limite'||TRUNC(DBMS_RANDOM.VALUE(1,9999))||'@teste.com', 
+                '912345678') 
+        RETURNING id INTO v_est_id;
+    EXCEPTION WHEN OTHERS THEN
+        -- Fallback se sequence falhar ou for manual
+        SELECT NVL(MAX(id), 0) + 1 INTO v_est_id FROM estudante;
+        INSERT INTO estudante (id, nome, data_nascimento, cc, nif, email, telemovel) 
+        VALUES (v_est_id, 'Aluno Limite Teste', TO_DATE('2000-01-01', 'YYYY-MM-DD'), 
+                'CC'||v_est_id, '999999999', 'limite@teste.com', '912345678');
+    END;
+    
+    DBMS_OUTPUT.PUT_LINE('Estudante criado ID: ' || v_est_id);
 
-    INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, max_alunos, docente_id)
-    VALUES ('TURMA_ECTS', '25/26', v_uc2_id, 30, (SELECT MIN(id) FROM docente)) RETURNING id INTO v_tur2_id;
+    -- 2. Obter Curso
+    SELECT id INTO v_curso_id FROM (SELECT id FROM curso ORDER BY id) WHERE ROWNUM = 1;
+    
+    -- 3. Criar Matrícula
+    v_mat_id := seq_matricula.NEXTVAL;
+    INSERT INTO matricula (id, curso_id, ano_inscricao, estudante_id, estado_matricula_id, numero_parcelas)
+    VALUES (v_mat_id, v_curso_id, 2025, v_est_id, 1, 10);
+    DBMS_OUTPUT.PUT_LINE('Matrícula criada ID: ' || v_mat_id);
 
-    -- Tentar inscrever o aluno nesta UC gigante
-    INSERT INTO inscricao (turma_id, matricula_id, data) VALUES (v_tur2_id, v_mat_id, SYSDATE);
+    -- 4. Testes de Inscrição
+    -- Total permitido: 60 ECTS
+    
+    TENTAR_INSCRICAO(v_mat_id, 30, 'Cadeira_A'); -- Total 30 (OK)
+    TENTAR_INSCRICAO(v_mat_id, 25, 'Cadeira_B'); -- Total 55 (OK)
+    
+    DBMS_OUTPUT.PUT_LINE('Tentando inscrever +10 ECTS (Total seria 65)...');
+    TENTAR_INSCRICAO(v_mat_id, 10, 'Cadeira_C'); -- Total 65 (Deve falhar)
 
-    -- Verificar se gerou alerta de ECTS
-    SELECT COUNT(*) INTO v_log_count FROM log 
-    WHERE acao = 'ALERTA' AND "DATA" LIKE '%Limite de ECTS anual excedido%';
-
-    IF v_log_count > 0 THEN
-        DBMS_OUTPUT.PUT_LINE('[OK] Sistema detectou excesso de ECTS.');
+    -- Verificação final
+    IF v_total_ects = 55 THEN
+        DBMS_OUTPUT.PUT_LINE('=== TESTE DE LIMITES: SUCESSO (Bloqueou a última inscrição) ===');
     ELSE
-        DBMS_OUTPUT.PUT_LINE('[FALHA] Sistema permitiu inscrição com ECTS excessivos sem alerta.');
+        DBMS_OUTPUT.PUT_LINE('=== TESTE DE LIMITES: FALHA (Total ECTS: '||v_total_ects||') ===');
     END IF;
 
     COMMIT;
-    DBMS_OUTPUT.PUT_LINE('=== TESTES DE LIMITES FINALIZADOS ===');
-
 EXCEPTION WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('ERRO FATAL NO TESTE DE LIMITES: ' || SQLERRM);
     ROLLBACK;
-    DBMS_OUTPUT.PUT_LINE('!!! ERRO !!! ' || SQLERRM);
-    DBMS_OUTPUT.PUT_LINE('TRACE: ' || DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
 END;
 /

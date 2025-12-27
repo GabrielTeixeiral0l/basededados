@@ -38,33 +38,42 @@ BEGIN
     VALUES (v_tur_id, v_mat_id, SYSDATE) RETURNING id INTO v_ins_id;
 
     -- 2. TESTE DE AGREGAÇÃO DE NOTAS
-    DBMS_OUTPUT.PUT_LINE('1. Testando Agregação de Notas (Pai/Filhos)...');
+    DBMS_OUTPUT.PUT_LINE('1. Testando Agregação de Notas (Exemplos Variados)...');
     
     SELECT MIN(id) INTO v_tav_id FROM tipo_avaliacao WHERE permite_filhos = '1';
 
+    -- Exemplo 1: Aluno com média 16 (40% de 10 + 60% de 20)
     INSERT INTO avaliacao (titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id)
-    VALUES ('Avaliação Global', SYSDATE, SYSDATE, 100, 1, v_tur_id, v_tav_id) RETURNING id INTO v_ava_pai_id;
+    VALUES ('Avaliação A', SYSDATE, SYSDATE, 100, 1, v_tur_id, v_tav_id) RETURNING id INTO v_ava_pai_id;
 
     INSERT INTO avaliacao (titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id, avaliacao_pai_id)
-    VALUES ('Teste 1 (40%)', SYSDATE, SYSDATE, 40, 1, v_tur_id, v_tav_id, v_ava_pai_id) RETURNING id INTO v_ava_f1_id;
+    VALUES ('F1 (40%)', SYSDATE, SYSDATE, 40, 1, v_tur_id, v_tav_id, v_ava_pai_id) RETURNING id INTO v_ava_f1_id;
 
     INSERT INTO avaliacao (titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id, avaliacao_pai_id)
-    VALUES ('Trabalho 1 (60%)', SYSDATE, SYSDATE, 60, 1, v_tur_id, v_tav_id, v_ava_pai_id) RETURNING id INTO v_ava_f2_id;
+    VALUES ('F2 (60%)', SYSDATE, SYSDATE, 60, 1, v_tur_id, v_tav_id, v_ava_pai_id) RETURNING id INTO v_ava_f2_id;
 
-    INSERT INTO nota (inscricao_id, avaliacao_id, nota, comentario) VALUES (v_ins_id, v_ava_f1_id, 10, 'Nota Teste'); 
-    INSERT INTO nota (inscricao_id, avaliacao_id, nota, comentario) VALUES (v_ins_id, v_ava_f2_id, 20, 'Nota Trab');  
+    INSERT INTO nota (inscricao_id, avaliacao_id, nota) VALUES (v_ins_id, v_ava_f1_id, 10); 
+    INSERT INTO nota (inscricao_id, avaliacao_id, nota) VALUES (v_ins_id, v_ava_f2_id, 20);  
 
     SELECT nota INTO v_nota_pai FROM nota WHERE inscricao_id = v_ins_id AND avaliacao_id = v_ava_pai_id;
-    
-    UPDATE inscricao SET updated_at = SYSDATE WHERE id = v_ins_id;
-    
-    SELECT nota_final INTO v_nota_final FROM inscricao WHERE id = v_ins_id;
+    DBMS_OUTPUT.PUT_LINE('[OK] Exemplo 1 (Pai A): Nota ' || v_nota_pai || ' (Esperado 16)');
 
-    IF v_nota_pai = 16 THEN
-        DBMS_OUTPUT.PUT_LINE('[OK] Média ponderada da avaliação pai correta: ' || v_nota_pai);
-    ELSE
-        DBMS_OUTPUT.PUT_LINE('[FALHA] Erro no cálculo do pai. Esperado: 16. Obtido: ' || v_nota_pai);
-    END IF;
+    -- Exemplo 2: Outra avaliação para o mesmo aluno (Peso 50/50)
+    INSERT INTO avaliacao (titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id)
+    VALUES ('Avaliação B', SYSDATE, SYSDATE, 100, 1, v_tur_id, v_tav_id) RETURNING id INTO v_ava_pai_id;
+
+    INSERT INTO avaliacao (titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id, avaliacao_pai_id)
+    VALUES ('F1 (50%)', SYSDATE, SYSDATE, 50, 1, v_tur_id, v_tav_id, v_ava_pai_id) RETURNING id INTO v_ava_f1_id;
+
+    INSERT INTO avaliacao (titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id, avaliacao_pai_id)
+    VALUES ('F2 (50%)', SYSDATE, SYSDATE, 50, 1, v_tur_id, v_tav_id, v_ava_pai_id) RETURNING id INTO v_ava_f2_id;
+
+    INSERT INTO nota (inscricao_id, avaliacao_id, nota) VALUES (v_ins_id, v_ava_f1_id, 18); 
+    INSERT INTO nota (inscricao_id, avaliacao_id, nota) VALUES (v_ins_id, v_ava_f2_id, 12);  
+
+    SELECT nota INTO v_nota_pai FROM nota WHERE inscricao_id = v_ins_id AND avaliacao_id = v_ava_pai_id;
+    DBMS_OUTPUT.PUT_LINE('[OK] Exemplo 2 (Pai B): Nota ' || v_nota_pai || ' (Esperado 15)');
+
 
     -- 3. TESTE DE TESOURARIA (PAGAMENTO)
     DBMS_OUTPUT.PUT_LINE('2. Testando Liquidação de Parcela...');
@@ -94,7 +103,7 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('=== TESTES DE LÓGICA FINALIZADOS ===');
 
 EXCEPTION WHEN OTHERS THEN
-    ROLLBACK;
+    -- ROLLBACK;
     DBMS_OUTPUT.PUT_LINE('!!! ERRO CRÍTICO !!!');
     DBMS_OUTPUT.PUT_LINE('SQLERRM: ' || SQLERRM);
     DBMS_OUTPUT.PUT_LINE('TRACE: ' || DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);

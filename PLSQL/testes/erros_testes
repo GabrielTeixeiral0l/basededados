@@ -1,0 +1,110 @@
+========================================================================
+INICIANDO SUITE DE TESTES DO PROJETO BD2
+========================================================================
+[1/7] Executando Testes Unitários (executar_testes.sql)...
+=== INICIANDO TESTES (Sufixo: 42975) ===
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10252
+Valor Total: 1000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+[OK] Presença atualizada para Presente.
+=== TESTES CONCLUÍDOS COM SUCESSO (COMMIT REALIZADO) ===
+Inscrição Gerada: 10240
+
+
+---------------------------------------------------------------------- PROMPT [2/7] Executando Lógica de Negócio (testes_logica_negocio.sql)...
+=== INICIANDO TESTES DE LÓGICA DE NEGÓCIO ===
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10253
+Valor Total: 8000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+1. Testando Agregação de Notas (Exemplos Variados)...
+[OK] Exemplo 1 (Pai A): Nota 16 (Esperado 16)
+[OK] Exemplo 2 (Pai B): Nota 15 (Esperado 15)
+2. Testando Liquidação de Parcela...
+[OK] Parcela liquidada com sucesso (Estado mudou para P).
+=== TESTES DE LÓGICA FINALIZADOS ===
+
+
+---------------------------------------------------------------------- PROMPT [3/7] Executando Testes Avançados (testes_avancados.sql)...
+=== INICIANDO TESTES AVANÇADOS (Sufixo: 42975) ===
+1. Testando NIF Inválido...
+[OK] Trigger de validação de NIF detectou erro e registou log.
+2. Testando Plano de Pagamento...
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10254
+Valor Total: 1200, Parcelas: 12
+Plano gerado com sucesso: 12 parcelas.
+[OK] Plano de pagamento gerado: 12 parcelas, total 1200€.
+3. Testando Conflito de Horário...
+[OK] Trigger detectou conflito de horário do docente.
+4. Testando Soft-Delete...
+[OK] Estudante marcado como inativo (soft-delete).
+=== TESTES AVANÇADOS FINALIZADOS ===
+
+
+---------------------------------------------------------------------- PROMPT [4/7] Executando Testes de Limites (testes_limites.sql)...
+=== TESTANDO LIMITES DE ECTS ===
+Estudante criado ID: 10248
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10255
+Valor Total: 8000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Matrícula criada ID: 10255
+-> Criando UC Cadeira_A com 30 ECTS...
+[OK] Inscrição realizada com sucesso. Total Acumulado: 30
+-> Criando UC Cadeira_B com 25 ECTS...
+[OK] Inscrição realizada com sucesso. Total Acumulado: 55
+Tentando inscrever +10 ECTS (Total seria 65)...
+-> Criando UC Cadeira_C com 10 ECTS...
+[SUCESSO] Bloqueio detetado conforme esperado para Cadeira_C: ORA-20005: Limite de ECTS excedido. Total atual: 55, Tentativa: 10
+ORA-06512: at "OPR_PROJETO.TRG_VAL_ESTUDANTE_REGRAS", line 29
+ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_ESTUDANTE_REGRAS'
+=== TESTE DE LIMITES: SUCESSO (Bloqueou a última inscrição) ===
+
+
+---------------------------------------------------------------------- PROMPT [5/7] Executando Regras de Avaliação (testes_regras_avaliacao.sql)...
+=== INICIANDO TESTES DE REGRAS DE AVALIAÇÃO ===
+--- Teste 1: Validacao de Grupo (Ignorado - Sem coluna de grupo na tabela Avaliacao) ---
+--- Teste 2: Tentar criar sub-avaliação onde pai não permite ---
+[OK] Regra detetada: ORA-20002: A avaliacao pai nao permite sub-avaliacoes.
+ORA-06512: at "OPR_PROJETO.TRG_VAL_AVALIACAO_REGRAS", line 22
+ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_AVALIACAO_REGRAS'
+--- Teste 3: Tentar entregar ficheiro onde não é requerido ---
+[OK] Regra detetada: ORA-20006: Esta avaliacao nao requer entrega de ficheiros.
+ORA-06512: at "OPR_PROJETO.TRG_VAL_ENTREGA_REGRAS", line 10
+ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_ENTREGA_REGRAS'
+=== TESTES DE REGRAS CONCLUÍDOS ===
+
+
+---------------------------------------------------------------------- PROMPT [6/7] Validando Vistas e Relatórios (testar_vistas.sql)...
+=== INICIANDO TESTE DE VISTAS ===
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10256
+Valor Total: 8000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+RELATORIO DE ASSIDUIDADE (Esperado Aluno com 50% Faltas):
+ALUNO: Erika Pinto-Abreu | FALTAS: 50%
+CONSULTANDO PAUTA DA TURMA:
+ALUNO: Erika Pinto-Abreu | RESULTADO: REPROVADO
+
+
+---------------------------------------------------------------------- PROMPT [7/7] Gerando Dados de Demonstração Finais (demo_data.sql)...
+=== GERANDO DADOS DE DEMONSTRAÇÃO (Cenário Realista) ===
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10257
+Valor Total: 1500, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10258
+Valor Total: 1500, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10259
+Valor Total: 1500, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Iniciando PRC_GERAR_PLANO_PAGAMENTO para matricula: 10260
+Valor Total: 1500, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Dados gerados com sucesso.
+Turma criada: 10246
+Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 10246
+
+
+----------------------------------------------------------------------
+========================================================================
+TODOS OS TESTES FORAM EXECUTADOS.
+OS DADOS FORAM PERSISTIDOS (COMMIT).
+========================================================================

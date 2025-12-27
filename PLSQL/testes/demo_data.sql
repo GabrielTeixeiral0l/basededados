@@ -1,82 +1,155 @@
 -- =============================================================================
--- SCRIPT DE DADOS DE DEMONSTRAÇÃO (PERSISTENTE)
--- Objetivo: Criar dados reais para permitir consulta manual às vistas
+-- SCRIPT DE DEMONSTRAÇÃO: DADOS RICOS PARA APRESENTAÇÃO
+-- Objetivo: Criar um cenário realista com turma, aulas e assiduidade variada.
 -- =============================================================================
 SET SERVEROUTPUT ON;
 
 DECLARE
-    v_sufixo VARCHAR2(5) := 'DEMO';
-    v_curso_id NUMBER;
-    v_uc_id NUMBER;
-    v_doc_id NUMBER;
-    v_turma_id NUMBER;
-    v_est_id NUMBER;
-    v_mat_id NUMBER;
-    v_ins_id NUMBER;
-    v_sala_id NUMBER;
-    v_ta_id NUMBER;
-    v_em_id NUMBER;
-    v_tc_id NUMBER;
+    v_sufixo     VARCHAR2(10) := 'DEMO_'||TO_CHAR(SYSTIMESTAMP, 'MI');
+    
+    -- IDs
+    v_cur_id NUMBER; v_uc_id NUMBER; v_doc_id NUMBER; v_tur_id NUMBER;
+    v_em_id  NUMBER; v_tc_id NUMBER; v_ta_id  NUMBER; v_sal_id NUMBER;
+    v_tav_id NUMBER; v_ava_id NUMBER;
+    
+    -- Alunos
+    v_est1_id NUMBER; -- 0% Faltas (Exemplar)
+    v_est2_id NUMBER; -- 20% Faltas (Seguro)
+    v_est3_id NUMBER; -- 30% Faltas (Em Risco/Alerta)
+    v_est4_id NUMBER; -- 100% Faltas (Abandono)
+    
+    -- Matrículas e Inscrições
+    v_mat1_id NUMBER; v_ins1_id NUMBER;
+    v_mat2_id NUMBER; v_ins2_id NUMBER;
+    v_mat3_id NUMBER; v_ins3_id NUMBER;
+    v_mat4_id NUMBER; v_ins4_id NUMBER;
+
+    -- Auxiliares
+    v_aul_id NUMBER;
 BEGIN
-    DBMS_OUTPUT.PUT_LINE('--- Criando Dados de Demonstração ---');
+    DBMS_OUTPUT.PUT_LINE('=== GERANDO DADOS DE DEMONSTRAÇÃO (Cenário Realista) ===');
 
-    -- 1. Configurações Básicas
-    -- Verificar se já existem, senão criar
-    BEGIN SELECT id INTO v_em_id FROM estado_matricula WHERE ROWNUM=1; EXCEPTION WHEN NO_DATA_FOUND THEN 
-        INSERT INTO estado_matricula (nome) VALUES ('Ativo') RETURNING id INTO v_em_id; END;
-        
-    BEGIN SELECT id INTO v_tc_id FROM tipo_curso WHERE ROWNUM=1; EXCEPTION WHEN NO_DATA_FOUND THEN
-        INSERT INTO tipo_curso (nome, valor_propinas) VALUES ('Licenciatura', 1000) RETURNING id INTO v_tc_id; END;
-        
-    BEGIN SELECT id INTO v_ta_id FROM tipo_aula WHERE ROWNUM=1; EXCEPTION WHEN NO_DATA_FOUND THEN
-        INSERT INTO tipo_aula (nome) VALUES ('Teorica') RETURNING id INTO v_ta_id; END;
-        
-    BEGIN SELECT id INTO v_sala_id FROM sala WHERE ROWNUM=1; EXCEPTION WHEN NO_DATA_FOUND THEN
-        INSERT INTO sala (nome, capacidade) VALUES ('SALA_DEMO', 30) RETURNING id INTO v_sala_id; END;
+    -- 1. INFRAESTRUTURA
+    -- Garantir tipos básicos
+    BEGIN SELECT MIN(id) INTO v_em_id FROM estado_matricula; EXCEPTION WHEN OTHERS THEN NULL; END;
+    IF v_em_id IS NULL THEN INSERT INTO estado_matricula (nome) VALUES ('Ativo') RETURNING id INTO v_em_id; END IF;
+    
+    INSERT INTO tipo_curso (nome, valor_propinas) VALUES ('Licenciatura Demo', 1500) RETURNING id INTO v_tc_id;
+    INSERT INTO tipo_aula (nome) VALUES ('Teórica') RETURNING id INTO v_ta_id;
+    INSERT INTO sala (nome, capacidade) VALUES ('Sala Demo', 50) RETURNING id INTO v_sal_id;
+    INSERT INTO tipo_avaliacao (nome, requer_entrega, permite_grupo, permite_filhos) VALUES ('Teste Escrito', '0', '0', '0') RETURNING id INTO v_tav_id;
 
-    -- 2. Curso e UC
+    -- 2. CURSO E UC
     INSERT INTO curso (nome, codigo, descricao, duracao, ects, max_alunos, tipo_curso_id)
-    VALUES ('Curso Demo', 'CD_'||v_sufixo, 'Curso para teste de vistas', 3, 180, 30, v_tc_id)
-    RETURNING id INTO v_curso_id;
+    VALUES ('Engenharia de Dados '||v_sufixo, 'ED'||v_sufixo, 'Curso Demo', 3, 180, 50, v_tc_id)
+    RETURNING id INTO v_cur_id;
 
     INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas)
-    VALUES ('UC Demo', 'UCD', 60, 30) RETURNING id INTO v_uc_id;
+    VALUES ('Bases de Dados Avançadas', 'BDA'||v_sufixo, 20, 20) -- Total 40h
+    RETURNING id INTO v_uc_id;
 
-    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria)
-    VALUES (v_curso_id, v_uc_id, 1, 1, 6, '1');
+    -- Associar UC ao Curso (Obrigatória presença)
+    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, percentagem_presenca)
+    VALUES (v_cur_id, v_uc_id, 1, 1, 6, '1', 25); -- Limite de 25% de faltas
 
-    -- 3. Docente e Turma
+    -- 3. DOCENTE E TURMA
     INSERT INTO docente (nome, data_contratacao, nif, cc, email, telemovel)
-    VALUES ('Docente Demo', SYSDATE, '100000000', '000000000ZZ4', 'doc@demo.com', '910000000')
+    VALUES ('Prof. Demonstrador', SYSDATE, SUBSTR(TO_CHAR(SYSTIMESTAMP,'FF'),1,9), 'CC'||v_sufixo, 'prof@demo.pt', '912345678')
     RETURNING id INTO v_doc_id;
 
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, max_alunos, docente_id)
-    VALUES ('T_DEMO', '25/26', v_uc_id, 25, v_doc_id)
-    RETURNING id INTO v_turma_id;
+    VALUES ('TURMA_A', '25/26', v_uc_id, 30, v_doc_id)
+    RETURNING id INTO v_tur_id;
 
-    -- 4. Aluno e Inscrição
-    INSERT INTO estudante (nome, morada, data_nascimento, cc, nif, email, telemovel)
-    VALUES ('Aluno Faltoso', 'Rua Demo', TO_DATE('2000-01-01','YYYY-MM-DD'), 
-            '111111111ZZ1', '200000000', 'aluno@demo.com', '960000000')
-    RETURNING id INTO v_est_id;
+    -- 4. ALUNOS E INSCRIÇÕES
+    -- Aluno 1 (Exemplar)
+    INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
+    VALUES ('Aluno Exemplar', SUBSTR(v_sufixo||'1',1,9), 'CC1'||v_sufixo, SYSDATE-7000, '910000001', 'a1@demo.pt') 
+    RETURNING id INTO v_est1_id;
+    
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas) 
+    VALUES (v_cur_id, v_est1_id, v_em_id, 2025, 10) RETURNING id INTO v_mat1_id;
+    
+    INSERT INTO inscricao (turma_id, matricula_id, data) 
+    VALUES (v_tur_id, v_mat1_id, SYSDATE) RETURNING id INTO v_ins1_id;
 
-    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas)
-    VALUES (v_curso_id, v_est_id, v_em_id, 2025, 10)
-    RETURNING id INTO v_mat_id;
+    -- Aluno 2 (Seguro - 20% faltas)
+    INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
+    VALUES ('Aluno Seguro', SUBSTR(v_sufixo||'2',1,9), 'CC2'||v_sufixo, SYSDATE-7000, '910000002', 'a2@demo.pt') 
+    RETURNING id INTO v_est2_id;
+    
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas) 
+    VALUES (v_cur_id, v_est2_id, v_em_id, 2025, 10) RETURNING id INTO v_mat2_id;
+    
+    INSERT INTO inscricao (turma_id, matricula_id, data) 
+    VALUES (v_tur_id, v_mat2_id, SYSDATE) RETURNING id INTO v_ins2_id;
 
-    INSERT INTO inscricao (turma_id, matricula_id, data, nota_final)
-    VALUES (v_turma_id, v_mat_id, SYSDATE, 12)
-    RETURNING id INTO v_ins_id;
+    -- Aluno 3 (Risco - 30% faltas)
+    INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
+    VALUES ('Aluno Risco', SUBSTR(v_sufixo||'3',1,9), 'CC3'||v_sufixo, SYSDATE-7000, '910000003', 'a3@demo.pt') 
+    RETURNING id INTO v_est3_id;
+    
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas) 
+    VALUES (v_cur_id, v_est3_id, v_em_id, 2025, 10) RETURNING id INTO v_mat3_id;
+    
+    INSERT INTO inscricao (turma_id, matricula_id, data) 
+    VALUES (v_tur_id, v_mat3_id, SYSDATE) RETURNING id INTO v_ins3_id;
 
-    -- 5. Gerar 10 Aulas (O trigger vai marcar falta '0' automaticamente na tabela presenca)
+    -- Aluno 4 (Abandono - 100% faltas)
+    INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
+    VALUES ('Aluno Fantasma', SUBSTR(v_sufixo||'4',1,9), 'CC4'||v_sufixo, SYSDATE-7000, '910000004', 'a4@demo.pt') 
+    RETURNING id INTO v_est4_id;
+    
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula_id, ano_inscricao, numero_parcelas) 
+    VALUES (v_cur_id, v_est4_id, v_em_id, 2025, 10) RETURNING id INTO v_mat4_id;
+    
+    INSERT INTO inscricao (turma_id, matricula_id, data) 
+    VALUES (v_tur_id, v_mat4_id, SYSDATE) RETURNING id INTO v_ins4_id;
+
+    -- 5. GERAR 10 AULAS E PRESENÇAS
+    -- Cenário: 10 aulas no total.
     FOR i IN 1..10 LOOP
         INSERT INTO aula (data, hora_inicio, hora_fim, sumario, tipo_aula_id, sala_id, turma_id)
-        VALUES (SYSDATE - i, TO_DATE('09:00','HH24:MI'), TO_DATE('11:00','HH24:MI'), 'Aula Demo '||i, v_ta_id, v_sala_id, v_turma_id);
+        VALUES (SYSDATE + i, SYSDATE + i, SYSDATE + i + (2/24), 'Aula Demo '||i, v_ta_id, v_sal_id, v_tur_id)
+        RETURNING id INTO v_aul_id;
+
+        -- O Trigger TRG_AUTO_PRESENCA_AULA já cria os registos de presença como '0' (Falta) para todos.
+        -- Agora vamos atualizar para '1' (Presente) conforme o perfil.
+
+        -- Aluno 1 (Sempre presente)
+        UPDATE presenca SET presente = '1' WHERE inscricao_id = v_ins1_id AND aula_id = v_aul_id;
+
+        -- Aluno 2 (Falta nas aulas 9 e 10)
+        IF i <= 8 THEN
+            UPDATE presenca SET presente = '1' WHERE inscricao_id = v_ins2_id AND aula_id = v_aul_id;
+        END IF;
+
+        -- Aluno 3 (Falta nas aulas 8, 9 e 10)
+        IF i <= 7 THEN
+            UPDATE presenca SET presente = '1' WHERE inscricao_id = v_ins3_id AND aula_id = v_aul_id;
+        END IF;
+
+        -- Aluno 4 (Nunca vem) - Mantém '0'
     END LOOP;
+
+    -- 6. CRIAR AVALIAÇÃO E NOTAS VARIADAS
+    INSERT INTO avaliacao (titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id)
+    VALUES ('Teste Final', SYSDATE+11, SYSDATE+11, 100, 1, v_tur_id, v_tav_id)
+    RETURNING id INTO v_ava_id;
+
+    INSERT INTO nota (inscricao_id, avaliacao_id, nota, comentario) VALUES (v_ins1_id, v_ava_id, 19, 'Excelente');
+    INSERT INTO nota (inscricao_id, avaliacao_id, nota, comentario) VALUES (v_ins2_id, v_ava_id, 14, 'Bom');
+    INSERT INTO nota (inscricao_id, avaliacao_id, nota, comentario) VALUES (v_ins3_id, v_ava_id, 10, 'Suficiente');
+    INSERT INTO nota (inscricao_id, avaliacao_id, nota, comentario) VALUES (v_ins4_id, v_ava_id, 0, 'Faltou');
 
     COMMIT;
     
-    DBMS_OUTPUT.PUT_LINE('Dados inseridos e gravados (COMMIT).');
-    DBMS_OUTPUT.PUT_LINE('Pode agora consultar a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE;');
+    DBMS_OUTPUT.PUT_LINE('Dados gerados com sucesso.');
+    DBMS_OUTPUT.PUT_LINE('Turma criada: ' || v_tur_id);
+    DBMS_OUTPUT.PUT_LINE('Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = ' || v_tur_id);
+
+EXCEPTION WHEN OTHERS THEN
+    -- ROLLBACK;
+    DBMS_OUTPUT.PUT_LINE('ERRO: ' || SQLERRM);
 END;
 /
