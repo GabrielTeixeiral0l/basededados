@@ -205,25 +205,13 @@ Trigger TRG_VAL_AVALIACAO_REGRAS compiled
 Trigger TRG_VAL_HORARIO_AULA compiled
 
 
-Trigger TRG_VAL_CAPACIDADE_TURMA compiled
-
-
 Trigger TRG_VAL_ESTUDANTE_REGRAS compiled
 
 
 Trigger TRG_AUTO_GERAR_PROPINAS compiled
 
 
-Trigger TRG_VAL_ENTREGA_REGRAS compiled
-
-
-PL/SQL procedure successfully completed.
-
-
-Trigger TRG_VAL_DOCS_ESTUDANTE compiled
-
-
-Trigger TRG_VAL_DOCS_DOCENTE compiled
+Trigger TRG_PROTEGER_LOG compiled
 
 No errors.
 [11/11] Compilando Triggers de Formatação...
