@@ -4,6 +4,7 @@
 
 CREATE OR REPLACE PACKAGE PKG_LOG AS
     v_modo_manutencao BOOLEAN := FALSE;
+    v_audit_enabled   BOOLEAN := TRUE;
 
     PROCEDURE REGISTAR(p_acao VARCHAR2, p_msg VARCHAR2, p_tabela VARCHAR2 DEFAULT NULL);
     PROCEDURE REGISTAR_DML(p_tabela VARCHAR2, p_acao VARCHAR2, p_id_registo VARCHAR2);
@@ -16,9 +17,12 @@ CREATE OR REPLACE PACKAGE BODY PKG_LOG AS
     PROCEDURE REGISTAR(p_acao VARCHAR2, p_msg VARCHAR2, p_tabela VARCHAR2 DEFAULT NULL) IS
         PRAGMA AUTONOMOUS_TRANSACTION;
     BEGIN
-        INSERT INTO log (acao, tabela, data, created_at)
-        VALUES (p_acao, p_tabela, p_msg, CURRENT_TIMESTAMP);
-        COMMIT;
+        -- Regista se a auditoria estiver ativa OU se for um erro crítico
+        IF v_audit_enabled OR p_acao = 'ERRO' THEN
+            INSERT INTO log (acao, tabela, data, created_at)
+            VALUES (p_acao, p_tabela, p_msg, CURRENT_TIMESTAMP);
+            COMMIT;
+        END IF;
     EXCEPTION
         WHEN OTHERS THEN
             NULL; 

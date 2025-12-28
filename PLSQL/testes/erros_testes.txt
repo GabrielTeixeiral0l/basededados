@@ -1,18 +1,44 @@
 ========================================================================
 INICIANDO SUITE DE TESTES DO PROJETO BD2 (V2 - LIMITES DE GRUPOS)
 ========================================================================
-[1/9] Executando Testes Unitários...
-=== INICIANDO TESTES (Sufixo: 63243) ===
+[1/11] Executando Testes Unitários...
+=== INICIANDO TESTES (Sufixo: 00469) ===
 Valor Total: 1000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-[AVISO] Nenhuma presença atualizada. Verifique se o trigger TRG_AUTO_PRESENCA funcionou.
+[OK] Presença atualizada para Presente.
 === TESTES CONCLUÍDOS COM SUCESSO (COMMIT REALIZADO) ===
-Inscrição Gerada: 10423
+Inscrição Gerada: 10510
 
 
---------------------------------------------------------------------- PROMPT [2/9] Executando Lógica de Negócio (Médias e Pagamentos)...
+--------------------------------------------------------------------- PROMPT [2/11] Executando Validação e Formatação de Dados...
+=== INICIANDO TESTES DE VALIDAÇÃO E FORMATAÇÃO ===
+1. Testando Formatação Automática (InitCap, Lower, Upper)...
+[OK] Formatação de Estudante (Nome/Email) correta.
+[OK] Formatação de UC (Código Upper/Trim) correta.
+2. Testando Validações de Dados (CC, Email, IBAN)...
+[OK] CC Inválido detetado.
+[OK] Email Inválido detetado.
+[OK] IBAN Inválido detetado.
+=== FIM DOS TESTES DE VALIDAÇÃO ===
+
+
+--------------------------------------------------------------------- PROMPT [3/11] Executando Testes Funcionais Extra (Multas, Logs)...
+=== INICIANDO TESTES FUNCIONAIS EXTRA (Sufixo: 00469) ===
+Valor Total: 1500, Parcelas: 1
+Plano gerado com sucesso: 1 parcelas.
+1. Testando Multa por Atraso...
+[OK] Multa aplicada. Original: 1500, Final: 1650
+2. Testando Limites de Nota (0-20)...
+[OK] Nota inválida detetada no log.
+3. Testando Flag de Auditoria (v_audit_enabled)...
+[OK] Flag v_audit_enabled = FALSE respeitada.
+[OK] Erro crítico gravado mesmo com auditoria desativada.
+=== FIM DOS TESTES FUNCIONAIS EXTRA ===
+
+
+--------------------------------------------------------------------- PROMPT [4/11] Executando Lógica de Negócio (Médias e Pagamentos)...
 === INICIANDO TESTES DE LÓGICA DE NEGÓCIO ===
-Valor Total: 8000, Parcelas: 10
+Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 1. Testando Agregação de Notas (Exemplos Variados)...
 [OK] Exemplo 1 (Pai A): Nota 16 (Esperado 16)
@@ -22,8 +48,8 @@ Plano gerado com sucesso: 10 parcelas.
 === TESTES DE LÓGICA FINALIZADOS ===
 
 
---------------------------------------------------------------------- PROMPT [3/9] Executando Testes Avançados (NIF, Conflitos)...
-=== INICIANDO TESTES AVANÇADOS (Sufixo: 63243) ===
+--------------------------------------------------------------------- PROMPT [5/11] Executando Testes Avançados (NIF, Conflitos)...
+=== INICIANDO TESTES AVANÇADOS (Sufixo: 00469) ===
 1. Testando NIF Inválido...
 [OK] Trigger de validação de NIF detectou erro e registou log.
 2. Testando Plano de Pagamento...
@@ -37,10 +63,10 @@ Plano gerado com sucesso: 12 parcelas.
 === TESTES AVANÇADOS FINALIZADOS ===
 
 
---------------------------------------------------------------------- PROMPT [4/9] Executando Testes de Limites de ECTS...
+--------------------------------------------------------------------- PROMPT [6/11] Executando Testes de Limites de ECTS...
 === TESTANDO LIMITES DE ECTS ===
-Estudante criado ID: 10373
-Valor Total: 8000, Parcelas: 10
+Estudante criado ID: 10450
+Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 -> Criando UC Cadeira_A com 30 ECTS...
 [INFO] Inscrição realizada. Total Acumulado: 30
@@ -52,7 +78,7 @@ Tentando inscrever +10 ECTS (Total seria 65)...
 === TESTE DE LIMITES: SUCESSO (Alerta detetado no LOG) ===
 
 
---------------------------------------------------------------------- PROMPT [5/9] Executando Regras de Avaliação (Hierarquia e Entregas)...
+--------------------------------------------------------------------- PROMPT [7/11] Executando Regras de Avaliação (Hierarquia e Entregas)...
 === INICIANDO TESTES DE REGRAS DE AVALIAÇÃO ===
 --- Teste 1: Validacao de Grupo (Ignorado - Sem coluna de grupo na tabela Avaliacao) ---
 --- Teste 2: Tentar criar sub-avaliação onde pai não permite ---
@@ -62,7 +88,7 @@ Tentando inscrever +10 ECTS (Total seria 65)...
 === TESTES DE REGRAS CONCLUÍDOS ===
 
 
---------------------------------------------------------------------- PROMPT [6/9] Executando Regras de Max_Alunos e Grupos...
+--------------------------------------------------------------------- PROMPT [8/11] Executando Regras de Max_Alunos e Grupos...
 === INICIANDO TESTE: REGRAS DE GRUPOS E LIMITES ===
 Valor Total: 1000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
@@ -77,25 +103,30 @@ Cenario 2: Testando limite de 2 alunos numa entrega...
 === FIM DOS TESTES DE GRUPOS ===
 
 
---------------------------------------------------------------------- PROMPT [7/9] Executando Teste de Segurança de Logs (Imutabilidade)...
+--------------------------------------------------------------------- PROMPT [9/11] Executando Teste de Segurança de Logs (Imutabilidade)...
 === INICIANDO TESTE DE SEGURANÇA DE LOGS ===
-[OK] Insert no LOG permitido. ID: 24773
+[OK] Insert no LOG permitido. ID: 27140
 [OK] UPDATE bloqueado por imutabilidade.
 [OK] DELETE bloqueado por imutabilidade.
 === TESTE DE SEGURANÇA CONCLUÍDO ===
 
 
---------------------------------------------------------------------- PROMPT [8/9] Validando Vistas e Relatórios...
+--------------------------------------------------------------------- PROMPT [10/11] Validando Vistas e Relatórios...
 === INICIANDO TESTE DE VISTAS ===
-Valor Total: 8000, Parcelas: 10
+Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 RELATORIO DE ASSIDUIDADE (Esperado Aluno com 50% Faltas):
-ALUNO: Erika Pinto-Abreu | FALTAS: 50%
+ALUNO: João Oliveira | FALTAS: 50%
 CONSULTANDO PAUTA DA TURMA:
-ALUNO: Erika Pinto-Abreu | RESULTADO: REPROVADO
+ALUNO: João Oliveira | RESULTADO: REPROVADO
+TESTANDO RESTANTES VISTAS (SMOKE TEST)...
+[OK] VW_FINANCEIRO_CURSOS: 19 registos.
+[OK] VW_ESTATISTICA_VAGAS: 19 registos.
+[OK] VW_OCUPACAO_SALAS_HOJE: 12 registos.
+[OK] VW_PERFIL_ACADEMICO_ALUNO: 42 registos.
 
 
---------------------------------------------------------------------- PROMPT [9/9] Gerando Dados de Demonstração Finais (Cenário Realista)...
+--------------------------------------------------------------------- PROMPT [11/11] Gerando Dados de Demonstração Finais (Cenário Realista)...
 === GERANDO DADOS DE DEMONSTRAÇÃO (Cenário Realista) ===
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
@@ -106,8 +137,8 @@ Plano gerado com sucesso: 10 parcelas.
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 Dados gerados com sucesso.
-Turma criada: 10381
-Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 10381
+Turma criada: 10446
+Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 10446
 
 
 --------------------------------------------------------------------- PROMPT ========================================================================

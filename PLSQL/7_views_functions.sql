@@ -83,7 +83,7 @@ SELECT
     e.nome AS nome_estudante,
     c.nome AS nome_curso,
     COUNT(i.id) AS total_ucs_inscritas,
-    SUM(CASE WHEN i.nota_final >= 9.5 THEN uc.ects ELSE 0 END) AS ects_concluidos,
+    SUM(CASE WHEN i.nota_final >= 9.5 THEN ucc.ects ELSE 0 END) AS ects_concluidos,
     ROUND(AVG(i.nota_final), 2) AS media_global
 FROM estudante e
 JOIN matricula m ON e.id = m.estudante_id
@@ -91,6 +91,7 @@ JOIN curso c ON m.curso_id = c.id
 LEFT JOIN inscricao i ON m.id = i.matricula_id
 LEFT JOIN turma t ON i.turma_id = t.id
 LEFT JOIN unidade_curricular uc ON t.unidade_curricular_id = uc.id
+LEFT JOIN uc_curso ucc ON uc.id = ucc.unidade_curricular_id AND c.id = ucc.curso_id
 WHERE m.status = '1'
 GROUP BY e.codigo, e.nome, c.nome;
 /

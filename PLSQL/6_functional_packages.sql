@@ -22,6 +22,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
         v_valor_total NUMBER := p_valor_total; 
         v_valor_parcela NUMBER; 
         v_pagas NUMBER; 
+        i NUMBER := 1;
     BEGIN
         
         -- Verificar se já existem pagamentos para não sobrescrever plano ativo com histórico
@@ -52,9 +53,10 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
 
         v_valor_parcela := v_valor_total / v_num_parcelas;
 
-        FOR i IN 1..v_num_parcelas LOOP
+        WHILE i <= v_num_parcelas LOOP
             INSERT INTO parcela_propina (valor, data_vencimento, numero, estado, matricula_id, status)
             VALUES (v_valor_parcela, ADD_MONTHS(SYSDATE, i), i, '0', p_matricula_id, '1');
+            i := i + 1;
         END LOOP;
         
         DBMS_OUTPUT.PUT_LINE('Plano gerado com sucesso: ' || v_num_parcelas || ' parcelas.');

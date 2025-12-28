@@ -5,16 +5,16 @@
 CREATE OR REPLACE TRIGGER TRG_FMT_ESTUDANTE
     BEFORE INSERT OR UPDATE ON estudante FOR EACH ROW
 BEGIN
-    :NEW.email  := LOWER(TRIM(:NEW.email));
-    :NEW.nome   := INITCAP(TRIM(:NEW.nome));
+    :NEW.email  := LOWER(TRIM(REGEXP_REPLACE(:NEW.email, '\s+', ''))); -- Remove todos os espaços do email
+    :NEW.nome   := INITCAP(TRIM(REGEXP_REPLACE(:NEW.nome, '\s+', ' '))); -- Normaliza espaços do nome
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_FMT_DOCENTE
     BEFORE INSERT OR UPDATE ON docente FOR EACH ROW
 BEGIN
-    :NEW.email  := LOWER(TRIM(:NEW.email));
-    :NEW.nome   := INITCAP(TRIM(:NEW.nome));
+    :NEW.email  := LOWER(TRIM(REGEXP_REPLACE(:NEW.email, '\s+', ''))); -- Remove todos os espaços do email
+    :NEW.nome   := INITCAP(TRIM(REGEXP_REPLACE(:NEW.nome, '\s+', ' '))); -- Normaliza espaços do nome
 END;
 /
 

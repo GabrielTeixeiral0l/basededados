@@ -98,8 +98,8 @@ EXCEPTION WHEN OTHERS THEN
 END;
 /
 
--- 5.1.2. GERAÇÃO AUTOMÁTICA DE PRESENÇAS
-CREATE OR REPLACE TRIGGER TRG_AUTO_PRESENCA
+-- 5.1.2. GERAÇÃO AUTOMÁTICA DE PRESENÇAS (AO INSCREVER ALUNO)
+CREATE OR REPLACE TRIGGER TRG_AUTO_PRESENCA_INS
 AFTER INSERT ON INSCRICAO
 FOR EACH ROW
 DECLARE
@@ -119,6 +119,30 @@ BEGIN
 EXCEPTION WHEN OTHERS THEN
     IF c_aulas%ISOPEN THEN CLOSE c_aulas; END IF;
     PKG_LOG.ERRO('Erro ao gerar presenças automáticas para inscrição ' || :NEW.id);
+END;
+/
+
+-- 5.1.3. GERAÇÃO AUTOMÁTICA DE PRESENÇAS (AO CRIAR NOVA AULA)
+CREATE OR REPLACE TRIGGER TRG_AUTO_PRESENCA_AULA
+AFTER INSERT ON AULA
+FOR EACH ROW
+DECLARE
+    CURSOR c_inscritos IS 
+        SELECT id FROM inscricao WHERE turma_id = :NEW.turma_id AND status = '1';
+    v_ins_id NUMBER;
+BEGIN
+    OPEN c_inscritos;
+    LOOP
+        FETCH c_inscritos INTO v_ins_id;
+        EXIT WHEN c_inscritos%NOTFOUND;
+        
+        INSERT INTO presenca (inscricao_id, aula_id, presente)
+        VALUES (v_ins_id, :NEW.id, '0');
+    END LOOP;
+    CLOSE c_inscritos;
+EXCEPTION WHEN OTHERS THEN
+    IF c_inscritos%ISOPEN THEN CLOSE c_inscritos; END IF;
+    PKG_LOG.ERRO('Erro ao gerar presenças automáticas para aula ' || :NEW.id);
 END;
 /
 
@@ -208,23 +232,55 @@ BEGIN
 END;
 /
 
--- 5.2.2. VALIDAÇÃO DE NIF (ESTUDANTE E DOCENTE)
-CREATE OR REPLACE TRIGGER TRG_VAL_NIF_ESTUDANTE
+-- 5.2.2. VALIDAÇÃO DE DADOS (ESTUDANTE E DOCENTE)
+CREATE OR REPLACE TRIGGER TRG_VAL_DADOS_ESTUDANTE
 BEFORE INSERT OR UPDATE ON ESTUDANTE
 FOR EACH ROW
 BEGIN
+    -- Validar NIF
     IF NOT PKG_VALIDACAO.FUN_VALIDAR_NIF(:NEW.nif) THEN
         PKG_LOG.REGISTAR('ALERTA', 'NIF inválido para estudante: ' || :NEW.nif, 'ESTUDANTE');
+    END IF;
+
+    -- Validar CC
+    IF NOT PKG_VALIDACAO.FUN_VALIDAR_CC(:NEW.cc) THEN
+        PKG_LOG.REGISTAR('ALERTA', 'CC inválido para estudante: ' || :NEW.cc, 'ESTUDANTE');
+    END IF;
+
+    -- Validar Email
+    IF NOT PKG_VALIDACAO.FUN_VALIDAR_EMAIL(:NEW.email) THEN
+        PKG_LOG.REGISTAR('ALERTA', 'Email inválido para estudante: ' || :NEW.email, 'ESTUDANTE');
+    END IF;
+
+    -- Validar IBAN
+    IF :NEW.iban IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_IBAN(:NEW.iban) THEN
+        PKG_LOG.REGISTAR('ALERTA', 'IBAN inválido para estudante: ' || :NEW.iban, 'ESTUDANTE');
     END IF;
 END;
 /
 
-CREATE OR REPLACE TRIGGER TRG_VAL_NIF_DOCENTE
+CREATE OR REPLACE TRIGGER TRG_VAL_DADOS_DOCENTE
 BEFORE INSERT OR UPDATE ON DOCENTE
 FOR EACH ROW
 BEGIN
+    -- Validar NIF
     IF NOT PKG_VALIDACAO.FUN_VALIDAR_NIF(:NEW.nif) THEN
         PKG_LOG.REGISTAR('ALERTA', 'NIF inválido para docente: ' || :NEW.nif, 'DOCENTE');
+    END IF;
+
+    -- Validar CC
+    IF :NEW.cc IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_CC(:NEW.cc) THEN
+        PKG_LOG.REGISTAR('ALERTA', 'CC inválido para docente: ' || :NEW.cc, 'DOCENTE');
+    END IF;
+
+    -- Validar Email
+    IF :NEW.email IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_EMAIL(:NEW.email) THEN
+        PKG_LOG.REGISTAR('ALERTA', 'Email inválido para docente: ' || :NEW.email, 'DOCENTE');
+    END IF;
+
+    -- Validar IBAN
+    IF :NEW.iban IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_IBAN(:NEW.iban) THEN
+        PKG_LOG.REGISTAR('ALERTA', 'IBAN inválido para docente: ' || :NEW.iban, 'DOCENTE');
     END IF;
 END;
 /
@@ -302,8 +358,8 @@ BEGIN
       AND uc.curso_id = v_curso_id
       AND i.status = '1';
 
-    IF (v_total_ects + v_novos_ects) > 60 THEN
-        PKG_LOG.ALERTA('Limite de 60 ECTS anuais excedido para matricula ' || :NEW.matricula_id);
+    IF (v_total_ects + v_novos_ects) > PKG_CONSTANTES.LIMITE_ECTS_ANUAL THEN
+        PKG_LOG.ALERTA('Limite de ' || PKG_CONSTANTES.LIMITE_ECTS_ANUAL || ' ECTS anuais excedido para matricula ' || :NEW.matricula_id);
     END IF;
 EXCEPTION WHEN NO_DATA_FOUND THEN NULL;
 END;

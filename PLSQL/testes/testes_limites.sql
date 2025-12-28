@@ -28,10 +28,16 @@ DECLARE
         INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria)
         VALUES ((SELECT curso_id FROM matricula WHERE id = p_mat_id), v_u_id, 1, 1, p_ects, '0');
 
-        -- 3. Criar Turma
-        INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, docente_id)
-        VALUES ('T_'||v_u_id, '2025/26', v_u_id, 1)
-        RETURNING id INTO v_t_id;
+        -- 3. Criar Turma (Buscar docente existente)
+        DECLARE
+            v_doc_id NUMBER;
+        BEGIN
+            SELECT id INTO v_doc_id FROM (SELECT id FROM docente ORDER BY id) WHERE ROWNUM = 1;
+            
+            INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, docente_id)
+            VALUES ('T_'||v_u_id, '2025/26', v_u_id, v_doc_id)
+            RETURNING id INTO v_t_id;
+        END;
 
         -- 4. Tentar Inscrição
         INSERT INTO inscricao (turma_id, matricula_id, data) 
@@ -78,7 +84,7 @@ BEGIN
     -- Verificação via LOG
     SELECT COUNT(*) INTO v_count_log 
     FROM log 
-    WHERE data LIKE '%Limite de 60 ECTS%'
+    WHERE data LIKE '%Limite de '||PKG_CONSTANTES.LIMITE_ECTS_ANUAL||' ECTS%'
       AND data LIKE '%'||v_mat_id||'%';
 
     IF v_count_log > 0 THEN

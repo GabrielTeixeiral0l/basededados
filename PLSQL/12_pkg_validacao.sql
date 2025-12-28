@@ -17,14 +17,16 @@ CREATE OR REPLACE PACKAGE BODY PKG_VALIDACAO IS
         v_check_digit NUMBER;
         v_soma NUMBER := 0;
         v_nif VARCHAR2(9) := TRIM(p_nif);
+        i NUMBER := 1;
     BEGIN
         IF LENGTH(v_nif) != 9 OR NOT REGEXP_LIKE(v_nif, '^[0-9]+$') THEN
             RETURN FALSE;
         END IF;
 
         -- Validação básica do dígito de controlo (Algoritmo Modulo 11)
-        FOR i IN 1..8 LOOP
+        WHILE i <= 8 LOOP
             v_soma := v_soma + TO_NUMBER(SUBSTR(v_nif, i, 1)) * (10 - i + 1);
+            i := i + 1;
         END LOOP;
 
         v_check_digit := 11 - MOD(v_soma, 11);
