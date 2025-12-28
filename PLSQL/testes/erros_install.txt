@@ -160,6 +160,9 @@ Trigger TRG_AUDIT_UC_DOCENTE compiled
 
 Trigger TRG_AUDIT_UNIDADE_CURRICULAR compiled
 
+
+Trigger TRG_AUDIT_FICHEIRO_RECURSO compiled
+
 No errors.
 [7/10] Compilando Vistas e Funções...
 
@@ -263,6 +266,12 @@ Trigger TRG_VAL_SALA compiled
 
 
 Trigger TRG_VAL_CURSO compiled
+
+
+Trigger TRG_VAL_FICHEIRO_ENTREGA compiled
+
+
+Trigger TRG_VAL_FICHEIRO_RECURSO compiled
 
 
 Trigger TRG_PROTEGER_LOG compiled

@@ -601,3 +601,29 @@ EXCEPTION
     WHEN OTHERS THEN NULL;
 END;
 /
+
+-- -----------------------------------------------------------------------------
+-- TRG_AUDIT_FICHEIRO_RECURSO
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE TRIGGER TRG_AUDIT_FICHEIRO_RECURSO
+    AFTER INSERT OR UPDATE OR DELETE ON FICHEIRO_RECURSO
+    FOR EACH ROW
+DECLARE
+    v_id   VARCHAR2(255);
+    v_acao VARCHAR2(20);
+BEGIN
+    IF DELETING THEN
+        v_id   := TO_CHAR(:OLD.ID);
+        v_acao := 'DELETE';
+    ELSIF UPDATING THEN
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'UPDATE';
+    ELSE
+        v_id   := TO_CHAR(:NEW.ID);
+        v_acao := 'INSERT';
+    END IF;
+    PKG_LOG.REGISTAR_DML('FICHEIRO_RECURSO', v_acao, v_id);
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/

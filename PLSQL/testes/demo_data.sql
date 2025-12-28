@@ -51,7 +51,7 @@ BEGIN
 
     -- 3. DOCENTE E TURMA
     INSERT INTO docente (nome, data_contratacao, nif, cc, email, telemovel)
-    VALUES ('Prof. Demonstrador', SYSDATE, '267873072', '12345678', 'prof@demo.pt', '912345678')
+    VALUES ('Prof. Demonstrador', SYSDATE, '501234564', '12345678', 'prof@demo.pt', '912345678')
     RETURNING id INTO v_doc_id;
 
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, max_alunos, docente_id)
@@ -75,7 +75,7 @@ BEGIN
     -- Aluno 2 (Seguro - 20% faltas)
     BEGIN
         INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
-        VALUES ('Aluno Seguro', '257573097', '22222222', SYSDATE-7000, '910000002', 'a2@demo.pt') 
+        VALUES ('Aluno Seguro', '251879781', '22222222', SYSDATE-7000, '910000002', 'a2@demo.pt') 
         RETURNING id INTO v_est2_id;
         
         INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
@@ -88,7 +88,7 @@ BEGIN
     -- Aluno 3 (Risco - 30% faltas)
     BEGIN
         INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
-        VALUES ('Aluno Risco', '237300870', '33333333', SYSDATE-7000, '910000003', 'a3@demo.pt') 
+        VALUES ('Aluno Risco', '228535743', '33333333', SYSDATE-7000, '910000003', 'a3@demo.pt') 
         RETURNING id INTO v_est3_id;
         
         INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
@@ -101,7 +101,7 @@ BEGIN
     -- Aluno 4 (Abandono - 100% faltas)
     BEGIN
         INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
-        VALUES ('Aluno Fantasma', '228535740', '44444444', SYSDATE-7000, '910000004', 'a4@demo.pt') 
+        VALUES ('Aluno Fantasma', '267873070', '44444444', SYSDATE-7000, '910000004', 'a4@demo.pt') 
         RETURNING id INTO v_est4_id;
         
         INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 

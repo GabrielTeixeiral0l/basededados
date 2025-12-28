@@ -27,7 +27,7 @@ BEGIN
     -- 2. PESSOAS E CURSOS
     INSERT INTO estudante (nome, morada, data_nascimento, cc, nif, email, telemovel)
     VALUES ('Aluno '||v_sufixo, 'Rua A', SYSDATE-7000, 
-            '12345678', '275730972', 
+            '12345678', '501234564', 
             'a'||v_sufixo||'@email.com', '910000000')
     RETURNING id INTO v_est_id;
 

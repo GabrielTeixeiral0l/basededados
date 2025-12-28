@@ -1,16 +1,15 @@
 ========================================================================
-INICIANDO SUITE DE TESTES DO PROJETO BD2 (V2 - LIMITES DE GRUPOS)
+INICIANDO SUITE DE TESTES DO PROJETO BD2 (V3 - INTEGRIDADE TOTAL)
 ========================================================================
-[1/12] Executando Testes Unitários...
-=== INICIANDO TESTES (Sufixo: 75162) ===
+[1/12] Executando Testes Unitários Integrados...
+=== INICIANDO TESTES (Sufixo: 80965) ===
 Valor Total: 1000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 [OK] Presença atualizada para Presente.
 === TESTES CONCLUÍDOS COM SUCESSO (COMMIT REALIZADO) ===
-Inscrição Gerada: 10891
+Inscrição Gerada: 11199
 
-
---------------------------------------------------------------------- PROMPT [2/12] Executando Validação e Formatação de Dados...
+[2/12] Executando Validação e Formatação de Dados...
 === INICIANDO TESTES DE VALIDAÇÃO E FORMATAÇÃO ===
 1. Testando Formatação Automática (InitCap, Lower, Upper)...
 [OK] Formatação de Estudante (Nome/Email) correta.
@@ -24,8 +23,7 @@ Inscrição Gerada: 10891
 [OK] Log de IBAN detetado.
 === FIM DOS TESTES DE VALIDAÇÃO ===
 
-
---------------------------------------------------------------------- PROMPT [3/13] Executando Testes de Integridade da Tabela SALA...
+[3/13] Executando Testes de Integridade da Tabela SALA...
 === INICIANDO TESTE TABELA SALA (DDLv3) ===
 1. Testando Status Inválido (Inserir "X")...
 [OK] Status corrigido para 0.
@@ -33,26 +31,25 @@ Inscrição Gerada: 10891
 [OK] Capacidade corrigida para 1.
 === TESTE SALA: SUCESSO ===
 
-
---------------------------------------------------------------------- PROMPT [3b/19] Executando Testes de Integridade da Tabela TURMA...
+[3b/19] Executando Testes de Integridade da Tabela TURMA...
 === INICIANDO TESTE TABELA TURMA ===
 1. Testando Inserção de Turma...
-[OK] Turma criada com sucesso. ID: 10747
+[OK] Turma criada com sucesso. ID: 10994
 2. Testando Status Inválido ("X")...
 [INFO] Turma com status inválido inserida (Sem trigger de validação ativo).
 === TESTE TURMA: SUCESSO ===
 
-
---------------------------------------------------------------------- PROMPT [4/14] Executando Testes de Integridade da Tabela AULA...
+[4/14] Executando Testes de Integridade da Tabela AULA...
 === INICIANDO TESTE TABELA AULA ===
 1. Testando Status Inválido (Inserir "9")...
 [OK] Status corrigido para 0.
 2. Testando Hora Fim Inválida (Fim < Início)...
-!!! ERRO CRÍTICO NO TESTE AULA !!!
-SQLERRM: User-Defined Exception
+[OK] Hora de fim ajustada para ser posterior ao início: 11:00
+3. Testando Conflito de Sala (Sobreposição)...
+[OK] Conflito de sala bloqueado pelo sistema.
+=== TESTE AULA: SUCESSO ===
 
-
---------------------------------------------------------------------- PROMPT [5/15] Executando Testes de Integridade da Tabela AVALIACAO...
+[5/15] Executando Testes de Integridade da Tabela AVALIACAO...
 === INICIANDO TESTE TABELA AVALIACAO ===
 1. Testando Status Inválido e Peso > 1...
 [OK] Status corrigido.
@@ -63,8 +60,7 @@ SQLERRM: User-Defined Exception
 [OK] Data entrega forçada a NULL.
 === TESTE AVALIACAO: SUCESSO ===
 
-
---------------------------------------------------------------------- PROMPT [6/16] Executando Testes de Integridade da Tabela CURSO...
+[6/16] Executando Testes de Integridade da Tabela CURSO...
 === INICIANDO TESTE TABELA CURSO ===
 1. Testando Status Inválido (Inserir "A")...
 [OK] Status corrigido para 0.
@@ -74,8 +70,7 @@ SQLERRM: User-Defined Exception
 [OK] ECTS corrigidos para 0.
 === TESTE CURSO: SUCESSO ===
 
-
---------------------------------------------------------------------- PROMPT [7/17] Executando Testes de Integridade da Tabela DOCENTE...
+[7/17] Executando Testes de Integridade da Tabela DOCENTE...
 === INICIANDO TESTE TABELA DOCENTE (DDLv3) ===
 1. Testando Status Inválido (Inserir "X")...
 [OK] Status corrigido.
@@ -85,8 +80,7 @@ SQLERRM: User-Defined Exception
 [OK] NIF invalido bloqueado.
 === TESTE DOCENTE: SUCESSO ===
 
-
---------------------------------------------------------------------- PROMPT [8/18] Executando Testes de Integridade da Tabela ESTUDANTE...
+[8/18] Executando Testes de Integridade da Tabela ESTUDANTE...
 === INICIANDO TESTE TABELA ESTUDANTE (DDLv3) ===
 1. Testando Status Inválido (Inserir "9")...
 [OK] Status corrigido.
@@ -96,8 +90,7 @@ SQLERRM: User-Defined Exception
 [OK] Telemovel invalido bloqueado.
 === TESTE ESTUDANTE: SUCESSO ===
 
-
---------------------------------------------------------------------- PROMPT [9/19] Executando Testes de Integridade da Tabela ENTREGA...
+[9/19] Executando Testes de Integridade da Tabela ENTREGA...
 === INICIANDO TESTE TABELA ENTREGA ===
 1. Testando Status Inválido (Inserir "X")...
 [OK] Status corrigido para 0.
@@ -109,8 +102,7 @@ SQLERRM: User-Defined Exception
 [OK] Insercao realizada. Verificar LOG para ALERTA de "nao requer entrega".
 === TESTE ENTREGA: SUCESSO (ROLLBACK EXECUTADO) ===
 
-
---------------------------------------------------------------------- PROMPT [10/19] Executando Testes de Integridade da Tabela ESTUDANTE_ENTREGA...
+[10/19] Executando Testes de Integridade da Tabela ESTUDANTE_ENTREGA...
 === INICIANDO TESTE TABELA ESTUDANTE_ENTREGA (DDLv3) ===
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
@@ -120,9 +112,8 @@ Plano gerado com sucesso: 10 parcelas.
 [OK] Duplicacao bloqueada.
 === TESTE ESTUDANTE_ENTREGA: SUCESSO (ROLLBACK EXECUTADO) ===
 
-
---------------------------------------------------------------------- PROMPT [11/19] Executando Testes Funcionais Extra (Multas, Logs)...
-=== INICIANDO TESTES FUNCIONAIS EXTRA (Sufixo: 75163) ===
+[11/19] Executando Testes Funcionais Extra (Multas, Logs)...
+=== INICIANDO TESTES FUNCIONAIS EXTRA (Sufixo: 80966) ===
 Valor Total: 6000, Parcelas: 1
 Plano gerado com sucesso: 1 parcelas.
 1. Testando Multa por Atraso...
@@ -135,8 +126,7 @@ Plano gerado com sucesso: 1 parcelas.
 [OK] Erro crítico gravado mesmo com auditoria desativada.
 === FIM DOS TESTES FUNCIONAIS EXTRA ===
 
-
---------------------------------------------------------------------- PROMPT [12/19] Executando Lógica de Negócio (Médias e Pagamentos)...
+[12/19] Executando Lógica de Negócio (Médias e Pagamentos)...
 === INICIANDO TESTES DE LÓGICA DE NEGÓCIO ===
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
@@ -147,27 +137,21 @@ Plano gerado com sucesso: 10 parcelas.
 [OK] Parcela liquidada com sucesso (Estado mudou para 1).
 === TESTES DE LÓGICA FINALIZADOS ===
 
+[13/19] Executando Testes Avançados (NIF, Conflitos)...
+==========================================================
+EXECUCAO DO BLOCO 13: TESTES AVANCADOS (Versao DDLv3)
+==========================================================
+Iniciando validacao de integridade...
+[OK] NIF invalido bloqueado pelo sistema.
+Valor Total: 6000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+[OK] Plano financeiro de 10 parcelas gerado automaticamente.
+3. [OK] Soft-delete testado.
+=== BLOCO 13 CONCLUIDO ===
 
---------------------------------------------------------------------- PROMPT [13/19] Executando Testes Avançados (NIF, Conflitos)...
-=== INICIANDO TESTES AVANÇADOS (Sufixo: 75163) ===
-1. Testando NIF Inválido...
-[OK] NIF invalido bloqueado.
-[OK] Log de erro encontrado.
-2. Testando Plano de Pagamento...
-Valor Total: 1200, Parcelas: 12
-Plano gerado com sucesso: 12 parcelas.
-[OK] Plano de pagamento gerado: 12 parcelas, total 1200€.
-3. Testando Conflito de Horário...
-[OK] Conflito de horario bloqueado.
-[OK] Log de erro encontrado.
-4. Testando Soft-Delete...
-[OK] Estudante marcado como inativo (soft-delete).
-=== TESTES AVANÇADOS FINALIZADOS ===
-
-
---------------------------------------------------------------------- PROMPT [14/19] Executando Testes de Limites de ECTS...
+[14/19] Executando Testes de Limites de ECTS...
 === TESTANDO LIMITES DE ECTS ===
-Estudante criado ID: 10801
+Estudante criado ID: 11076
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 -> Criando UC Cadeira_A com 30 ECTS...
@@ -179,8 +163,7 @@ Tentando inscrever +10 ECTS (Total seria 65)...
 [OK] Inscrição bloqueada pelo sistema (Limite de ECTS): User-Defined Exception
 === TESTE DE LIMITES: SUCESSO (Alerta detetado no LOG) ===
 
-
---------------------------------------------------------------------- PROMPT [15/19] Executando Testes de Regras de Avaliação (Hierarquia e Entregas)...
+[15/19] Executando Testes de Regras de Avaliação (Hierarquia e Entregas)...
 === INICIANDO TESTES DE REGRAS DE AVALIAÇÃO ===
 --- Teste 1: Validacao de Grupo (Ignorado - Sem coluna de grupo na tabela Avaliacao) ---
 --- Teste 2: Tentar criar sub-avaliação onde pai não permite ---
@@ -190,20 +173,29 @@ Tentando inscrever +10 ECTS (Total seria 65)...
 [OK] Regra detectada no log via ALERTA.
 === TESTES DE REGRAS CONCLUÍDOS ===
 
-
---------------------------------------------------------------------- PROMPT [16/19] Executando Regras de Max_Alunos e Grupos...
+[16/19] Executando Regras de Max_Alunos e Grupos...
 === INICIANDO TESTE: REGRAS DE GRUPOS E LIMITES ===
+Valor Total: 1000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Valor Total: 1000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Valor Total: 1000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Cenario 1: Inserindo Avaliacao Individual com max_alunos = 10...
+[SUCESSO] O Trigger corrigiu max_alunos para 1.
+Cenario 2: Testando limite de 2 alunos numa entrega...
+[OK] Terceiro aluno bloqueado pelo trigger.
+[SUCESSO] O sistema registrou o erro no LOG.
+=== FIM DOS TESTES DE GRUPOS ===
 
-
---------------------------------------------------------------------- PROMPT [17/19] Executando Teste de Segurança de Logs (Imutabilidade)...
+[17/19] Executando Teste de Segurança de Logs (Imutabilidade)...
 === INICIANDO TESTE DE SEGURANÇA DE LOGS ===
-[OK] Insert no LOG permitido. ID: 42954
+[OK] Insert no LOG permitido. ID: 58097
 [OK] UPDATE bloqueado por imutabilidade.
 [OK] DELETE bloqueado por imutabilidade.
 === TESTE DE SEGURANÇA CONCLUÍDO ===
 
-
---------------------------------------------------------------------- PROMPT [18/19] Validando Vistas e Relatórios...
+[18/19] Validando Vistas e Relatórios...
 === INICIANDO TESTE DE VISTAS ===
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
@@ -212,18 +204,48 @@ ALUNO: Erika Pinto-Abreu | FALTAS: 50%
 CONSULTANDO PAUTA DA TURMA:
 ALUNO: Erika Pinto-Abreu | RESULTADO: REPROVADO
 TESTANDO RESTANTES VISTAS (SMOKE TEST)...
-[OK] VW_FINANCEIRO_CURSOS: 80 registos.
-[OK] VW_ESTATISTICA_VAGAS: 90 registos.
-[OK] VW_OCUPACAO_SALAS_HOJE: 17 registos.
-[OK] VW_PERFIL_ACADEMICO_ALUNO: 934 registos.
+[OK] VW_FINANCEIRO_CURSOS: 46 registos.
+[OK] VW_ESTATISTICA_VAGAS: 48 registos.
+[OK] VW_OCUPACAO_SALAS_HOJE: 15 registos.
+[OK] VW_PERFIL_ACADEMICO_ALUNO: 902 registos.
 
+[18b/19] Executando Testes de Integridade da Tabela FICHEIRO_ENTREGA...
+=== INICIANDO TESTE TABELA FICHEIRO_ENTREGA ===
+1. Testando Status Inválido (Inserir "A")...
+[OK] Status corrigido para 0.
+2. Testando Tamanho Zero (Limite Inferior)...
+[OK] Ficheiro com tamanho 0 bloqueado.
+3. Testando Tamanho Excessivo (10485761 bytes)...
+[OK] Ficheiro gigante bloqueado.
+4. Testando Inserção Válida...
+[OK] Ficheiro válido inserido com sucesso.
+=== TESTE FICHEIRO_ENTREGA: SUCESSO ===
 
---------------------------------------------------------------------- PROMPT [19/19] Gerando Dados de Demonstração Finais (Cenário Realista)...
+[18c/19] Executando Testes de Integridade da Tabela FICHEIRO_RECURSO...
+=== INICIANDO TESTE TABELA FICHEIRO_RECURSO ===
+1. Testando Status Inválido (Inserir "X")...
+[OK] Status corrigido para 0.
+2. Testando Ficheiro Vazio (NULL/Empty)...
+[OK] Ficheiro vazio bloqueado pelo trigger.
+3. Testando Inserção Válida...
+[OK] Ficheiro de recurso inserido com sucesso.
+=== TESTE FICHEIRO_RECURSO: SUCESSO ===
+
+[19/19] Gerando Dados de Demonstração Finais (Cenário Realista)...
 === GERANDO DADOS DE DEMONSTRAÇÃO (Cenário Realista) ===
-ERRO NO DEMO: User-Defined Exception
+Valor Total: 1500, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Valor Total: 1500, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Valor Total: 1500, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Valor Total: 1500, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+Dados gerados com sucesso.
+Turma criada: 11003
+Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 11003
 
-
---------------------------------------------------------------------- PROMPT ========================================================================
-TODOS OS TESTES FORAM EXECUTADOS COM SUCESSO.
-OS DADOS FORAM PERSISTIDOS (COMMIT).
+========================================================================
+TODOS OS TESTES FORAM EXECUTADOS.
+VERIFIQUE OS LOGS ACIMA PARA CONFIRMAR OS RESULTADOS [OK].
 ========================================================================
