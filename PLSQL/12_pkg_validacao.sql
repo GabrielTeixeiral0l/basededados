@@ -24,7 +24,8 @@ CREATE OR REPLACE PACKAGE BODY PKG_VALIDACAO IS
         END IF;
 
         -- Validação básica do dígito de controlo (Algoritmo Modulo 11)
-        WHILE i <= 8 LOOP
+        LOOP
+            EXIT WHEN i > 8;
             v_soma := v_soma + TO_NUMBER(SUBSTR(v_nif, i, 1)) * (10 - i + 1);
             i := i + 1;
         END LOOP;

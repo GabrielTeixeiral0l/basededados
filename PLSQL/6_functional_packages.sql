@@ -53,7 +53,8 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
 
         v_valor_parcela := v_valor_total / v_num_parcelas;
 
-        WHILE i <= v_num_parcelas LOOP
+        LOOP
+            EXIT WHEN i > v_num_parcelas;
             INSERT INTO parcela_propina (valor, data_vencimento, numero, estado, matricula_id, status)
             VALUES (v_valor_parcela, ADD_MONTHS(SYSDATE, i), i, '0', p_matricula_id, '1');
             i := i + 1;
