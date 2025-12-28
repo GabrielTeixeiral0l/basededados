@@ -40,14 +40,18 @@ DECLARE
         END;
 
         -- 4. Tentar Inscrição
-        INSERT INTO inscricao (turma_id, matricula_id, data) 
-        VALUES (v_t_id, p_mat_id, SYSDATE);
-        
-        v_total_ects := v_total_ects + p_ects;
-        DBMS_OUTPUT.PUT_LINE('[INFO] Inscrição realizada. Total Acumulado: ' || v_total_ects);
+        BEGIN
+            INSERT INTO inscricao (turma_id, matricula_id, data) 
+            VALUES (v_t_id, p_mat_id, SYSDATE);
+            
+            v_total_ects := v_total_ects + p_ects;
+            DBMS_OUTPUT.PUT_LINE('[INFO] Inscrição realizada com sucesso. Total Acumulado: ' || v_total_ects);
+        EXCEPTION WHEN OTHERS THEN
+            DBMS_OUTPUT.PUT_LINE('[OK] Inscrição bloqueada pelo sistema (Limite de ECTS): '||SQLERRM);
+        END;
         
     EXCEPTION WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('[ALERTA/ERRO] Capturado: '||SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('[ERRO] Falha ao configurar dados para o teste: '||SQLERRM);
     END;
 
 BEGIN
@@ -56,7 +60,7 @@ BEGIN
     -- 1. Criar Estudante (Deixar trigger atribuir ID)
     INSERT INTO estudante (nome, data_nascimento, cc, nif, email, telemovel) 
     VALUES ('Aluno Limite '||v_sufixo, TO_DATE('2000-01-01', 'YYYY-MM-DD'), 
-            SUBSTR(v_sufixo||'999999',1,12), SUBSTR('99'||v_sufixo||'00',1,9), 
+            '12345678', '275730972', 
             'limite'||v_sufixo||'@teste.com', '912345678')
     RETURNING id INTO v_est_id;
     

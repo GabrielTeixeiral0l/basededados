@@ -47,16 +47,21 @@ BEGIN
     VALUES (seq_avaliacao.NEXTVAL, 'Pai Sem Filhos', SYSDATE, SYSDATE, 100, 1, v_turma_id, v_tipo_sem_filhos)
     RETURNING id INTO v_aval_id;
 
-    INSERT INTO avaliacao (id, titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id, avaliacao_pai_id)
-    VALUES (seq_avaliacao.NEXTVAL, 'Filho Ilegal', SYSDATE, SYSDATE, 50, 1, v_turma_id, v_tipo_sem_filhos, v_aval_id);
+    BEGIN
+        INSERT INTO avaliacao (id, titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id, avaliacao_pai_id)
+        VALUES (seq_avaliacao.NEXTVAL, 'Filho Ilegal', SYSDATE, SYSDATE, 50, 1, v_turma_id, v_tipo_sem_filhos, v_aval_id);
+        DBMS_OUTPUT.PUT_LINE('[FALHA] Sub-avaliacao ilegal permitida.');
+    EXCEPTION WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('[OK] Sub-avaliacao bloqueada como esperado.');
+    END;
     
     SELECT COUNT(*) INTO v_count FROM log 
-    WHERE acao = 'ALERTA' AND data LIKE '%nao permite sub-avaliacoes%';
+    WHERE acao = 'ERRO' AND data LIKE '%nao permite sub-avaliacoes%';
 
     IF v_count > 0 THEN
-        DBMS_OUTPUT.PUT_LINE('[OK] Regra detectada no log via ALERTA.');
+        DBMS_OUTPUT.PUT_LINE('[OK] Regra detectada no log via ERRO.');
     ELSE
-        DBMS_OUTPUT.PUT_LINE('[FALHA] Alerta de sub-avaliacao nao encontrado no log.');
+        DBMS_OUTPUT.PUT_LINE('[FALHA] Log de erro de sub-avaliacao nao encontrado.');
     END IF;
 
     -- -------------------------------------------------------------------------

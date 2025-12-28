@@ -17,23 +17,33 @@ BEGIN
 
     -- 1. TESTE DE VALIDAÇÃO DE DOCUMENTOS (NIF INVÁLIDO)
     DBMS_OUTPUT.PUT_LINE('1. Testando NIF Inválido...');
-    INSERT INTO estudante (nome, morada, data_nascimento, cc, nif, email, telemovel)
-    VALUES ('Aluno Erro '||v_sufixo, 'Rua B', SYSDATE-7000, 
-            SUBSTR('CC'||v_sufixo||'000',1,12), '123456780', -- NIF Inválido (checksum errado)
-            'e'||v_sufixo||'@erro.com', '96'||SUBSTR(v_sufixo,1,7))
-    RETURNING id INTO v_est_id;
+    BEGIN
+        INSERT INTO estudante (nome, morada, data_nascimento, cc, nif, email, telemovel)
+        VALUES ('Aluno Erro '||v_sufixo, 'Rua B', SYSDATE-7000, 
+                '12345678', '123456780', -- NIF Inválido
+                'e'||v_sufixo||'@erro.com', '960000000');
+        DBMS_OUTPUT.PUT_LINE('[FALHA] NIF invalido permitido.');
+    EXCEPTION WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('[OK] NIF invalido bloqueado.');
+    END;
 
     SELECT COUNT(*) INTO v_log_count FROM log 
-    WHERE acao = 'ALERTA' AND "DATA" LIKE '%NIF inválido%';
+    WHERE acao = 'ERRO' AND "DATA" LIKE '%NIF inv_lido%';
     
     IF v_log_count > 0 THEN
-        DBMS_OUTPUT.PUT_LINE('[OK] Trigger de validação de NIF detectou erro e registou log.');
+        DBMS_OUTPUT.PUT_LINE('[OK] Log de erro encontrado.');
     ELSE
-        DBMS_OUTPUT.PUT_LINE('[FALHA] Trigger de validação de NIF não registou o alerta.');
+        DBMS_OUTPUT.PUT_LINE('[FALHA] Log de erro não encontrado (NIF).');
     END IF;
 
     -- 2. TESTE DE GERAÇÃO AUTOMÁTICA DE PROPINAS E PARCELAS
     DBMS_OUTPUT.PUT_LINE('2. Testando Plano de Pagamento...');
+    -- Criar estudante válido para este teste
+    INSERT INTO estudante (nome, morada, data_nascimento, cc, nif, email, telemovel)
+    VALUES ('Aluno Valido '||v_sufixo, 'Rua C', SYSDATE-7000, 
+            '87654321', '275730972', 'v'||v_sufixo||'@ok.com', '910000000')
+    RETURNING id INTO v_est_id;
+
     INSERT INTO tipo_curso (nome, valor_propinas) VALUES ('Lic '||v_sufixo, 1200) RETURNING id INTO v_tc_id;
     INSERT INTO curso (nome, codigo, descricao, duracao, ects, max_alunos, tipo_curso_id)
     VALUES ('Curso Teste '||v_sufixo, 'CT'||v_sufixo, 'Desc', 3, 180, 30, v_tc_id)
@@ -58,8 +68,8 @@ BEGIN
     VALUES ('UC Teste '||v_sufixo, 'UT'||v_sufixo, 40, 20) RETURNING id INTO v_uc_id;
     
     INSERT INTO docente (nome, data_contratacao, nif, cc, email, telemovel)
-    VALUES ('Prof Conflito '||v_sufixo, SYSDATE, SUBSTR('2'||v_sufixo||'9999',1,9), 
-            SUBSTR(v_sufixo||'XY00000',1,12), 'd'||v_sufixo||'@test.com', '92'||SUBSTR(v_sufixo,1,7))
+    VALUES ('Prof Conflito '||v_sufixo, SYSDATE, '275730972', 
+            '12345678', 'd'||v_sufixo||'@test.com', '920000000')
     RETURNING id INTO v_doc_id;
 
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, max_alunos, docente_id)
@@ -74,19 +84,24 @@ BEGIN
     RETURNING id INTO v_aul1_id;
 
     -- Aula 2 (Mesmo Docente, mesmo horário): 11:00 - 13:00
-    INSERT INTO aula (data, hora_inicio, hora_fim, sumario, tipo_aula_id, sala_id, turma_id)
-    VALUES (TRUNC(SYSDATE)+1, TO_DATE('11:00','HH24:MI'), TO_DATE('13:00','HH24:MI'), 'Aula 2 Conflito', v_ta_id, v_sal_id, v_tur_id)
-    RETURNING id INTO v_aul2_id;
+    BEGIN
+        INSERT INTO aula (data, hora_inicio, hora_fim, sumario, tipo_aula_id, sala_id, turma_id)
+        VALUES (TRUNC(SYSDATE)+1, TO_DATE('11:00','HH24:MI'), TO_DATE('13:00','HH24:MI'), 'Aula 2 Conflito', v_ta_id, v_sal_id, v_tur_id)
+        RETURNING id INTO v_aul2_id;
+        DBMS_OUTPUT.PUT_LINE('[FALHA] Conflito de horario permitido.');
+    EXCEPTION WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('[OK] Conflito de horario bloqueado.');
+    END;
 
     COMMIT; -- Garantir que a transação autónoma do log foi persistida
 
     SELECT COUNT(*) INTO v_log_count FROM log 
-    WHERE acao = 'ALERTA' AND "DATA" LIKE '%Conflito de horario%';
+    WHERE acao = 'ERRO' AND "DATA" LIKE '%Conflito de horario%';
 
     IF v_log_count > 0 THEN
-        DBMS_OUTPUT.PUT_LINE('[OK] Trigger detectou conflito de horário do docente.');
+        DBMS_OUTPUT.PUT_LINE('[OK] Log de erro encontrado.');
     ELSE
-        DBMS_OUTPUT.PUT_LINE('[FALHA] Conflito de horário não detectado.');
+        DBMS_OUTPUT.PUT_LINE('[FALHA] Log de erro não encontrado.');
     END IF;
 
     -- 4. TESTE DE SOFT-DELETE

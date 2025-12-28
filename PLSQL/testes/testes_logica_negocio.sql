@@ -24,7 +24,7 @@ BEGIN
     VALUES ('Lógica '||v_sufixo, 'LOG'||v_sufixo, 40, 20) RETURNING id INTO v_uc_id;
     
     INSERT INTO docente (nome, data_contratacao, nif, cc, email, telemovel)
-    VALUES ('Docente '||v_sufixo, SYSDATE, SUBSTR('3'||v_sufixo||'000',1,9), '123456789ZZ5', 'd@l.com', '910000000') 
+    VALUES ('Docente '||v_sufixo, SYSDATE, '275730972', '12345678', 'd@l.com', '910000000') 
     RETURNING id INTO v_doc_id;
     
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, max_alunos, docente_id)

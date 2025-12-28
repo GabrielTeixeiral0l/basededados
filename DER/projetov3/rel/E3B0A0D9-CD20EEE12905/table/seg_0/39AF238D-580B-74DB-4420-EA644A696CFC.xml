@@ -56,19 +56,17 @@
 <colAssociation fkAssociation="6A84FD99-2A2C-D3E9-C6A7-D519F68201AF" referredColumn="2A8F7C08-E2D1-00C3-024D-EBF382F12C26"/>
 </associations>
 </Column>
-<Column name="estado_matricula_id" id="74AE580D-8839-692A-0F05-8E2DE2965EA9">
+<Column name="estado_matricula" id="74AE580D-8839-692A-0F05-8E2DE2965EA9">
 <createdBy>teixe</createdBy>
 <createdTime>2025-12-23 11:01:46 UTC</createdTime>
 <ownerDesignName>projetov3</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="BAF906FD-239F-3C2E-E108-01AA57862FD6" referredColumn="ED731120-94C5-BF28-5B68-F470973F479C"/>
-</associations>
 </Column>
 <Column name="numero_parcelas" id="3EA8F7B5-6A41-70D4-81B1-C02A327DBEC1">
 <createdBy>teixe</createdBy>
@@ -155,16 +153,6 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="BC94B836-481E-BD38-1690-9FBE3B799807"/>
-</indexColumnUsage>
-</ind_PK_UK>
-<ind_PK_UK id="51D97B63-861E-D808-AD06-A07FFD23B40C" name="matricula_estado_matricula_FK">
-<createdBy>teixe</createdBy>
-<createdTime>2025-12-23 11:01:46 UTC</createdTime>
-<ownerDesignName>projetov3</ownerDesignName>
-<indexState>Foreign Key</indexState>
-<isSurrogateKey>false</isSurrogateKey>
-<indexColumnUsage>
-<colUsage columnID="74AE580D-8839-692A-0F05-8E2DE2965EA9"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

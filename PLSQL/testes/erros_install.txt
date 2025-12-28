@@ -238,6 +238,9 @@ Trigger TRG_VAL_AVALIACAO_REGRAS compiled
 Trigger TRG_VAL_LIMITE_GRUPO_ENTREGA compiled
 
 
+Trigger TRG_VAL_EST_ENTREGA_REGRAS compiled
+
+
 Trigger TRG_VAL_ENTREGA_REGRAS compiled
 
 
@@ -250,10 +253,16 @@ Trigger TRG_VAL_DADOS_DOCENTE compiled
 Trigger TRG_VAL_HORARIO_AULA compiled
 
 
-Trigger TRG_VAL_ESTUDANTE_REGRAS compiled
+Trigger TRG_VAL_INSCRICAO_ECTS compiled
 
 
 Trigger TRG_AUTO_GERAR_PROPINAS compiled
+
+
+Trigger TRG_VAL_SALA compiled
+
+
+Trigger TRG_VAL_CURSO compiled
 
 
 Trigger TRG_PROTEGER_LOG compiled

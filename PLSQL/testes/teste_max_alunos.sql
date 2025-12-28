@@ -20,19 +20,32 @@ BEGIN
     INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas)
     VALUES ('U'||v_sufixo, 'UT'||v_sufixo, 20, 20) RETURNING id INTO v_uc_id;
     INSERT INTO docente (nome, data_contratacao, nif, cc, email, telemovel)
-    VALUES ('P'||v_sufixo, SYSDATE, SUBSTR(v_sufixo||'000',1,9), 'CC'||v_sufixo, 'p@t.pt', '911111111') RETURNING id INTO v_doc_id;
+    VALUES ('P'||v_sufixo, SYSDATE, '267873072', '12345678', 'p@t.pt', '911111111') RETURNING id INTO v_doc_id;
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, max_alunos, docente_id)
     VALUES ('T'||v_sufixo, '25/26', v_uc_id, 30, v_doc_id) RETURNING id INTO v_tur_id;
 
     -- Criar Inscrições
-    FOR i IN 1..3 LOOP
-        INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
-        VALUES ('A'||i||v_sufixo, SUBSTR(v_sufixo||i,1,9), 'CC'||i||v_sufixo, SYSDATE-7000, '910'||i, 'a'||i||'@t.pt') RETURNING id INTO v_est_id;
-        INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
-        VALUES (v_cur_id, v_est_id, 'Ativa', 2025, 10) RETURNING id INTO v_mat_id;
-        INSERT INTO inscricao (turma_id, matricula_id, data) VALUES (v_tur_id, v_mat_id, SYSDATE) RETURNING id INTO v_mat_id;
-        IF i = 1 THEN v_ins1 := v_mat_id; ELSIF i = 2 THEN v_ins2 := v_mat_id; ELSIF i = 3 THEN v_ins3 := v_mat_id; END IF;
-    END LOOP;
+    -- Aluno 1
+    INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
+    VALUES ('A1'||v_sufixo, '275730972', '11111111', SYSDATE-7000, '910000001', 'a1@t.pt') RETURNING id INTO v_est_id;
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
+    VALUES (v_cur_id, v_est_id, 'Ativa', 2025, 10) RETURNING id INTO v_mat_id;
+    INSERT INTO inscricao (turma_id, matricula_id, data) VALUES (v_tur_id, v_mat_id, SYSDATE) RETURNING id INTO v_ins1; -- Corrigido v_ins1
+
+    -- Aluno 2
+    INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
+    VALUES ('A2'||v_sufixo, '257573097', '22222222', SYSDATE-7000, '910000002', 'a2@t.pt') RETURNING id INTO v_est_id;
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
+    VALUES (v_cur_id, v_est_id, 'Ativa', 2025, 10) RETURNING id INTO v_mat_id;
+    INSERT INTO inscricao (turma_id, matricula_id, data) VALUES (v_tur_id, v_mat_id, SYSDATE) RETURNING id INTO v_ins2; -- Corrigido v_ins2
+
+    -- Aluno 3
+    INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
+    VALUES ('A3'||v_sufixo, '237300870', '33333333', SYSDATE-7000, '910000003', 'a3@t.pt') RETURNING id INTO v_est_id;
+    INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
+    VALUES (v_cur_id, v_est_id, 'Ativa', 2025, 10) RETURNING id INTO v_mat_id;
+    INSERT INTO inscricao (turma_id, matricula_id, data) VALUES (v_tur_id, v_mat_id, SYSDATE) RETURNING id INTO v_ins3; -- Corrigido v_ins3
+
 
     -- 2. CRIAR TIPOS DE AVALIAÇÃO (Ajustado para 'permite_grupo' conforme DDL)
     INSERT INTO tipo_avaliacao (nome, requer_entrega, permite_grupo, permite_filhos) 
@@ -64,15 +77,21 @@ BEGIN
 
     INSERT INTO estudante_entrega (entrega_id, inscricao_id) VALUES (v_entrega_id, v_ins1);
     INSERT INTO estudante_entrega (entrega_id, inscricao_id) VALUES (v_entrega_id, v_ins2);
-    INSERT INTO estudante_entrega (entrega_id, inscricao_id) VALUES (v_entrega_id, v_ins3);
+    
+    BEGIN
+        INSERT INTO estudante_entrega (entrega_id, inscricao_id) VALUES (v_entrega_id, v_ins3);
+        DBMS_OUTPUT.PUT_LINE('[FALHA] Terceiro aluno permitido num grupo de 2.');
+    EXCEPTION WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('[OK] Terceiro aluno bloqueado pelo trigger.');
+    END;
 
     SELECT COUNT(*) INTO v_log_count FROM log 
-    WHERE acao = 'ALERTA' AND data LIKE '%'||v_entrega_id||'%';
+    WHERE acao = 'ERRO' AND data LIKE '%'||v_entrega_id||'%';
 
     IF v_log_count > 0 THEN
-        DBMS_OUTPUT.PUT_LINE('[SUCESSO] O sistema registrou o alerta no LOG.');
+        DBMS_OUTPUT.PUT_LINE('[SUCESSO] O sistema registrou o erro no LOG.');
     ELSE
-        DBMS_OUTPUT.PUT_LINE('[FALHA] Nenhum alerta encontrado.');
+        DBMS_OUTPUT.PUT_LINE('[FALHA] Log de erro não encontrado.');
     END IF;
 
     ROLLBACK; 

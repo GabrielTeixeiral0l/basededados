@@ -56,6 +56,7 @@
 <createdBy>teixe</createdBy>
 <createdTime>2025-12-26 10:54:32 UTC</createdTime>
 <ownerDesignName>projetov3</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>

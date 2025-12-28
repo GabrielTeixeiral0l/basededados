@@ -6,10 +6,16 @@
 CREATE OR REPLACE TRIGGER TRG_VAL_NOTA
 BEFORE INSERT OR UPDATE ON NOTA
 FOR EACH ROW
+DECLARE
+    E_NOTA_INVALIDA EXCEPTION;
 BEGIN
     IF :NEW.nota < 0 OR :NEW.nota > 20 THEN
-        PKG_LOG.ALERTA('Tentativa de inserir nota invalida: ' || :NEW.nota || ' para inscricao ' || :NEW.inscricao_id, 'NOTA');
+        PKG_LOG.ERRO('Tentativa de inserir nota invalida: ' || :NEW.nota || ' para inscricao ' || :NEW.inscricao_id, 'NOTA');
+        RAISE E_NOTA_INVALIDA;
     END IF;
+EXCEPTION
+    WHEN E_NOTA_INVALIDA THEN
+        RAISE;
 END;
 /
 
@@ -146,27 +152,53 @@ EXCEPTION WHEN OTHERS THEN
 END;
 /
 
--- 5.2. VALIDAÇÃO DE REGRAS DE AVALIAÇÃO (FORÇAR MAX_ALUNOS = 1)
+-- 5.2. VALIDAÇÃO DE REGRAS DE AVALIAÇÃO
 CREATE OR REPLACE TRIGGER TRG_VAL_AVALIACAO_REGRAS
 BEFORE INSERT OR UPDATE ON AVALIACAO
 FOR EACH ROW
 DECLARE
     v_permite_grupo CHAR(1);
+    v_requer_entrega CHAR(1);
+    v_pai_permite_filhos CHAR(1);
+    E_PAI_INVALIDO EXCEPTION;
 BEGIN
-    -- Busca a regra no tipo de avaliação
-    SELECT permite_grupo INTO v_permite_grupo
-    FROM tipo_avaliacao
-    WHERE id = :NEW.tipo_avaliacao_id;
+    -- 1. Validar Status
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'AVALIACAO');
 
-    -- Se não permite grupo, forçar obrigatoriamente max_alunos = 1
-    IF v_permite_grupo = '0' THEN
-        :NEW.max_alunos := 1;
+    -- 2. Validar Peso (0 a 1)
+    IF :NEW.peso < 0 OR :NEW.peso > 1 THEN
+        PKG_LOG.ERRO('Peso invalido (' || :NEW.peso || ') na avaliacao. Ajustado para 0.', 'AVALIACAO');
+        :NEW.peso := 0;
     END IF;
 
-    -- Validar se o pai permite sub-avaliacoes (lógica existente)
+    -- 3. Obter regras do Tipo de Avaliação
+    BEGIN
+        SELECT permite_grupo, requer_entrega 
+        INTO v_permite_grupo, v_requer_entrega
+        FROM tipo_avaliacao
+        WHERE id = :NEW.tipo_avaliacao_id;
+
+        -- 3.1. Regra de Grupo (Se não permite, força 1 aluno)
+        IF v_permite_grupo = '0' THEN
+            :NEW.max_alunos := 1;
+        END IF;
+
+        -- 3.2. Regra de Entrega e Datas
+        IF v_requer_entrega = '0' THEN
+            :NEW.data_entrega := NULL;
+        ELSE
+            IF :NEW.data_entrega IS NOT NULL AND :NEW.data_entrega < :NEW.data THEN
+                PKG_LOG.ALERTA('Data de entrega anterior a data da avaliacao. Ajustada para a data inicial.', 'AVALIACAO');
+                :NEW.data_entrega := :NEW.data;
+            END IF;
+        END IF;
+
+    EXCEPTION WHEN NO_DATA_FOUND THEN
+        PKG_LOG.ERRO('Tipo de Avaliacao ' || :NEW.tipo_avaliacao_id || ' nao encontrado.', 'AVALIACAO');
+    END;
+
+    -- 4. Validar Hierarquia (Pai)
     IF :NEW.avaliacao_pai_id IS NOT NULL THEN
-        DECLARE
-            v_pai_permite_filhos CHAR(1);
         BEGIN
             SELECT t.permite_filhos INTO v_pai_permite_filhos
             FROM avaliacao a
@@ -174,9 +206,13 @@ BEGIN
             WHERE a.id = :NEW.avaliacao_pai_id;
 
             IF v_pai_permite_filhos = '0' THEN
-                 PKG_LOG.ALERTA('A avaliacao pai ' || :NEW.avaliacao_pai_id || ' nao permite sub-avaliacoes.', 'AVALIACAO');
+                 RAISE E_PAI_INVALIDO;
             END IF;
-        EXCEPTION WHEN NO_DATA_FOUND THEN NULL; 
+        EXCEPTION 
+            WHEN NO_DATA_FOUND THEN NULL;
+            WHEN E_PAI_INVALIDO THEN
+                 PKG_LOG.ERRO('A avaliacao pai ' || :NEW.avaliacao_pai_id || ' nao permite sub-avaliacoes.', 'AVALIACAO');
+                 RAISE;
         END;
     END IF;
 END;
@@ -189,6 +225,7 @@ FOR EACH ROW
 DECLARE
     v_max_alunos NUMBER;
     v_atual      NUMBER;
+    E_LIMITE_EXCEDIDO EXCEPTION;
 BEGIN
     -- 1. Buscar o limite da avaliação
     SELECT a.max_alunos INTO v_max_alunos
@@ -201,34 +238,118 @@ BEGIN
     FROM estudante_entrega
     WHERE entrega_id = :NEW.entrega_id;
 
-    -- 3. Se exceder, gerar alerta no LOG
+    -- 3. Se exceder, abortar transação
     IF v_atual + 1 > v_max_alunos THEN
-        PKG_LOG.ALERTA('Aviso de Limite: O limite de ' || v_max_alunos || 
-                       ' aluno(s) foi excedido para a entrega ID ' || :NEW.entrega_id, 'ESTUDANTE_ENTREGA');
+        RAISE E_LIMITE_EXCEDIDO;
     END IF;
+
 EXCEPTION 
-    WHEN NO_DATA_FOUND THEN NULL;
-    WHEN OTHERS THEN PKG_LOG.ERRO('Erro em TRG_VAL_LIMITE_GRUPO_ENTREGA: ' || SQLERRM, 'ESTUDANTE_ENTREGA');
+    WHEN NO_DATA_FOUND THEN 
+        NULL;
+    WHEN E_LIMITE_EXCEDIDO THEN
+        PKG_LOG.ERRO('Erro: O limite de ' || v_max_alunos || ' aluno(s) foi excedido para a entrega ID ' || :NEW.entrega_id, 'ESTUDANTE_ENTREGA');
+        RAISE;
+    WHEN OTHERS THEN 
+        PKG_LOG.ERRO('Erro em TRG_VAL_LIMITE_GRUPO_ENTREGA: ' || SQLERRM, 'ESTUDANTE_ENTREGA');
+        RAISE;
 END;
 /
 
+        
 
+        -- 5.2.2. VALIDAÇÃO DE REGRAS DE ASSOCIAÇÃO (ESTUDANTE_ENTREGA)
+        CREATE OR REPLACE TRIGGER TRG_VAL_EST_ENTREGA_REGRAS
+        BEFORE INSERT OR UPDATE ON ESTUDANTE_ENTREGA
+        FOR EACH ROW
+        DECLARE
+            v_turma_entrega NUMBER;
+            v_turma_inscricao NUMBER;
+            v_avaliacao_id NUMBER;
+            v_existe_duplicado NUMBER;
+            E_INCONSISTENCIA EXCEPTION;
+            E_DUPLICADO EXCEPTION;
+        BEGIN
+            -- 1. Validar Status
+            PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'ESTUDANTE_ENTREGA');
 
--- 5.2.1. VALIDAÇÃO DE ENTREGAS
+            -- Obter dados da Entrega/Avaliação
+            BEGIN
+                SELECT a.turma_id, a.id
+                INTO v_turma_entrega, v_avaliacao_id
+                FROM entrega e
+                JOIN avaliacao a ON e.avaliacao_id = a.id
+                WHERE e.id = :NEW.entrega_id;
+
+                -- 2. Validar Consistência: A inscrição pertence à turma da avaliação?
+                SELECT turma_id INTO v_turma_inscricao
+                FROM inscricao
+                WHERE id = :NEW.inscricao_id;
+
+                IF v_turma_entrega != v_turma_inscricao THEN
+                     RAISE E_INCONSISTENCIA;
+                END IF;
+
+                -- 3. Validar Duplicação (A mesma inscrição já tem grupo nesta avaliação?)
+                SELECT COUNT(*) INTO v_existe_duplicado
+                FROM estudante_entrega ee
+                JOIN entrega e ON ee.entrega_id = e.id
+                WHERE e.avaliacao_id = v_avaliacao_id
+                  AND ee.inscricao_id = :NEW.inscricao_id
+                  AND ee.entrega_id != :NEW.entrega_id;
+
+                IF v_existe_duplicado > 0 THEN
+                     RAISE E_DUPLICADO;
+                END IF;
+
+            EXCEPTION
+                WHEN NO_DATA_FOUND THEN NULL;
+                WHEN E_INCONSISTENCIA THEN
+                    PKG_LOG.ERRO('Inconsistencia: Inscricao ' || :NEW.inscricao_id || ' pertence a turma ' || v_turma_inscricao || ' mas a entrega e da turma ' || v_turma_entrega, 'ESTUDANTE_ENTREGA');
+                    RAISE;
+                WHEN E_DUPLICADO THEN
+                    PKG_LOG.ERRO('A inscricao ' || :NEW.inscricao_id || ' ja esta associada a um grupo nesta avaliacao.', 'ESTUDANTE_ENTREGA');
+                    RAISE;
+            END;
+        END;
+        /
+
+    
+
+    -- 5.2.3. VALIDAÇÃO DE ENTREGAS
 CREATE OR REPLACE TRIGGER TRG_VAL_ENTREGA_REGRAS
-BEFORE INSERT ON ENTREGA
+BEFORE INSERT OR UPDATE ON ENTREGA
 FOR EACH ROW
 DECLARE
     v_req_entrega CHAR(1);
+    v_data_inicio DATE;
+    v_data_fim    DATE;
 BEGIN
-    SELECT ta.requer_entrega INTO v_req_entrega
-    FROM avaliacao a
-    JOIN tipo_avaliacao ta ON a.tipo_avaliacao_id = ta.id
-    WHERE a.id = :NEW.avaliacao_id;
+    -- 1. Validar Status
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'ENTREGA');
 
-    IF v_req_entrega = '0' THEN
-        PKG_LOG.ALERTA('A avaliacao ' || :NEW.avaliacao_id || ' nao requer entrega de ficheiros.', 'ENTREGA');
-    END IF;
+    -- 2. Obter dados da Avaliação
+    BEGIN
+        SELECT ta.requer_entrega, a.data, a.data_entrega
+        INTO v_req_entrega, v_data_inicio, v_data_fim
+        FROM avaliacao a
+        JOIN tipo_avaliacao ta ON a.tipo_avaliacao_id = ta.id
+        WHERE a.id = :NEW.avaliacao_id;
+
+        -- 3. Validar se tipo requer entrega
+        IF v_req_entrega = '0' THEN
+            PKG_LOG.ALERTA('A avaliacao ' || :NEW.avaliacao_id || ' nao requer entrega de ficheiros.', 'ENTREGA');
+        END IF;
+
+        -- 4. Validar Prazos (Gera Alerta, não impede - permite entrega atrasada mas regista)
+        IF :NEW.data_entrega < v_data_inicio THEN
+             PKG_LOG.ALERTA('Entrega efetuada ANTES da data de inicio da avaliacao (' || TO_CHAR(v_data_inicio, 'YYYY-MM-DD') || ').', 'ENTREGA');
+        ELSIF v_data_fim IS NOT NULL AND :NEW.data_entrega > v_data_fim THEN
+             PKG_LOG.ALERTA('Entrega FORA DO PRAZO. Limite era: ' || TO_CHAR(v_data_fim, 'YYYY-MM-DD HH24:MI'), 'ENTREGA');
+        END IF;
+
+    EXCEPTION WHEN NO_DATA_FOUND THEN
+        PKG_LOG.ERRO('Avaliacao ID ' || :NEW.avaliacao_id || ' nao encontrada ao validar entrega.', 'ENTREGA');
+    END;
 END;
 /
 
@@ -236,102 +357,171 @@ END;
 CREATE OR REPLACE TRIGGER TRG_VAL_DADOS_ESTUDANTE
 BEFORE INSERT OR UPDATE ON ESTUDANTE
 FOR EACH ROW
+DECLARE
+    E_DADOS_INVALIDOS EXCEPTION;
 BEGIN
-    -- Validar NIF
+    -- 1. Validar Status
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'ESTUDANTE');
+
+    -- 2. Validar Data de Nascimento (Idade Mínima Parametrizada)
+    IF :NEW.data_nascimento IS NULL OR :NEW.data_nascimento > ADD_MONTHS(SYSDATE, -PKG_CONSTANTES.IDADE_MINIMA_ESTUDANTE*12) THEN
+        PKG_LOG.ERRO('Data de nascimento invalida ou idade inferior a ' || PKG_CONSTANTES.IDADE_MINIMA_ESTUDANTE || ' anos para aluno: ' || :NEW.nome, 'ESTUDANTE');
+        RAISE E_DADOS_INVALIDOS;
+    END IF;
+
+    -- 3. Validar Telemóvel
+    IF :NEW.telemovel IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_TELEMOVEL(:NEW.telemovel) THEN
+        PKG_LOG.ERRO('Telemovel invalido: ' || :NEW.telemovel, 'ESTUDANTE');
+        RAISE E_DADOS_INVALIDOS;
+    END IF;
+
+    -- 4. Validar Identidade (NIF, CC, Email, IBAN)
     IF NOT PKG_VALIDACAO.FUN_VALIDAR_NIF(:NEW.nif) THEN
-        PKG_LOG.REGISTAR('ALERTA', 'NIF inválido para estudante: ' || :NEW.nif, 'ESTUDANTE');
+        PKG_LOG.ERRO('NIF inválido para estudante: ' || :NEW.nif, 'ESTUDANTE');
+        RAISE E_DADOS_INVALIDOS;
     END IF;
 
-    -- Validar CC
-    IF NOT PKG_VALIDACAO.FUN_VALIDAR_CC(:NEW.cc) THEN
-        PKG_LOG.REGISTAR('ALERTA', 'CC inválido para estudante: ' || :NEW.cc, 'ESTUDANTE');
+    IF :NEW.cc IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_CC(:NEW.cc) THEN
+        PKG_LOG.ERRO('CC inválido para estudante: ' || :NEW.cc, 'ESTUDANTE');
+        RAISE E_DADOS_INVALIDOS;
     END IF;
 
-    -- Validar Email
-    IF NOT PKG_VALIDACAO.FUN_VALIDAR_EMAIL(:NEW.email) THEN
-        PKG_LOG.REGISTAR('ALERTA', 'Email inválido para estudante: ' || :NEW.email, 'ESTUDANTE');
+    IF :NEW.email IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_EMAIL(:NEW.email) THEN
+        PKG_LOG.ERRO('Email inválido para estudante: ' || :NEW.email, 'ESTUDANTE');
+        RAISE E_DADOS_INVALIDOS;
     END IF;
 
-    -- Validar IBAN
     IF :NEW.iban IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_IBAN(:NEW.iban) THEN
-        PKG_LOG.REGISTAR('ALERTA', 'IBAN inválido para estudante: ' || :NEW.iban, 'ESTUDANTE');
+        PKG_LOG.ERRO('IBAN inválido para estudante: ' || :NEW.iban, 'ESTUDANTE');
+        RAISE E_DADOS_INVALIDOS;
     END IF;
+EXCEPTION
+    WHEN E_DADOS_INVALIDOS THEN RAISE;
+    WHEN OTHERS THEN
+        PKG_LOG.ERRO('Erro inesperado na validacao de estudante: ' || SQLERRM, 'ESTUDANTE');
+        RAISE;
 END;
 /
 
 CREATE OR REPLACE TRIGGER TRG_VAL_DADOS_DOCENTE
 BEFORE INSERT OR UPDATE ON DOCENTE
 FOR EACH ROW
-BEGIN
-    -- Validar NIF
-    IF NOT PKG_VALIDACAO.FUN_VALIDAR_NIF(:NEW.nif) THEN
-        PKG_LOG.REGISTAR('ALERTA', 'NIF inválido para docente: ' || :NEW.nif, 'DOCENTE');
-    END IF;
-
-    -- Validar CC
-    IF :NEW.cc IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_CC(:NEW.cc) THEN
-        PKG_LOG.REGISTAR('ALERTA', 'CC inválido para docente: ' || :NEW.cc, 'DOCENTE');
-    END IF;
-
-    -- Validar Email
-    IF :NEW.email IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_EMAIL(:NEW.email) THEN
-        PKG_LOG.REGISTAR('ALERTA', 'Email inválido para docente: ' || :NEW.email, 'DOCENTE');
-    END IF;
-
-    -- Validar IBAN
-    IF :NEW.iban IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_IBAN(:NEW.iban) THEN
-        PKG_LOG.REGISTAR('ALERTA', 'IBAN inválido para docente: ' || :NEW.iban, 'DOCENTE');
-    END IF;
-END;
-/
-
--- 5.3. VALIDAÇÃO DE SOBREPOSIÇÃO DE HORÁRIO (SALA E DOCENTE)
-CREATE OR REPLACE TRIGGER TRG_VAL_HORARIO_AULA
-BEFORE INSERT OR UPDATE ON AULA
-FOR EACH ROW
 DECLARE
-    v_conflito_sala NUMBER;
-    v_conflito_docente NUMBER;
-    v_docente_id NUMBER;
+    E_DADOS_INVALIDOS EXCEPTION;
 BEGIN
-    -- 1. Conflito de Sala
-    SELECT COUNT(*) INTO v_conflito_sala
-    FROM aula a
-    WHERE a.sala_id = :NEW.sala_id
-      AND a.data = :NEW.data
-      AND a.id != NVL(:NEW.id, -1)
-      AND (
-          (:NEW.hora_inicio < a.hora_fim AND :NEW.hora_fim > a.hora_inicio)
-      );
+    -- 1. Validar Status
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'DOCENTE');
 
-    IF v_conflito_sala > 0 THEN
-        PKG_LOG.ALERTA('Conflito de horario na sala ' || :NEW.sala_id || ' em ' || TO_CHAR(:NEW.data, 'DD/MM/YYYY'), 'AULA');
+    -- 2. Validar Data de Contratação (Não pode ser futura)
+    IF :NEW.data_contratacao > SYSDATE THEN
+        PKG_LOG.ERRO('Data de contratacao no futuro: ' || TO_CHAR(:NEW.data_contratacao, 'DD/MM/YYYY'), 'DOCENTE');
+        RAISE E_DADOS_INVALIDOS;
     END IF;
 
-    -- 2. Conflito de Docente
-    SELECT docente_id INTO v_docente_id FROM turma WHERE id = :NEW.turma_id;
-
-    SELECT COUNT(*) INTO v_conflito_docente
-    FROM aula a
-    JOIN turma t ON a.turma_id = t.id
-    WHERE t.docente_id = v_docente_id
-      AND a.data = :NEW.data
-      AND a.id != NVL(:NEW.id, -1)
-      AND (
-          (:NEW.hora_inicio < a.hora_fim AND :NEW.hora_fim > a.hora_inicio)
-      );
-
-    IF v_conflito_docente > 0 THEN
-        PKG_LOG.ALERTA('Conflito de horario para o docente ' || v_docente_id || ' em ' || TO_CHAR(:NEW.data, 'DD/MM/YYYY'), 'AULA');
+    -- 3. Validar Identidade e Contactos
+    -- Telemovel (Obrigatorio no DDLv3)
+    IF :NEW.telemovel IS NULL OR NOT PKG_VALIDACAO.FUN_VALIDAR_TELEMOVEL(:NEW.telemovel) THEN
+        PKG_LOG.ERRO('Telemovel invalido ou ausente para docente: ' || NVL(:NEW.telemovel, 'NULL'), 'DOCENTE');
+        RAISE E_DADOS_INVALIDOS;
     END IF;
 
-EXCEPTION WHEN OTHERS THEN 
-    PKG_LOG.ERRO('Erro no trigger TRG_VAL_HORARIO_AULA: ' || SQLERRM, 'AULA');
+    -- NIF
+    IF NOT PKG_VALIDACAO.FUN_VALIDAR_NIF(:NEW.nif) THEN
+        PKG_LOG.ERRO('NIF inválido para docente: ' || :NEW.nif, 'DOCENTE');
+        RAISE E_DADOS_INVALIDOS;
+    END IF;
+
+    -- CC
+    IF :NEW.cc IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_CC(:NEW.cc) THEN
+        PKG_LOG.ERRO('CC inválido para docente: ' || :NEW.cc, 'DOCENTE');
+        RAISE E_DADOS_INVALIDOS;
+    END IF;
+
+    -- Email
+    IF :NEW.email IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_EMAIL(:NEW.email) THEN
+        PKG_LOG.ERRO('Email inválido: ' || :NEW.email, 'DOCENTE');
+        RAISE E_DADOS_INVALIDOS;
+    END IF;
+
+    -- IBAN
+    IF :NEW.iban IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_IBAN(:NEW.iban) THEN
+        PKG_LOG.ERRO('IBAN inválido: ' || :NEW.iban, 'DOCENTE');
+        RAISE E_DADOS_INVALIDOS;
+    END IF;
+EXCEPTION
+    WHEN E_DADOS_INVALIDOS THEN RAISE;
+    WHEN OTHERS THEN
+        PKG_LOG.ERRO('Erro inesperado na validacao de docente: ' || SQLERRM, 'DOCENTE');
+        RAISE;
 END;
 /
 
--- 5.4. VALIDAÇÃO DE REGRAS DE ESTUDANTE (ECTS Anual)
-CREATE OR REPLACE TRIGGER TRG_VAL_ESTUDANTE_REGRAS
+    -- 5.3. VALIDAÇÃO DE HORÁRIOS DE AULA (Conflitos de Sala e Docente)
+    CREATE OR REPLACE TRIGGER TRG_VAL_HORARIO_AULA
+    BEFORE INSERT OR UPDATE ON AULA
+    FOR EACH ROW
+    DECLARE
+        v_conflito_sala NUMBER;
+        v_conflito_docente NUMBER;
+        v_docente_id NUMBER;
+        E_CONFLITO_SALA EXCEPTION;
+        E_CONFLITO_DOCENTE EXCEPTION;
+    BEGIN
+        -- 0. Validar Status
+        PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'AULA');
+
+        -- 0.1. Validar Sequência Temporal (Fim > Início)
+        IF :NEW.hora_fim <= :NEW.hora_inicio THEN
+            PKG_LOG.ALERTA('Hora de fim ('||TO_CHAR(:NEW.hora_fim, 'HH24:MI')||') anterior ou igual ao inicio na aula ID '||:NEW.id||'. Ajustado +1h.', 'AULA');
+            :NEW.hora_fim := :NEW.hora_inicio + INTERVAL '1' HOUR;
+        END IF;
+
+        -- 1. Conflito de Sala
+        SELECT COUNT(*) INTO v_conflito_sala
+        FROM aula a
+        WHERE a.sala_id = :NEW.sala_id
+          AND a.data = :NEW.data
+          AND a.id != NVL(:NEW.id, -1)
+          AND (
+              (:NEW.hora_inicio < a.hora_fim AND :NEW.hora_fim > a.hora_inicio)
+          );
+
+        IF v_conflito_sala > 0 THEN
+            RAISE E_CONFLITO_SALA;
+        END IF;
+
+        -- 2. Conflito de Docente
+        -- Nota: No DDLv3, o docente está associado à TURMA.
+        SELECT docente_id INTO v_docente_id FROM turma WHERE id = :NEW.turma_id;
+
+        SELECT COUNT(*) INTO v_conflito_docente
+        FROM aula a
+        JOIN turma t ON a.turma_id = t.id
+        WHERE t.docente_id = v_docente_id
+          AND a.data = :NEW.data
+          AND a.id != NVL(:NEW.id, -1)
+          AND (
+              (:NEW.hora_inicio < a.hora_fim AND :NEW.hora_fim > a.hora_inicio)
+          );
+
+        IF v_conflito_docente > 0 THEN
+            RAISE E_CONFLITO_DOCENTE;
+        END IF;
+
+    EXCEPTION
+        WHEN E_CONFLITO_SALA THEN
+            PKG_LOG.ERRO('Conflito de horario na sala ' || :NEW.sala_id || ' em ' || TO_CHAR(:NEW.data, 'DD/MM/YYYY'), 'AULA');
+            RAISE;
+        WHEN E_CONFLITO_DOCENTE THEN
+            PKG_LOG.ERRO('Conflito de horario para o docente ' || v_docente_id || ' em ' || TO_CHAR(:NEW.data, 'DD/MM/YYYY'), 'AULA');
+            RAISE;
+        WHEN OTHERS THEN
+            PKG_LOG.ERRO('Erro no trigger TRG_VAL_HORARIO_AULA: ' || SQLERRM, 'AULA');
+            RAISE;
+    END;
+    /
+-- 5.4. VALIDAÇÃO DE REGRAS DE INSCRIÇÃO (ECTS Anual)
+CREATE OR REPLACE TRIGGER TRG_VAL_INSCRICAO_ECTS
 BEFORE INSERT ON INSCRICAO
 FOR EACH ROW
 DECLARE
@@ -339,7 +529,9 @@ DECLARE
     v_novos_ects NUMBER;
     v_ano_letivo VARCHAR2(10);
     v_curso_id   NUMBER;
+    E_LIMITE_ECTS EXCEPTION;
 BEGIN
+    -- Obter dados da turma e UC para saber quantos ECTS vale esta nova inscrição
     SELECT m.curso_id, t.ano_letivo, uc.ects
     INTO v_curso_id, v_ano_letivo, v_novos_ects
     FROM matricula m
@@ -348,6 +540,7 @@ BEGIN
     WHERE m.id = :NEW.matricula_id
       AND uc.curso_id = m.curso_id;
 
+    -- Somar ECTS já inscritos para este aluno, neste ano letivo e curso
     SELECT NVL(SUM(uc.ects), 0)
     INTO v_total_ects
     FROM inscricao i
@@ -356,12 +549,22 @@ BEGIN
     WHERE i.matricula_id = :NEW.matricula_id
       AND t.ano_letivo = v_ano_letivo
       AND uc.curso_id = v_curso_id
-      AND i.status = '1';
+      AND i.status = '1'; -- Apenas inscrições ativas contam
 
+    -- Verificar Limite
     IF (v_total_ects + v_novos_ects) > PKG_CONSTANTES.LIMITE_ECTS_ANUAL THEN
-        PKG_LOG.ALERTA('Limite de ' || PKG_CONSTANTES.LIMITE_ECTS_ANUAL || ' ECTS anuais excedido para matricula ' || :NEW.matricula_id, 'INSCRICAO');
+        RAISE E_LIMITE_ECTS;
     END IF;
-EXCEPTION WHEN NO_DATA_FOUND THEN NULL;
+
+EXCEPTION 
+    WHEN NO_DATA_FOUND THEN 
+        NULL;
+    WHEN E_LIMITE_ECTS THEN
+        PKG_LOG.ERRO('Limite de ' || PKG_CONSTANTES.LIMITE_ECTS_ANUAL || ' ECTS anuais excedido (' || (v_total_ects + v_novos_ects) || ') para matricula ' || :NEW.matricula_id, 'INSCRICAO');
+        RAISE;
+    WHEN OTHERS THEN
+        PKG_LOG.ERRO('Erro inesperado no trigger de ECTS: ' || SQLERRM, 'INSCRICAO');
+        RAISE;
 END;
 /
 
@@ -383,7 +586,45 @@ EXCEPTION WHEN OTHERS THEN
 END;
 /
 
--- 5.6. PROTEÇÃO DA TABELA DE LOGS (IMUTABILIDADE COM RASTO)
+-- 5.6. VALIDAÇÃO DE SALA (STATUS E CAPACIDADE)
+CREATE OR REPLACE TRIGGER TRG_VAL_SALA
+BEFORE INSERT OR UPDATE ON SALA
+FOR EACH ROW
+BEGIN
+    -- 1. Validar Status (0 ou 1)
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'SALA');
+
+    -- 2. Garantir Capacidade Positiva
+    IF :NEW.capacidade <= 0 OR :NEW.capacidade IS NULL THEN
+        PKG_LOG.ERRO('Capacidade invalida (' || NVL(TO_CHAR(:NEW.capacidade), 'NULL') || ') na sala ' || :NEW.nome || '. Forcada a 1.', 'SALA');
+        :NEW.capacidade := 1;
+    END IF;
+END;
+/
+
+-- 5.7. VALIDAÇÃO DE CURSO (STATUS, DURACAO, ECTS)
+CREATE OR REPLACE TRIGGER TRG_VAL_CURSO
+BEFORE INSERT OR UPDATE ON CURSO
+FOR EACH ROW
+BEGIN
+    -- 1. Validar Status
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'CURSO');
+
+    -- 2. Validar Duração (Positiva)
+    IF :NEW.duracao <= 0 OR :NEW.duracao IS NULL THEN
+        PKG_LOG.ERRO('Duracao invalida (' || NVL(TO_CHAR(:NEW.duracao), 'NULL') || ') no curso ' || :NEW.nome || '. Ajustada para 1 ano.', 'CURSO');
+        :NEW.duracao := 1;
+    END IF;
+
+    -- 3. Validar ECTS (Positivos)
+    IF :NEW.ects < 0 OR :NEW.ects IS NULL THEN
+        PKG_LOG.ERRO('ECTS invalidos (' || NVL(TO_CHAR(:NEW.ects), 'NULL') || ') no curso ' || :NEW.nome || '. Ajustado para 0.', 'CURSO');
+        :NEW.ects := 0;
+    END IF;
+END;
+/
+
+-- 5.8. PROTEÇÃO DA TABELA DE LOGS (IMUTABILIDADE COM RASTO)
 CREATE OR REPLACE TRIGGER TRG_PROTEGER_LOG
 BEFORE DELETE OR UPDATE ON LOG
 FOR EACH ROW

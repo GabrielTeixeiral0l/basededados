@@ -1,4 +1,3 @@
---- START OF FILE correr_todos_testes.sql ---
 
 SET SERVEROUTPUT ON;
 SET VERIFY OFF;
@@ -8,67 +7,113 @@ PROMPT INICIANDO SUITE DE TESTES DO PROJETO BD2 (V2 - LIMITES DE GRUPOS)
 PROMPT ========================================================================
 
 -- 1. Testes Unitários Básicos
-PROMPT [1/11] Executando Testes Unitários...
+PROMPT [1/12] Executando Testes Unitários...
 @@executar_testes.sql
 
 -- 1.1. Testes de Validação de Dados
 PROMPT
 PROMPT ----------------------------------------------------------------------
-PROMPT [2/11] Executando Validação e Formatação de Dados...
+PROMPT [2/12] Executando Validação e Formatação de Dados...
 @@testes_validacao_dados.sql
 
--- 1.2. Testes Funcionais Extra
+-- 1.2. NOVO: Testes de Integridade Específicos (SALA, AULA)
 PROMPT
 PROMPT ----------------------------------------------------------------------
-PROMPT [3/11] Executando Testes Funcionais Extra (Multas, Logs)...
+PROMPT [3/13] Executando Testes de Integridade da Tabela SALA...
+@@testes_tabela_sala.sql
+
+PROMPT
+PROMPT ----------------------------------------------------------------------
+PROMPT [3b/19] Executando Testes de Integridade da Tabela TURMA...
+@@testes_tabela_turma.sql
+
+PROMPT
+PROMPT ----------------------------------------------------------------------
+PROMPT [4/14] Executando Testes de Integridade da Tabela AULA...
+@@testes_tabela_aula.sql
+
+PROMPT
+PROMPT ----------------------------------------------------------------------
+PROMPT [5/15] Executando Testes de Integridade da Tabela AVALIACAO...
+@@testes_tabela_avaliacao.sql
+
+PROMPT
+PROMPT ----------------------------------------------------------------------
+PROMPT [6/16] Executando Testes de Integridade da Tabela CURSO...
+@@testes_tabela_curso.sql
+
+PROMPT
+PROMPT ----------------------------------------------------------------------
+PROMPT [7/17] Executando Testes de Integridade da Tabela DOCENTE...
+@@testes_tabela_docente.sql
+
+PROMPT
+PROMPT ----------------------------------------------------------------------
+PROMPT [8/18] Executando Testes de Integridade da Tabela ESTUDANTE...
+@@testes_tabela_estudante.sql
+
+PROMPT
+PROMPT ----------------------------------------------------------------------
+PROMPT [9/19] Executando Testes de Integridade da Tabela ENTREGA...
+@@testes_tabela_entrega.sql
+
+PROMPT
+PROMPT ----------------------------------------------------------------------
+PROMPT [10/19] Executando Testes de Integridade da Tabela ESTUDANTE_ENTREGA...
+@@testes_tabela_estudante_entrega.sql
+
+-- 1.3. Testes Funcionais Extra
+PROMPT
+PROMPT ----------------------------------------------------------------------
+PROMPT [11/19] Executando Testes Funcionais Extra (Multas, Logs)...
 @@testes_funcionais_extra.sql
 
 -- 2. Testes de Lógica de Negócio
 PROMPT
 PROMPT ----------------------------------------------------------------------
-PROMPT [4/11] Executando Lógica de Negócio (Médias e Pagamentos)...
+PROMPT [12/19] Executando Lógica de Negócio (Médias e Pagamentos)...
 @@testes_logica_negocio.sql
 
 -- 3. Testes Avançados
 PROMPT
 PROMPT ----------------------------------------------------------------------
-PROMPT [5/11] Executando Testes Avançados (NIF, Conflitos)...
+PROMPT [13/19] Executando Testes Avançados (NIF, Conflitos)...
 @@testes_avancados.sql
 
 -- 4. Testes de Limites de ECTS
 PROMPT
 PROMPT ----------------------------------------------------------------------
-PROMPT [6/11] Executando Testes de Limites de ECTS...
+PROMPT [14/19] Executando Testes de Limites de ECTS...
 @@testes_limites.sql
 
 -- 5. Testes de Regras de Avaliação (Gerais)
 PROMPT
 PROMPT ----------------------------------------------------------------------
-PROMPT [7/11] Executando Regras de Avaliação (Hierarquia e Entregas)...
+PROMPT [15/19] Executando Testes de Regras de Avaliação (Hierarquia e Entregas)...
 @@testes_regras_avaliacao.sql
 
 -- 6. Teste de Limites de Alunos e Grupos (NOVO)
 PROMPT
 PROMPT ----------------------------------------------------------------------
-PROMPT [8/11] Executando Regras de Max_Alunos e Grupos...
+PROMPT [16/19] Executando Regras de Max_Alunos e Grupos...
 @@teste_max_alunos.sql
 
 -- 7. Teste de Segurança de Logs
 PROMPT
 PROMPT ----------------------------------------------------------------------
-PROMPT [9/11] Executando Teste de Segurança de Logs (Imutabilidade)...
+PROMPT [17/19] Executando Teste de Segurança de Logs (Imutabilidade)...
 @@teste_seguranca_log.sql
 
 -- 8. Teste de Vistas
 PROMPT
 PROMPT ----------------------------------------------------------------------
-PROMPT [10/11] Validando Vistas e Relatórios...
+PROMPT [18/19] Validando Vistas e Relatórios...
 @@testar_vistas.sql
 
 -- 9. Gerar Dados de Demonstração
 PROMPT
 PROMPT ----------------------------------------------------------------------
-PROMPT [11/11] Gerando Dados de Demonstração Finais (Cenário Realista)...
+PROMPT [19/19] Gerando Dados de Demonstração Finais (Cenário Realista)...
 @@demo_data.sql
 
 

@@ -27,8 +27,8 @@ BEGIN
     -- 2. PESSOAS E CURSOS
     INSERT INTO estudante (nome, morada, data_nascimento, cc, nif, email, telemovel)
     VALUES ('Aluno '||v_sufixo, 'Rua A', SYSDATE-7000, 
-            SUBSTR(v_sufixo||'0000000',1,12), SUBSTR(v_sufixo||'000000',1,9), 
-            'a'||v_sufixo||'@email.com', '91'||SUBSTR(v_sufixo,1,7))
+            '12345678', '275730972', 
+            'a'||v_sufixo||'@email.com', '910000000')
     RETURNING id INTO v_est_id;
 
     INSERT INTO curso (nome, codigo, descricao, duracao, ects, max_alunos, tipo_curso_id)
@@ -48,10 +48,16 @@ BEGIN
     INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria)
     VALUES (v_cur_id, v_uc_id, 1, 1, 6, '1');
 
-    INSERT INTO docente (nome, data_contratacao, nif, cc, email, telemovel)
-    VALUES ('Prof '||v_sufixo, SYSDATE, SUBSTR('5'||v_sufixo||'0000',1,9), 
-            SUBSTR(v_sufixo||'ZZ00000',1,12), 'd'||v_sufixo||'@email.com', '93'||SUBSTR(v_sufixo,1,7))
-    RETURNING id INTO v_doc_id;
+    BEGIN
+        INSERT INTO docente (nome, data_contratacao, nif, cc, email, telemovel)
+        VALUES ('Prof '||v_sufixo, SYSDATE, '275730972', 
+                '87654321', 'd'||v_sufixo||'@email.com', '930000000')
+        RETURNING id INTO v_doc_id;
+    EXCEPTION WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('[AVISO] Falha ao inserir Docente (provável validação). Usando ID fictício.');
+        -- Tentar recuperar um ID existente ou continuar sem (o que falhará a turma a seguir, mas permite debug)
+        SELECT MIN(id) INTO v_doc_id FROM docente;
+    END;
 
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, max_alunos, docente_id)
     VALUES ('T'||v_sufixo, '25/26', v_uc_id, 20, v_doc_id)

@@ -27,8 +27,8 @@ BEGIN
     END;
 
     -- 2. Criar Estudante, Curso e Matrícula
-    INSERT INTO estudante (nome, cc, nif, email, telemovel, data_nascimento)
-    VALUES ('Aluno Extra '||v_sufixo, SUBSTR('CC'||v_sufixo||'000',1,12), SUBSTR('999'||v_sufixo,1,9), v_sufixo||'@extra.com', '91'||SUBSTR(v_sufixo,1,7), SYSDATE-7000)
+    INSERT INTO estudante (nome, cc, nif, email, telemovel, data_nascimento, iban)
+    VALUES ('Aluno Extra '||v_sufixo, '12345678', '275730972', 'extra@teste.com', '910000000', SYSDATE-7000, 'PT50000000000000000000000')
     RETURNING id INTO v_est_id;
 
     INSERT INTO curso (nome, codigo, descricao, duracao, ects, tipo_curso_id)
@@ -69,13 +69,17 @@ BEGIN
     INSERT INTO avaliacao (titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id) VALUES ('Teste', SYSDATE, SYSDATE, 10, 1, v_tur_id, v_tav_id) RETURNING id INTO v_ava_id;
 
     -- Tentar inserir nota inválida (25)
-    INSERT INTO nota (inscricao_id, avaliacao_id, nota) VALUES (v_ins_id, v_ava_id, 25);
-    COMMIT;
+    BEGIN
+        INSERT INTO nota (inscricao_id, avaliacao_id, nota) VALUES (v_ins_id, v_ava_id, 25);
+        DBMS_OUTPUT.PUT_LINE('[FALHA] Nota invalida permitida.');
+    EXCEPTION WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('[OK] Nota invalida bloqueada.');
+    END;
 
-    SELECT COUNT(*) INTO v_count_not_null FROM log WHERE acao = 'ALERTA' AND data LIKE '%nota invalida%' AND created_at > SYSDATE - 1/24;
+    SELECT COUNT(*) INTO v_count_not_null FROM log WHERE acao = 'ERRO' AND data LIKE '%nota invalida%' AND created_at > SYSDATE - 1/24;
     
-    IF v_count_not_null > 0 THEN DBMS_OUTPUT.PUT_LINE('[OK] Nota inválida detetada no log.'); 
-    ELSE DBMS_OUTPUT.PUT_LINE('[FALHA] Nota inválida não gerou alerta.'); END IF;
+    IF v_count_not_null > 0 THEN DBMS_OUTPUT.PUT_LINE('[OK] Log de erro encontrado.'); 
+    ELSE DBMS_OUTPUT.PUT_LINE('[FALHA] Nota inválida não gerou log de erro.'); END IF;
 
     -- -------------------------------------------------------------------------
     -- TESTE 3: FLAG DE AUDITORIA

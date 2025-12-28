@@ -8,42 +8,92 @@ CREATE OR REPLACE PACKAGE PKG_VALIDACAO IS
     FUNCTION FUN_VALIDAR_CC(p_cc IN VARCHAR2) RETURN BOOLEAN;
     FUNCTION FUN_VALIDAR_EMAIL(p_email IN VARCHAR2) RETURN BOOLEAN;
     FUNCTION FUN_VALIDAR_IBAN(p_iban IN VARCHAR2) RETURN BOOLEAN;
+    FUNCTION FUN_VALIDAR_TELEMOVEL(p_telemovel IN VARCHAR2) RETURN BOOLEAN;
+    
+    -- Validação e Correção de Status (0 ou 1)
+    PROCEDURE VALIDAR_STATUS(p_status IN OUT VARCHAR2, p_tabela IN VARCHAR2);
 END PKG_VALIDACAO;
 /
 
 CREATE OR REPLACE PACKAGE BODY PKG_VALIDACAO IS
 
+    -- Validação de Status (0 ou 1) - Sanitização
+    PROCEDURE VALIDAR_STATUS(p_status IN OUT VARCHAR2, p_tabela IN VARCHAR2) IS
+    BEGIN
+        IF p_status NOT IN ('0', '1') OR p_status IS NULL THEN
+            PKG_LOG.ERRO('Status invalido (' || NVL(p_status, 'NULL') || ') na tabela ' || p_tabela || '. Forcado a 0.', p_tabela);
+            p_status := '0';
+        END IF;
+    END VALIDAR_STATUS;
+
     FUNCTION FUN_VALIDAR_NIF(p_nif IN VARCHAR2) RETURN BOOLEAN IS
-        v_check_digit NUMBER;
+        v_nif VARCHAR2(9) := p_nif;
         v_soma NUMBER := 0;
-        v_nif VARCHAR2(9) := TRIM(p_nif);
+        v_resto NUMBER;
+        v_check_digit NUMBER;
         i NUMBER := 1;
     BEGIN
+        -- Formato Básico (9 dígitos numéricos)
         IF LENGTH(v_nif) != 9 OR NOT REGEXP_LIKE(v_nif, '^[0-9]+$') THEN
             RETURN FALSE;
         END IF;
 
-        -- Validação básica do dígito de controlo (Algoritmo Modulo 11)
+        -- Se não for rigorosa, o formato basta
+        IF NOT PKG_CONSTANTES.VALIDACAO_RIGOROSA_NIF THEN
+            RETURN TRUE;
+        END IF;
+
+        -- Algoritmo Modulo 11
         LOOP
             EXIT WHEN i > 8;
-            v_soma := v_soma + TO_NUMBER(SUBSTR(v_nif, i, 1)) * (10 - i + 1);
+            v_soma := v_soma + TO_NUMBER(SUBSTR(v_nif, i, 1)) * (10 - i);
             i := i + 1;
         END LOOP;
 
-        v_check_digit := 11 - MOD(v_soma, 11);
-        IF v_check_digit >= 10 THEN
-            v_check_digit := 0;
-        END IF;
+        v_resto := MOD(v_soma, 11);
+        v_check_digit := CASE WHEN v_resto IN (0, 1) THEN 0 ELSE 11 - v_resto END;
 
         RETURN v_check_digit = TO_NUMBER(SUBSTR(v_nif, 9, 1));
-    EXCEPTION WHEN OTHERS THEN
-        RETURN FALSE;
+    EXCEPTION WHEN OTHERS THEN RETURN FALSE;
     END FUN_VALIDAR_NIF;
 
     FUNCTION FUN_VALIDAR_CC(p_cc IN VARCHAR2) RETURN BOOLEAN IS
+        v_cc VARCHAR2(12) := UPPER(REPLACE(p_cc, ' ', ''));
+        v_soma NUMBER := 0;
+        v_val NUMBER;
+        v_char CHAR(1);
+        i NUMBER := 1;
     BEGIN
-        -- Implementação simplificada (apenas tamanho e formato)
-        RETURN LENGTH(TRIM(p_cc)) >= 8;
+        -- Formato Básico (8 ou 12 caracteres)
+        IF NOT ((LENGTH(v_cc) = 8 AND REGEXP_LIKE(v_cc, '^[0-9]+$')) OR 
+                (LENGTH(v_cc) = 12 AND REGEXP_LIKE(v_cc, '^[0-9]{9}[A-Z]{2}[0-9]$'))) THEN
+            RETURN FALSE;
+        END IF;
+
+        -- Se não for rigorosa, o formato basta
+        IF NOT PKG_CONSTANTES.VALIDACAO_RIGOROSA_CC THEN
+            RETURN TRUE;
+        END IF;
+
+        -- BI Antigo (8 dígitos) - Rigor já validado no REGEXP
+        IF LENGTH(v_cc) = 8 THEN RETURN TRUE; END IF;
+
+        -- CC Novo (Luhn Mod 36)
+        LOOP
+            EXIT WHEN i > 12;
+            v_char := SUBSTR(v_cc, i, 1);
+            v_val := CASE WHEN v_char BETWEEN '0' AND '9' THEN TO_NUMBER(v_char) ELSE ASCII(v_char) - 55 END;
+            
+            IF MOD(i, 2) != 0 THEN
+                v_val := v_val * 2;
+                IF v_val > 35 THEN v_val := v_val - 35; END IF;
+            END IF;
+            v_soma := v_soma + v_val;
+            i := i + 1;
+        END LOOP;
+
+        RETURN MOD(v_soma, 36) = 0;
+    EXCEPTION WHEN OTHERS THEN RETURN FALSE;
     END FUN_VALIDAR_CC;
 
     FUNCTION FUN_VALIDAR_EMAIL(p_email IN VARCHAR2) RETURN BOOLEAN IS
@@ -53,9 +103,14 @@ CREATE OR REPLACE PACKAGE BODY PKG_VALIDACAO IS
 
     FUNCTION FUN_VALIDAR_IBAN(p_iban IN VARCHAR2) RETURN BOOLEAN IS
     BEGIN
-        -- Validação simples de formato PT50...
-        RETURN LENGTH(TRIM(p_iban)) = 25 AND SUBSTR(TRIM(p_iban), 1, 2) = 'PT';
+        RETURN LENGTH(TRIM(p_iban)) = 25 AND SUBSTR(TRIM(p_iban), 1, 2) = 'PT' 
+               AND REGEXP_LIKE(SUBSTR(TRIM(p_iban), 3), '^[0-9]+$');
     END FUN_VALIDAR_IBAN;
+
+    FUNCTION FUN_VALIDAR_TELEMOVEL(p_telemovel IN VARCHAR2) RETURN BOOLEAN IS
+    BEGIN
+        RETURN REGEXP_LIKE(p_telemovel, '^9[0-9]{8}$');
+    END FUN_VALIDAR_TELEMOVEL;
 
 END PKG_VALIDACAO;
 /
