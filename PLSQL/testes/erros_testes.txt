@@ -2,12 +2,12 @@
 INICIANDO SUITE DE TESTES DO PROJETO BD2 (V2 - LIMITES DE GRUPOS)
 ========================================================================
 [1/11] Executando Testes Unitários...
-=== INICIANDO TESTES (Sufixo: 00469) ===
+=== INICIANDO TESTES (Sufixo: 39033) ===
 Valor Total: 1000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 [OK] Presença atualizada para Presente.
 === TESTES CONCLUÍDOS COM SUCESSO (COMMIT REALIZADO) ===
-Inscrição Gerada: 10510
+Inscrição Gerada: 10538
 
 
 --------------------------------------------------------------------- PROMPT [2/11] Executando Validação e Formatação de Dados...
@@ -23,7 +23,7 @@ Inscrição Gerada: 10510
 
 
 --------------------------------------------------------------------- PROMPT [3/11] Executando Testes Funcionais Extra (Multas, Logs)...
-=== INICIANDO TESTES FUNCIONAIS EXTRA (Sufixo: 00469) ===
+=== INICIANDO TESTES FUNCIONAIS EXTRA (Sufixo: 39033) ===
 Valor Total: 1500, Parcelas: 1
 Plano gerado com sucesso: 1 parcelas.
 1. Testando Multa por Atraso...
@@ -49,7 +49,7 @@ Plano gerado com sucesso: 10 parcelas.
 
 
 --------------------------------------------------------------------- PROMPT [5/11] Executando Testes Avançados (NIF, Conflitos)...
-=== INICIANDO TESTES AVANÇADOS (Sufixo: 00469) ===
+=== INICIANDO TESTES AVANÇADOS (Sufixo: 39033) ===
 1. Testando NIF Inválido...
 [OK] Trigger de validação de NIF detectou erro e registou log.
 2. Testando Plano de Pagamento...
@@ -65,7 +65,7 @@ Plano gerado com sucesso: 12 parcelas.
 
 --------------------------------------------------------------------- PROMPT [6/11] Executando Testes de Limites de ECTS...
 === TESTANDO LIMITES DE ECTS ===
-Estudante criado ID: 10450
+Estudante criado ID: 10474
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 -> Criando UC Cadeira_A com 30 ECTS...
@@ -105,7 +105,7 @@ Cenario 2: Testando limite de 2 alunos numa entrega...
 
 --------------------------------------------------------------------- PROMPT [9/11] Executando Teste de Segurança de Logs (Imutabilidade)...
 === INICIANDO TESTE DE SEGURANÇA DE LOGS ===
-[OK] Insert no LOG permitido. ID: 27140
+[OK] Insert no LOG permitido. ID: 27938
 [OK] UPDATE bloqueado por imutabilidade.
 [OK] DELETE bloqueado por imutabilidade.
 === TESTE DE SEGURANÇA CONCLUÍDO ===
@@ -120,10 +120,10 @@ ALUNO: João Oliveira | FALTAS: 50%
 CONSULTANDO PAUTA DA TURMA:
 ALUNO: João Oliveira | RESULTADO: REPROVADO
 TESTANDO RESTANTES VISTAS (SMOKE TEST)...
-[OK] VW_FINANCEIRO_CURSOS: 19 registos.
-[OK] VW_ESTATISTICA_VAGAS: 19 registos.
-[OK] VW_OCUPACAO_SALAS_HOJE: 12 registos.
-[OK] VW_PERFIL_ACADEMICO_ALUNO: 42 registos.
+[OK] VW_FINANCEIRO_CURSOS: 27 registos.
+[OK] VW_ESTATISTICA_VAGAS: 27 registos.
+[OK] VW_OCUPACAO_SALAS_HOJE: 14 registos.
+[OK] VW_PERFIL_ACADEMICO_ALUNO: 58 registos.
 
 
 --------------------------------------------------------------------- PROMPT [11/11] Gerando Dados de Demonstração Finais (Cenário Realista)...
@@ -137,8 +137,8 @@ Plano gerado com sucesso: 10 parcelas.
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 Dados gerados com sucesso.
-Turma criada: 10446
-Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 10446
+Turma criada: 10466
+Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 10466
 
 
 --------------------------------------------------------------------- PROMPT ========================================================================

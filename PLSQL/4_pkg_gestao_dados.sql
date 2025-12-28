@@ -8,24 +8,10 @@ CREATE OR REPLACE PACKAGE PKG_GESTAO_DADOS IS
     -- Remove registo (Soft Delete se possível, Hard Delete caso contrário)
     -- NOTA: Apenas para tabelas com PK simples numérica chamada 'ID'
     PROCEDURE PRC_REMOVER(p_nome_tabela IN VARCHAR2, p_id_registo IN NUMBER);
-    
-    -- Wrappers para compatibilidade
-    PROCEDURE PRC_LOG_ALERTA(p_msg IN VARCHAR2);
-    PROCEDURE PRC_LOG_ERRO(p_contexto IN VARCHAR2);
 END PKG_GESTAO_DADOS;
 /
 
 CREATE OR REPLACE PACKAGE BODY PKG_GESTAO_DADOS IS
-
-    PROCEDURE PRC_LOG_ALERTA(p_msg IN VARCHAR2) IS
-    BEGIN
-        PKG_LOG.ALERTA(p_msg);
-    END PRC_LOG_ALERTA;
-
-    PROCEDURE PRC_LOG_ERRO(p_contexto IN VARCHAR2) IS
-    BEGIN
-        PKG_LOG.ERRO(p_contexto);
-    END PRC_LOG_ERRO;
 
     PROCEDURE PRC_REMOVER(p_nome_tabela IN VARCHAR2, p_id_registo IN NUMBER) IS
         v_sql VARCHAR2(500);
@@ -49,7 +35,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_GESTAO_DADOS IS
         
         -- O log da operação é feito automaticamente pelos triggers de auditoria (TRG_AUDIT_...)
     EXCEPTION WHEN OTHERS THEN 
-        PKG_LOG.ERRO('REMOVER_' || v_tab);
+        PKG_LOG.ERRO('Falha ao remover registo ID ' || p_id_registo || ': ' || SQLERRM, v_tab);
     END PRC_REMOVER;
 
 END PKG_GESTAO_DADOS;

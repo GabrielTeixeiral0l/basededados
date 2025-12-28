@@ -28,7 +28,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
         -- Verificar se já existem pagamentos para não sobrescrever plano ativo com histórico
         SELECT COUNT(*) INTO v_pagas FROM parcela_propina WHERE matricula_id = p_matricula_id AND estado = '1';
         IF v_pagas > 0 THEN 
-            PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Plano de pagamento não gerado: Já existem parcelas pagas.');
+            PKG_LOG.ALERTA('Plano de pagamento não gerado: Já existem parcelas pagas.', 'PARCELA_PROPINA');
             RETURN; 
         END IF;
 
@@ -65,7 +65,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
     EXCEPTION 
         WHEN OTHERS THEN 
             DBMS_OUTPUT.PUT_LINE('ERRO em PRC_GERAR_PLANO_PAGAMENTO: ' || SQLERRM);
-            PKG_GESTAO_DADOS.PRC_LOG_ERRO('PKG_TESOURARIA.PRC_GERAR_PLANO_PAGAMENTO');
+            PKG_LOG.ERRO('PKG_TESOURARIA.PRC_GERAR_PLANO_PAGAMENTO: ' || SQLERRM, 'PARCELA_PROPINA');
             RAISE; -- Re-raise para o trigger falhar e mostrar o erro
     END PRC_GERAR_PLANO_PAGAMENTO;
 
@@ -75,10 +75,10 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
         SELECT data_vencimento, valor INTO v_vencimento, v_orig FROM parcela_propina WHERE id = p_parcela_id;
         IF SYSDATE > v_vencimento THEN
             v_multa := v_orig * PKG_CONSTANTES.TAXA_MULTA_ATRASO;
-            PKG_GESTAO_DADOS.PRC_LOG_ALERTA('Multa de ' || v_multa || ' aplicada.');
+            PKG_LOG.ALERTA('Multa de ' || v_multa || ' aplicada.', 'PARCELA_PROPINA');
         END IF;
         UPDATE parcela_propina SET estado = '1', data_pagamento = SYSDATE, valor = v_orig + v_multa, updated_at = SYSDATE WHERE id = p_parcela_id;
-    EXCEPTION WHEN OTHERS THEN PKG_GESTAO_DADOS.PRC_LOG_ERRO('PKG_TESOURARIA.PRC_PROCESSAR_PAGAMENTO');
+    EXCEPTION WHEN OTHERS THEN PKG_LOG.ERRO('PKG_TESOURARIA.PRC_PROCESSAR_PAGAMENTO: ' || SQLERRM, 'PARCELA_PROPINA');
     END PRC_PROCESSAR_PAGAMENTO;
 END PKG_TESOURARIA;
 /

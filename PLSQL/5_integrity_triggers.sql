@@ -8,7 +8,7 @@ BEFORE INSERT OR UPDATE ON NOTA
 FOR EACH ROW
 BEGIN
     IF :NEW.nota < 0 OR :NEW.nota > 20 THEN
-        PKG_LOG.ALERTA('Tentativa de inserir nota invalida: ' || :NEW.nota || ' para inscricao ' || :NEW.inscricao_id);
+        PKG_LOG.ALERTA('Tentativa de inserir nota invalida: ' || :NEW.nota || ' para inscricao ' || :NEW.inscricao_id, 'NOTA');
     END IF;
 END;
 /
@@ -94,7 +94,7 @@ BEGIN
 EXCEPTION WHEN OTHERS THEN
     PKG_BUFFER_NOTA.g_a_calcular := FALSE;
     IF c_calculo%ISOPEN THEN CLOSE c_calculo; END IF;
-    PKG_LOG.ERRO('Erro no processamento de medias (AS): '||SQLERRM);
+    PKG_LOG.ERRO('Erro no processamento de medias (AS): '||SQLERRM, 'NOTA');
 END;
 /
 
@@ -118,7 +118,7 @@ BEGIN
     CLOSE c_aulas;
 EXCEPTION WHEN OTHERS THEN
     IF c_aulas%ISOPEN THEN CLOSE c_aulas; END IF;
-    PKG_LOG.ERRO('Erro ao gerar presenças automáticas para inscrição ' || :NEW.id);
+    PKG_LOG.ERRO('Erro ao gerar presenças automáticas para inscrição ' || :NEW.id, 'PRESENCA');
 END;
 /
 
@@ -142,7 +142,7 @@ BEGIN
     CLOSE c_inscritos;
 EXCEPTION WHEN OTHERS THEN
     IF c_inscritos%ISOPEN THEN CLOSE c_inscritos; END IF;
-    PKG_LOG.ERRO('Erro ao gerar presenças automáticas para aula ' || :NEW.id);
+    PKG_LOG.ERRO('Erro ao gerar presenças automáticas para aula ' || :NEW.id, 'PRESENCA');
 END;
 /
 
@@ -174,7 +174,7 @@ BEGIN
             WHERE a.id = :NEW.avaliacao_pai_id;
 
             IF v_pai_permite_filhos = '0' THEN
-                 PKG_LOG.ALERTA('A avaliacao pai ' || :NEW.avaliacao_pai_id || ' nao permite sub-avaliacoes.');
+                 PKG_LOG.ALERTA('A avaliacao pai ' || :NEW.avaliacao_pai_id || ' nao permite sub-avaliacoes.', 'AVALIACAO');
             END IF;
         EXCEPTION WHEN NO_DATA_FOUND THEN NULL; 
         END;
@@ -204,11 +204,11 @@ BEGIN
     -- 3. Se exceder, gerar alerta no LOG
     IF v_atual + 1 > v_max_alunos THEN
         PKG_LOG.ALERTA('Aviso de Limite: O limite de ' || v_max_alunos || 
-                       ' aluno(s) foi excedido para a entrega ID ' || :NEW.entrega_id);
+                       ' aluno(s) foi excedido para a entrega ID ' || :NEW.entrega_id, 'ESTUDANTE_ENTREGA');
     END IF;
 EXCEPTION 
     WHEN NO_DATA_FOUND THEN NULL;
-    WHEN OTHERS THEN PKG_LOG.ERRO('Erro em TRG_VAL_LIMITE_GRUPO_ENTREGA: ' || SQLERRM);
+    WHEN OTHERS THEN PKG_LOG.ERRO('Erro em TRG_VAL_LIMITE_GRUPO_ENTREGA: ' || SQLERRM, 'ESTUDANTE_ENTREGA');
 END;
 /
 
@@ -227,7 +227,7 @@ BEGIN
     WHERE a.id = :NEW.avaliacao_id;
 
     IF v_req_entrega = '0' THEN
-        PKG_LOG.ALERTA('A avaliacao ' || :NEW.avaliacao_id || ' nao requer entrega de ficheiros.');
+        PKG_LOG.ALERTA('A avaliacao ' || :NEW.avaliacao_id || ' nao requer entrega de ficheiros.', 'ENTREGA');
     END IF;
 END;
 /
@@ -305,7 +305,7 @@ BEGIN
       );
 
     IF v_conflito_sala > 0 THEN
-        PKG_LOG.ALERTA('Conflito de horario na sala ' || :NEW.sala_id || ' em ' || TO_CHAR(:NEW.data, 'DD/MM/YYYY'));
+        PKG_LOG.ALERTA('Conflito de horario na sala ' || :NEW.sala_id || ' em ' || TO_CHAR(:NEW.data, 'DD/MM/YYYY'), 'AULA');
     END IF;
 
     -- 2. Conflito de Docente
@@ -322,11 +322,11 @@ BEGIN
       );
 
     IF v_conflito_docente > 0 THEN
-        PKG_LOG.ALERTA('Conflito de horario para o docente ' || v_docente_id || ' em ' || TO_CHAR(:NEW.data, 'DD/MM/YYYY'));
+        PKG_LOG.ALERTA('Conflito de horario para o docente ' || v_docente_id || ' em ' || TO_CHAR(:NEW.data, 'DD/MM/YYYY'), 'AULA');
     END IF;
 
 EXCEPTION WHEN OTHERS THEN 
-    PKG_LOG.ERRO('Erro no trigger TRG_VAL_HORARIO_AULA: ' || SQLERRM);
+    PKG_LOG.ERRO('Erro no trigger TRG_VAL_HORARIO_AULA: ' || SQLERRM, 'AULA');
 END;
 /
 
@@ -359,7 +359,7 @@ BEGIN
       AND i.status = '1';
 
     IF (v_total_ects + v_novos_ects) > PKG_CONSTANTES.LIMITE_ECTS_ANUAL THEN
-        PKG_LOG.ALERTA('Limite de ' || PKG_CONSTANTES.LIMITE_ECTS_ANUAL || ' ECTS anuais excedido para matricula ' || :NEW.matricula_id);
+        PKG_LOG.ALERTA('Limite de ' || PKG_CONSTANTES.LIMITE_ECTS_ANUAL || ' ECTS anuais excedido para matricula ' || :NEW.matricula_id, 'INSCRICAO');
     END IF;
 EXCEPTION WHEN NO_DATA_FOUND THEN NULL;
 END;
@@ -379,7 +379,7 @@ BEGIN
 
     PKG_TESOURARIA.PRC_GERAR_PLANO_PAGAMENTO(:NEW.id, v_valor_total, :NEW.numero_parcelas);
 EXCEPTION WHEN OTHERS THEN
-    PKG_LOG.ERRO('Erro ao gerar propinas para matricula ' || :NEW.id || ': ' || SQLERRM);
+    PKG_LOG.ERRO('Erro ao gerar propinas para matricula ' || :NEW.id || ': ' || SQLERRM, 'PARCELA_PROPINA');
 END;
 /
 
