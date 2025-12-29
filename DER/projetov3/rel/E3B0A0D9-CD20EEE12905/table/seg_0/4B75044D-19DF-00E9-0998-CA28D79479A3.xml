@@ -54,6 +54,29 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="tamanho" id="B88F45CD-21A5-57EE-971D-237A83E88C8A">
+<createdBy>teixe</createdBy>
+<createdTime>2025-12-29 20:39:16 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="tipo" id="16B95B18-2B94-DB79-26FC-676E76A12E0C">
+<createdBy>teixe</createdBy>
+<createdTime>2025-12-29 20:39:16 UTC</createdTime>
+<ownerDesignName>projetov3</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column name="created_at" id="4F8FC933-E1B8-0040-06F0-0AEC3282B235">
 <createdBy>teixe</createdBy>
 <createdTime>2025-10-09 09:29:32 UTC</createdTime>

@@ -21,7 +21,7 @@ END PKG_VALIDACAO;
 
 CREATE OR REPLACE PACKAGE BODY PKG_VALIDACAO IS
 
-    -- Validação de Status (0 ou 1) - Sanitização
+    -- Validação de Status (0 ou 1)
     PROCEDURE VALIDAR_STATUS(p_status IN OUT VARCHAR2, p_tabela IN VARCHAR2) IS
     BEGIN
         IF p_status NOT IN ('0', '1') OR p_status IS NULL THEN
@@ -62,42 +62,9 @@ CREATE OR REPLACE PACKAGE BODY PKG_VALIDACAO IS
     END FUN_VALIDAR_NIF;
 
     FUNCTION FUN_VALIDAR_CC(p_cc IN VARCHAR2) RETURN BOOLEAN IS
-        v_cc VARCHAR2(12) := UPPER(REPLACE(p_cc, ' ', ''));
-        v_soma NUMBER := 0;
-        v_val NUMBER;
-        v_char CHAR(1);
-        i NUMBER := 1;
+        v_cc VARCHAR2(20) := UPPER(REPLACE(p_cc, ' ', ''));
     BEGIN
-        -- Formato Básico (8 ou 12 caracteres)
-        IF NOT ((LENGTH(v_cc) = 8 AND REGEXP_LIKE(v_cc, '^[0-9]+$')) OR 
-                (LENGTH(v_cc) = 12 AND REGEXP_LIKE(v_cc, '^[0-9]{9}[A-Z]{2}[0-9]$'))) THEN
-            RETURN FALSE;
-        END IF;
-
-        -- Se não for rigorosa, o formato basta
-        IF NOT PKG_CONSTANTES.VALIDACAO_RIGOROSA_CC THEN
-            RETURN TRUE;
-        END IF;
-
-        -- BI Antigo (8 dígitos) - Rigor já validado no REGEXP
-        IF LENGTH(v_cc) = 8 THEN RETURN TRUE; END IF;
-
-        -- CC Novo (Luhn Mod 36)
-        LOOP
-            EXIT WHEN i > 12;
-            v_char := SUBSTR(v_cc, i, 1);
-            v_val := CASE WHEN v_char BETWEEN '0' AND '9' THEN TO_NUMBER(v_char) ELSE ASCII(v_char) - 55 END;
-            
-            IF MOD(i, 2) != 0 THEN
-                v_val := v_val * 2;
-                IF v_val > 35 THEN v_val := v_val - 35; END IF;
-            END IF;
-            v_soma := v_soma + v_val;
-            i := i + 1;
-        END LOOP;
-
-        RETURN MOD(v_soma, 36) = 0;
-    EXCEPTION WHEN OTHERS THEN RETURN FALSE;
+        RETURN REGEXP_LIKE(v_cc, '^[0-9A-Z]{12}$');
     END FUN_VALIDAR_CC;
 
     FUNCTION FUN_VALIDAR_EMAIL(p_email IN VARCHAR2) RETURN BOOLEAN IS

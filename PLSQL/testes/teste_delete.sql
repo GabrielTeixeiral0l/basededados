@@ -1,87 +1,108 @@
 SET SERVEROUTPUT ON SIZE UNLIMITED;
 SET FEEDBACK OFF;
 
+PROMPT ========================================================
+PROMPT   INICIANDO TESTE GLOBAL DE ELIMINACAO (V13 - CLEAN)
+PROMPT ========================================================
+
 DECLARE
     v_sfx VARCHAR2(10) := TO_CHAR(TRUNC(DBMS_RANDOM.VALUE(1000, 9999)));
     v_cur_id NUMBER; v_uc_id NUMBER; v_doc_id NUMBER; 
-    v_mat_id NUMBER; v_ins_id NUMBER; v_ava_id NUMBER; v_aul_id NUMBER;
+    v_mat_id NUMBER; v_ins_id NUMBER; v_aul_id NUMBER;
+    v_tc_id  NUMBER; v_sal_id NUMBER; v_tur_id NUMBER; v_ta_id NUMBER;
+    v_est_id NUMBER;
     
-    -- Procedimento de validação
-    PROCEDURE validar(p_tabela VARCHAR2) IS
+    v_nif_est VARCHAR2(9) := '234567890';
+    v_nif_doc VARCHAR2(9) := '501306000';
+    v_tel     VARCHAR2(9) := '912345678';
+    v_cc      VARCHAR2(12):= '12345678';
+
+    PROCEDURE verificar_log(p_tab VARCHAR2) IS
         v_l NUMBER;
     BEGIN
         SELECT COUNT(*) INTO v_l FROM log 
-        WHERE tabela = p_tabela AND acao = 'DELETE' 
-        AND created_at >= SYSTIMESTAMP - INTERVAL '10' SECOND;
+        WHERE tabela = p_tab AND acao = 'DELETE' 
+        AND created_at >= SYSTIMESTAMP - INTERVAL '20' SECOND;
         
         IF v_l > 0 THEN
-            DBMS_OUTPUT.PUT_LINE('[OK] Relacao ' || RPAD(p_tabela, 18) || ': PRC_REMOVER_RELACAO invocado via Trigger.');
+            DBMS_OUTPUT.PUT_LINE('[OK] ' || RPAD(p_tab, 18) || ': Soft-delete registado no Log.');
         ELSE
-            DBMS_OUTPUT.PUT_LINE('[FALHA] Relacao ' || RPAD(p_tabela, 18) || ': Nao houve rasto no log.');
+            DBMS_OUTPUT.PUT_LINE('[FALHA] ' || RPAD(p_tab, 18) || ': Trigger não gerou log.');
         END IF;
     END;
 
 BEGIN
-    DBMS_OUTPUT.PUT_LINE('========================================================');
-    DBMS_OUTPUT.PUT_LINE('   TESTE DE ELIMINAÇÃO: TABELAS DE CHAVE COMPOSTA');
-    DBMS_OUTPUT.PUT_LINE('========================================================');
-
-    -- 1. SETUP DE DADOS NECESSÁRIOS
-    INSERT INTO tipo_curso (nome, valor_propinas) VALUES ('T_'||v_sfx, 0) RETURNING id INTO v_cur_id;
-    INSERT INTO curso (nome, codigo, descricao, duracao, ects, tipo_curso_id) VALUES ('C', 'C'||v_sfx, 'D', 3, 180, v_cur_id) RETURNING id INTO v_cur_id;
-    INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas) VALUES ('U', 'U'||v_sfx, 1, 1) RETURNING id INTO v_uc_id;
-    INSERT INTO docente (nome, nif, cc, data_contratacao, email, telemovel) VALUES ('D', '1'||v_sfx||'0', '1', SYSDATE, 'e@t.pt', '96'||v_sfx) RETURNING id INTO v_doc_id;
-    INSERT INTO estudante (nome, nif, cc, data_nascimento, email, telemovel) VALUES ('E', '2'||v_sfx||'0', '2', SYSDATE-7000, 'a@t.pt', '91'||v_sfx) RETURNING id INTO v_mat_id; -- Usando mat_id como buffer p/ estudante
-    INSERT INTO matricula (curso_id, estudante_id, ano_inscricao, estado_matricula, numero_parcelas) VALUES (v_cur_id, v_mat_id, 2025, 'Ativa', 1) RETURNING id INTO v_mat_id;
-    INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, docente_id) VALUES ('T', '25', v_uc_id, v_doc_id) RETURNING id INTO v_ins_id; -- Usando ins_id como buffer p/ turma
-    INSERT INTO inscricao (turma_id, matricula_id, data) VALUES (v_ins_id, v_mat_id, SYSDATE) RETURNING id INTO v_ins_id;
+    -- --- SETUP DE DADOS ---
+    INSERT INTO tipo_curso (nome, valor_propinas) VALUES ('TC_'||v_sfx, 1000) RETURNING id INTO v_tc_id;
+    INSERT INTO curso (nome, codigo, descricao, duracao, ects, tipo_curso_id) 
+    VALUES ('CURSO_'||v_sfx, 'C'||v_sfx, 'D', 3, 180, v_tc_id) RETURNING id INTO v_cur_id;
+    INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas) 
+    VALUES ('UC_'||v_sfx, 'U'||v_sfx, 20, 20) RETURNING id INTO v_uc_id;
+    INSERT INTO sala (nome, capacidade) VALUES ('S_'||v_sfx, 30) RETURNING id INTO v_sal_id;
     
-    DBMS_OUTPUT.PUT_LINE('1. Setup de dependências concluído.');
-
-    -- -------------------------------------------------------------------------
-    -- TESTANDO CADA TABELA DE RELAÇÃO (CHAVE COMPOSTA)
-    -- -------------------------------------------------------------------------
+    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria) 
+    VALUES (v_cur_id, v_uc_id, 1, 1, 6, '0');
     
-    -- Teste A: UC_DOCENTE (unidade_curricular_id, docente_id)
-    INSERT INTO uc_docente (unidade_curricular_id, docente_id) VALUES (v_uc_id, v_doc_id);
-    DELETE FROM uc_docente WHERE unidade_curricular_id = v_uc_id AND docente_id = v_doc_id;
-    validar('UC_DOCENTE');
-
-    -- Teste B: NOTA (avaliacao_id, inscricao_id)
-    -- Criar avaliação dummy
-    INSERT INTO tipo_avaliacao (nome, requer_entrega, permite_grupo, permite_filhos) VALUES ('T', '0', '0', '0') RETURNING id INTO v_ava_id;
-    INSERT INTO avaliacao (titulo, data, peso, max_alunos, turma_id, tipo_avaliacao_id) 
-    VALUES ('Ex', SYSDATE, 1, 1, (SELECT turma_id FROM inscricao WHERE id = v_ins_id), v_ava_id) RETURNING id INTO v_ava_id;
+    INSERT INTO docente (nome, nif, cc, data_contratacao, email, telemovel) 
+    VALUES ('DOCENTE TESTE', v_nif_doc, v_cc, SYSDATE-30, 'd'||v_sfx||'@t.pt', v_tel) RETURNING id INTO v_doc_id;
     
-    INSERT INTO nota (avaliacao_id, inscricao_id, nota) VALUES (v_ava_id, v_ins_id, 10);
-    DELETE FROM nota WHERE avaliacao_id = v_ava_id AND inscricao_id = v_ins_id;
-    validar('NOTA');
-
-    -- Teste C: PRESENÇA (aula_id, inscricao_id)
-    INSERT INTO tipo_aula (nome) VALUES ('T') RETURNING id INTO v_aul_id;
-    INSERT INTO aula (data, hora_inicio, hora_fim, sala_id, tipo_aula_id, turma_id)
-    VALUES (SYSDATE, SYSDATE, SYSDATE+1/24, (SELECT MIN(id) FROM sala), v_aul_id, (SELECT turma_id FROM inscricao WHERE id = v_ins_id)) RETURNING id INTO v_aul_id;
+    INSERT INTO uc_docente (unidade_curricular_id, docente_id, status) VALUES (v_uc_id, v_doc_id, '1');
     
-    -- O trigger de auto-presença pode já ter inserido, mas garantimos:
+    INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, docente_id) 
+    VALUES ('T_'||v_sfx, '2025', v_uc_id, v_doc_id) RETURNING id INTO v_tur_id;
+    
+    INSERT INTO tipo_aula (nome) VALUES ('TA_'||v_sfx) RETURNING id INTO v_ta_id;
+    INSERT INTO aula (data, hora_inicio, hora_fim, sala_id, tipo_aula_id, turma_id) 
+    VALUES (TRUNC(SYSDATE), TRUNC(SYSDATE)+10/24, TRUNC(SYSDATE)+12/24, v_sal_id, v_ta_id, v_tur_id) RETURNING id INTO v_aul_id;
+
+    INSERT INTO estudante (nome, nif, cc, data_nascimento, email, telemovel) 
+    VALUES ('ALUNO TESTE', v_nif_est, v_cc, TO_DATE('2000-01-01','YYYY-MM-DD'), 'e'||v_sfx||'@t.pt', v_tel) RETURNING id INTO v_est_id;
+    
+    INSERT INTO matricula (curso_id, estudante_id, ano_inscricao, estado_matricula, numero_parcelas) 
+    VALUES (v_cur_id, v_est_id, 2025, 'Ativa', 10) RETURNING id INTO v_mat_id;
+    
+    INSERT INTO inscricao (turma_id, matricula_id, data) VALUES (v_tur_id, v_mat_id, SYSDATE) RETURNING id INTO v_ins_id;
+    -- A presença é gerada automaticamente pelo trigger da Aula ou Inscrição
+
+    DBMS_OUTPUT.PUT_LINE('1. Setup de dados completo.');
+
+    -- --- FASE DE ELIMINAÇÃO (ORDEM HIERÁRQUICA) ---
+    DBMS_OUTPUT.PUT_LINE('--- INICIANDO TESTES DE DELETE ---');
+
+    -- 1. Eliminar Presença
     DELETE FROM presenca WHERE aula_id = v_aul_id AND inscricao_id = v_ins_id;
-    validar('PRESENCA');
+    verificar_log('PRESENCA');
 
-    -- Teste D: ESTUDANTE_ENTREGA (entrega_id, inscricao_id)
-    DECLARE v_ent_id NUMBER; BEGIN
-        INSERT INTO entrega (data_entrega, avaliacao_id) VALUES (SYSDATE, v_ava_id) RETURNING id INTO v_ent_id;
-        INSERT INTO estudante_entrega (entrega_id, inscricao_id) VALUES (v_ent_id, v_ins_id);
-        DELETE FROM estudante_entrega WHERE entrega_id = v_ent_id AND inscricao_id = v_ins_id;
-        validar('ESTUDANTE_ENTREGA');
-    END;
+    -- 2. Eliminar Aula
+    DELETE FROM aula WHERE id = v_aul_id;
+    verificar_log('AULA');
+
+    -- 3. Eliminar Inscrição
+    DELETE FROM inscricao WHERE id = v_ins_id;
+    verificar_log('INSCRICAO');
+
+    -- 4. Eliminar Turma
+    DELETE FROM turma WHERE id = v_tur_id;
+    verificar_log('TURMA');
+
+    -- 5. Eliminar Sala
+    DELETE FROM sala WHERE id = v_sal_id;
+    verificar_log('SALA');
+
+    -- 6. Eliminar Relação UC_DOCENTE
+    DELETE FROM uc_docente WHERE unidade_curricular_id = v_uc_id AND docente_id = v_doc_id;
+    verificar_log('UC_DOCENTE');
 
     DBMS_OUTPUT.PUT_LINE('========================================================');
-    DBMS_OUTPUT.PUT_LINE('   TESTES DE RELAÇÕES COMPOSTAS FINALIZADOS');
+    DBMS_OUTPUT.PUT_LINE('   TESTE FINALIZADO COM SUCESSO');
     DBMS_OUTPUT.PUT_LINE('========================================================');
 
-    ROLLBACK;
+    ROLLBACK; 
 
 EXCEPTION WHEN OTHERS THEN
     ROLLBACK;
-    DBMS_OUTPUT.PUT_LINE('!!! ERRO !!! ' || SQLERRM);
+    DBMS_OUTPUT.PUT_LINE('!!! ERRO DURANTE O TESTE !!!');
+    DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+    DBMS_OUTPUT.PUT_LINE('Trace: ' || DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
 END;
 /

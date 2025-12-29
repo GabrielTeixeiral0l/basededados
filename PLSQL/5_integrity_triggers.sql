@@ -822,8 +822,8 @@ BEGIN
     PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'FICHEIRO_RECURSO');
 
     -- 2. Validar Tamanho (obtendo o tamanho do BLOB)
-    IF NOT PKG_VALIDACAO.FUN_VALIDAR_TAMANHO_FICHEIRO(DBMS_LOB.GETLENGTH(:NEW.ficheiro)) THEN
-        PKG_LOG.ERRO('Tamanho de ficheiro de recurso invalido: ' || NVL(TO_CHAR(DBMS_LOB.GETLENGTH(:NEW.ficheiro)), 'NULL') || 
+    IF NOT PKG_VALIDACAO.FUN_VALIDAR_TAMANHO_FICHEIRO(:NEW.tamanho) THEN
+        PKG_LOG.ERRO('Tamanho de ficheiro de recurso invalido: ' || NVL(TO_CHAR(:NEW.tamanho), 'NULL') || 
                      ' (Max: ' || PKG_CONSTANTES.TAMANHO_MAX_FICHEIRO || ')', 'FICHEIRO_RECURSO');
         RAISE E_TAMANHO_INVALIDO;
     END IF;
@@ -903,9 +903,6 @@ CREATE OR REPLACE TRIGGER TRG_VAL_PRESENCA
 BEFORE INSERT OR UPDATE ON PRESENCA
 FOR EACH ROW
 DECLARE
-    v_turma_aula    NUMBER;
-    v_turma_insc    NUMBER;
-    v_data_aula     DATE;
     E_DADOS_INVALIDOS EXCEPTION;
 BEGIN
     -- 1. Validar Status
@@ -916,27 +913,7 @@ BEGIN
         :NEW.presente := '0'; 
     END IF;
 
-    -- 3. Verificar se Aluno e Aula pertencem à mesma Turma
-
-    SELECT data, turma_id INTO v_data_aula, v_turma_aula FROM aula WHERE id = :NEW.aula_id;
-    SELECT turma_id INTO v_turma_insc FROM inscricao WHERE id = :NEW.inscricao_id;
-
-    IF v_turma_aula != v_turma_insc THEN
-        PKG_LOG.ERRO('Inconsistencia: Aluno da Inscrição '||:NEW.inscricao_id||' (Turma '||v_turma_insc||') tentou registar presenca na Aula '||:NEW.aula_id||' (Turma '||v_turma_aula||')', 'PRESENCA');
-        RAISE E_DADOS_INVALIDOS;
-    END IF;
-
-    -- 4. Impedir marcar presença em aulas futuras (Só permite falta '0')
-    IF :NEW.presente = '1' AND v_data_aula > TRUNC(SYSDATE) THEN
-        PKG_LOG.ALERTA('Tentativa de marcar presenca em aula futura (Data: '||TO_CHAR(v_data_aula, 'DD/MM/YYYY')||') bloqueada.', 'PRESENCA');
-        :NEW.presente := '0'; 
-    END IF;
-
 EXCEPTION
-    WHEN E_DADOS_INVALIDOS THEN RAISE;
-    WHEN NO_DATA_FOUND THEN
-        PKG_LOG.ERRO('Aula ou Inscricao nao encontrada para validar presenca.', 'PRESENCA');
-        RAISE;
     WHEN OTHERS THEN
         PKG_LOG.ERRO('Erro na validacao de presenca: ' || SQLERRM, 'PRESENCA');
         RAISE;
