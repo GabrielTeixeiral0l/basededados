@@ -1,8 +1,4 @@
--- =============================================================================
--- 1. GATILHOS DE AUTO-INCREMENTO (SINCRONIZADO COM DDLV3)
--- Corrigido para permitir IDs explícitos em testes
--- =============================================================================
-
+--Auto increment
 CREATE OR REPLACE TRIGGER TRG_AI_AULA 
     BEFORE INSERT ON aula FOR EACH ROW 
 BEGIN 

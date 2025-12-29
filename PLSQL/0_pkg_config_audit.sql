@@ -15,6 +15,7 @@ END PKG_LOG;
 
 CREATE OR REPLACE PACKAGE BODY PKG_LOG AS
     PROCEDURE REGISTAR(p_acao VARCHAR2, p_msg VARCHAR2, p_tabela VARCHAR2 DEFAULT NULL) IS
+        -- O PRAGMA AUTONOMOUS_TRANSACTION Garante que o registo no LOG seja persistido (COMMIT) mesmo que a transação principal (que chamou este log) sofra um ROLLBACK devido a um erro. Essencial para auditoria e depuração.
         PRAGMA AUTONOMOUS_TRANSACTION;
     BEGIN
         -- Regista se a auditoria estiver ativa OU se for um erro crítico

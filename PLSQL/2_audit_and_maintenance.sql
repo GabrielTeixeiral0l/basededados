@@ -1,17 +1,11 @@
--- =============================================================================
--- 2. TRIGGERS DE AUDITORIA (GERADOS E PADRONIZADOS)
--- Este ficheiro contém os triggers de auditoria para todas as tabelas.
--- Centralizado em PKG_LOG.REGISTAR_DML.
--- =============================================================================
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_AULA
--- -----------------------------------------------------------------------------
+-- Logs (para cada tabela) (chama PKG_LOG.REGISTAR_DML)
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_AULA
     AFTER INSERT OR UPDATE OR DELETE ON AULA
     FOR EACH ROW
 DECLARE
-    v_id   VARCHAR2(255);
+    v_id VARCHAR2(255);
     v_acao VARCHAR2(20);
 BEGIN
     IF DELETING THEN
@@ -30,9 +24,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_AVALIACAO
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_AVALIACAO
     AFTER INSERT OR UPDATE OR DELETE ON AVALIACAO
     FOR EACH ROW
@@ -56,9 +48,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_CURSO
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_CURSO
     AFTER INSERT OR UPDATE OR DELETE ON CURSO
     FOR EACH ROW
@@ -82,9 +72,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_DOCENTE
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_DOCENTE
     AFTER INSERT OR UPDATE OR DELETE ON DOCENTE
     FOR EACH ROW
@@ -108,9 +96,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_ENTREGA
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_ENTREGA
     AFTER INSERT OR UPDATE OR DELETE ON ENTREGA
     FOR EACH ROW
@@ -134,9 +120,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_ESTUDANTE
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_ESTUDANTE
     AFTER INSERT OR UPDATE OR DELETE ON ESTUDANTE
     FOR EACH ROW
@@ -160,9 +144,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_ESTUDANTE_ENTREGA (Chave Composta)
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_ESTUDANTE_ENTREGA
     AFTER INSERT OR UPDATE OR DELETE ON ESTUDANTE_ENTREGA
     FOR EACH ROW
@@ -186,9 +168,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_FICHEIRO_ENTREGA
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_FICHEIRO_ENTREGA
     AFTER INSERT OR UPDATE OR DELETE ON FICHEIRO_ENTREGA
     FOR EACH ROW
@@ -212,9 +192,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_FICHEIRO_RECURSO
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_FICHEIRO_RECURSO
     AFTER INSERT OR UPDATE OR DELETE ON FICHEIRO_RECURSO
     FOR EACH ROW
@@ -238,9 +216,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_INSCRICAO
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_INSCRICAO
     AFTER INSERT OR UPDATE OR DELETE ON INSCRICAO
     FOR EACH ROW
@@ -264,9 +240,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_MATRICULA
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_MATRICULA
     AFTER INSERT OR UPDATE OR DELETE ON MATRICULA
     FOR EACH ROW
@@ -290,9 +264,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_NOTA (Chave Composta)
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_NOTA
     AFTER INSERT OR UPDATE OR DELETE ON NOTA
     FOR EACH ROW
@@ -316,9 +288,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_PARCELA_PROPINA
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_PARCELA_PROPINA
     AFTER INSERT OR UPDATE OR DELETE ON PARCELA_PROPINA
     FOR EACH ROW
@@ -342,9 +312,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_PRESENCA (Chave Composta)
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_PRESENCA
     AFTER INSERT OR UPDATE OR DELETE ON PRESENCA
     FOR EACH ROW
@@ -368,9 +336,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_RECURSO
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_RECURSO
     AFTER INSERT OR UPDATE OR DELETE ON RECURSO
     FOR EACH ROW
@@ -394,9 +360,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_SALA
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_SALA
     AFTER INSERT OR UPDATE OR DELETE ON SALA
     FOR EACH ROW
@@ -420,9 +384,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_TIPO_AULA
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_TIPO_AULA
     AFTER INSERT OR UPDATE OR DELETE ON TIPO_AULA
     FOR EACH ROW
@@ -446,9 +408,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_TIPO_AVALIACAO
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_TIPO_AVALIACAO
     AFTER INSERT OR UPDATE OR DELETE ON TIPO_AVALIACAO
     FOR EACH ROW
@@ -472,9 +432,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_TIPO_CURSO
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_TIPO_CURSO
     AFTER INSERT OR UPDATE OR DELETE ON TIPO_CURSO
     FOR EACH ROW
@@ -498,9 +456,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_TURMA
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_TURMA
     AFTER INSERT OR UPDATE OR DELETE ON TURMA
     FOR EACH ROW
@@ -524,9 +480,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_UC_CURSO (Chave Composta)
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_UC_CURSO
     AFTER INSERT OR UPDATE OR DELETE ON UC_CURSO
     FOR EACH ROW
@@ -550,9 +504,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_UC_DOCENTE (Chave Composta)
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_UC_DOCENTE
     AFTER INSERT OR UPDATE OR DELETE ON UC_DOCENTE
     FOR EACH ROW
@@ -576,9 +528,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_UNIDADE_CURRICULAR
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_UNIDADE_CURRICULAR
     AFTER INSERT OR UPDATE OR DELETE ON UNIDADE_CURRICULAR
     FOR EACH ROW
@@ -602,9 +552,7 @@ EXCEPTION
 END;
 /
 
--- -----------------------------------------------------------------------------
--- TRG_AUDIT_FICHEIRO_RECURSO
--- -----------------------------------------------------------------------------
+
 CREATE OR REPLACE TRIGGER TRG_AUDIT_FICHEIRO_RECURSO
     AFTER INSERT OR UPDATE OR DELETE ON FICHEIRO_RECURSO
     FOR EACH ROW
