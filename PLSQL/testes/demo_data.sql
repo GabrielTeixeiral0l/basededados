@@ -164,6 +164,13 @@ BEGIN
         IF v_ins4_id IS NOT NULL THEN
             INSERT INTO nota (inscricao_id, avaliacao_id, nota, comentario) VALUES (v_ins4_id, v_ava_id, 0, 'Faltou');
         END IF;
+
+        -- ATUALIZAR NOTA FINAL (Para disparar calculo de media na matricula)
+        IF v_ins1_id IS NOT NULL THEN UPDATE inscricao SET nota_final = 19 WHERE id = v_ins1_id; END IF;
+        IF v_ins2_id IS NOT NULL THEN UPDATE inscricao SET nota_final = 14 WHERE id = v_ins2_id; END IF;
+        IF v_ins3_id IS NOT NULL THEN UPDATE inscricao SET nota_final = 10 WHERE id = v_ins3_id; END IF;
+        IF v_ins4_id IS NOT NULL THEN UPDATE inscricao SET nota_final = 0  WHERE id = v_ins4_id; END IF;
+
     EXCEPTION WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('Aviso: Falha ao criar avaliação ou notas. ' || SQLERRM);
     END;

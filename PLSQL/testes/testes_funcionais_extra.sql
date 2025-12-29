@@ -64,6 +64,11 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('2. Testando Limites de Nota (0-20)...');
     
     INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas) VALUES ('UC Extra', 'UCE'||v_sufixo, 10, 10) RETURNING id INTO v_uc_id;
+    
+    -- Ligar UC ao Curso
+    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria)
+    VALUES (v_cur_id, v_uc_id, 1, 1, 6, '1');
+
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, docente_id) VALUES ('TE'||v_sufixo, '25/26', v_uc_id, v_doc_id) RETURNING id INTO v_tur_id;
     INSERT INTO inscricao (turma_id, matricula_id, data) VALUES (v_tur_id, v_mat_id, SYSDATE) RETURNING id INTO v_ins_id;
     INSERT INTO avaliacao (titulo, data, data_entrega, peso, max_alunos, turma_id, tipo_avaliacao_id) VALUES ('Teste', SYSDATE, SYSDATE, 10, 1, v_tur_id, v_tav_id) RETURNING id INTO v_ava_id;

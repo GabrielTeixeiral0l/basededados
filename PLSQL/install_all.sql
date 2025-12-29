@@ -28,7 +28,10 @@ PROMPT [5/10] Compilando Validações...
 @@12_pkg_validacao.sql
 SHOW ERRORS;
 
--- 6. Auditoria e Manutenção (Triggers updated_at)
+PROMPT [5b/10] Compilando Buffer Matricula...
+@@13_pkg_buffer_matricula.sql
+SHOW ERRORS;
+
 PROMPT [6/10] Compilando Triggers de Auditoria...
 @@2_audit_and_maintenance.sql
 SHOW ERRORS;

@@ -2,19 +2,46 @@
 -- 5. TRIGGERS DE INTEGRIDADE E REGRA DE NEGÓCIO (COMPATÍVEL COM DDL V3)
 -- =============================================================================
 
--- 5.1. VALIDAÇÃO DE NOTAS (0 a 20)
+-- 5.1. VALIDAÇÃO DE NOTAS (Status, Limites e Integridade de Turma)
 CREATE OR REPLACE TRIGGER TRG_VAL_NOTA
 BEFORE INSERT OR UPDATE ON NOTA
 FOR EACH ROW
 DECLARE
+    v_turma_inscricao NUMBER;
+    v_turma_avaliacao NUMBER;
     E_NOTA_INVALIDA EXCEPTION;
+    E_TURMA_INCONSISTENTE EXCEPTION;
 BEGIN
+    -- 1. Validar Status
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'NOTA');
+
+    -- 2. Validar Limites (0 a 20)
     IF :NEW.nota < 0 OR :NEW.nota > 20 THEN
         PKG_LOG.ERRO('Tentativa de inserir nota invalida: ' || :NEW.nota || ' para inscricao ' || :NEW.inscricao_id, 'NOTA');
         RAISE E_NOTA_INVALIDA;
     END IF;
+
+    -- 3. Validar Consistência de Turma (A inscrição e a avaliação devem pertencer à mesma turma)
+    BEGIN
+        SELECT turma_id INTO v_turma_inscricao FROM inscricao WHERE id = :NEW.inscricao_id;
+        SELECT turma_id INTO v_turma_avaliacao FROM avaliacao WHERE id = :NEW.avaliacao_id;
+
+        IF v_turma_inscricao != v_turma_avaliacao THEN
+            PKG_LOG.ERRO('Inconsistencia: A inscricao ' || :NEW.inscricao_id || ' (Turma ' || v_turma_inscricao || 
+                         ') nao pertence a turma da avaliacao ' || :NEW.avaliacao_id || ' (Turma ' || v_turma_avaliacao || ').', 'NOTA');
+            RAISE E_TURMA_INCONSISTENTE;
+        END IF;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            -- Se não encontrar registos (ex: dados órfãos), deixamos as FKs tratarem do erro depois.
+            NULL;
+    END;
+
 EXCEPTION
-    WHEN E_NOTA_INVALIDA THEN
+    WHEN E_NOTA_INVALIDA THEN RAISE;
+    WHEN E_TURMA_INCONSISTENTE THEN RAISE;
+    WHEN OTHERS THEN
+        PKG_LOG.ERRO('Erro desconhecido na validacao de nota: ' || SQLERRM, 'NOTA');
         RAISE;
 END;
 /
@@ -255,67 +282,63 @@ EXCEPTION
 END;
 /
 
-        
+-- 5.2.2. VALIDAÇÃO DE REGRAS DE ASSOCIAÇÃO (ESTUDANTE_ENTREGA)
+CREATE OR REPLACE TRIGGER TRG_VAL_EST_ENTREGA_REGRAS
+BEFORE INSERT OR UPDATE ON ESTUDANTE_ENTREGA
+FOR EACH ROW
+DECLARE
+    v_turma_entrega NUMBER;
+    v_turma_inscricao NUMBER;
+    v_avaliacao_id NUMBER;
+    v_existe_duplicado NUMBER;
+    E_INCONSISTENCIA EXCEPTION;
+    E_DUPLICADO EXCEPTION;
+BEGIN
+    -- 1. Validar Status
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'ESTUDANTE_ENTREGA');
 
-        -- 5.2.2. VALIDAÇÃO DE REGRAS DE ASSOCIAÇÃO (ESTUDANTE_ENTREGA)
-        CREATE OR REPLACE TRIGGER TRG_VAL_EST_ENTREGA_REGRAS
-        BEFORE INSERT OR UPDATE ON ESTUDANTE_ENTREGA
-        FOR EACH ROW
-        DECLARE
-            v_turma_entrega NUMBER;
-            v_turma_inscricao NUMBER;
-            v_avaliacao_id NUMBER;
-            v_existe_duplicado NUMBER;
-            E_INCONSISTENCIA EXCEPTION;
-            E_DUPLICADO EXCEPTION;
-        BEGIN
-            -- 1. Validar Status
-            PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'ESTUDANTE_ENTREGA');
+    -- Obter dados da Entrega/Avaliação
+    BEGIN
+        SELECT a.turma_id, a.id
+        INTO v_turma_entrega, v_avaliacao_id
+        FROM entrega e
+        JOIN avaliacao a ON e.avaliacao_id = a.id
+        WHERE e.id = :NEW.entrega_id;
 
-            -- Obter dados da Entrega/Avaliação
-            BEGIN
-                SELECT a.turma_id, a.id
-                INTO v_turma_entrega, v_avaliacao_id
-                FROM entrega e
-                JOIN avaliacao a ON e.avaliacao_id = a.id
-                WHERE e.id = :NEW.entrega_id;
+        -- 2. Validar Consistência: A inscrição pertence à turma da avaliação?
+        SELECT turma_id INTO v_turma_inscricao
+        FROM inscricao
+        WHERE id = :NEW.inscricao_id;
 
-                -- 2. Validar Consistência: A inscrição pertence à turma da avaliação?
-                SELECT turma_id INTO v_turma_inscricao
-                FROM inscricao
-                WHERE id = :NEW.inscricao_id;
+        IF v_turma_entrega != v_turma_inscricao THEN
+             RAISE E_INCONSISTENCIA;
+        END IF;
 
-                IF v_turma_entrega != v_turma_inscricao THEN
-                     RAISE E_INCONSISTENCIA;
-                END IF;
+        -- 3. Validar Duplicação (A mesma inscrição já tem grupo nesta avaliação?)
+        SELECT COUNT(*) INTO v_existe_duplicado
+        FROM estudante_entrega ee
+        JOIN entrega e ON ee.entrega_id = e.id
+        WHERE e.avaliacao_id = v_avaliacao_id
+          AND ee.inscricao_id = :NEW.inscricao_id
+          AND ee.entrega_id != :NEW.entrega_id;
 
-                -- 3. Validar Duplicação (A mesma inscrição já tem grupo nesta avaliação?)
-                SELECT COUNT(*) INTO v_existe_duplicado
-                FROM estudante_entrega ee
-                JOIN entrega e ON ee.entrega_id = e.id
-                WHERE e.avaliacao_id = v_avaliacao_id
-                  AND ee.inscricao_id = :NEW.inscricao_id
-                  AND ee.entrega_id != :NEW.entrega_id;
+        IF v_existe_duplicado > 0 THEN
+             RAISE E_DUPLICADO;
+        END IF;
 
-                IF v_existe_duplicado > 0 THEN
-                     RAISE E_DUPLICADO;
-                END IF;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN NULL;
+        WHEN E_INCONSISTENCIA THEN
+            PKG_LOG.ERRO('Inconsistencia: Inscricao ' || :NEW.inscricao_id || ' pertence a turma ' || v_turma_inscricao || ' mas a entrega e da turma ' || v_turma_entrega, 'ESTUDANTE_ENTREGA');
+            RAISE;
+        WHEN E_DUPLICADO THEN
+            PKG_LOG.ERRO('A inscricao ' || :NEW.inscricao_id || ' ja esta associada a um grupo nesta avaliacao.', 'ESTUDANTE_ENTREGA');
+            RAISE;
+    END;
+END;
+/
 
-            EXCEPTION
-                WHEN NO_DATA_FOUND THEN NULL;
-                WHEN E_INCONSISTENCIA THEN
-                    PKG_LOG.ERRO('Inconsistencia: Inscricao ' || :NEW.inscricao_id || ' pertence a turma ' || v_turma_inscricao || ' mas a entrega e da turma ' || v_turma_entrega, 'ESTUDANTE_ENTREGA');
-                    RAISE;
-                WHEN E_DUPLICADO THEN
-                    PKG_LOG.ERRO('A inscricao ' || :NEW.inscricao_id || ' ja esta associada a um grupo nesta avaliacao.', 'ESTUDANTE_ENTREGA');
-                    RAISE;
-            END;
-        END;
-        /
-
-    
-
-    -- 5.2.3. VALIDAÇÃO DE ENTREGAS
+-- 5.2.3. VALIDAÇÃO DE ENTREGAS
 CREATE OR REPLACE TRIGGER TRG_VAL_ENTREGA_REGRAS
 BEFORE INSERT OR UPDATE ON ENTREGA
 FOR EACH ROW
@@ -445,7 +468,7 @@ BEGIN
 
     -- IBAN
     IF :NEW.iban IS NOT NULL AND NOT PKG_VALIDACAO.FUN_VALIDAR_IBAN(:NEW.iban) THEN
-        PKG_LOG.ERRO('IBAN inválido: ' || :NEW.iban, 'DOCENTE');
+        PKG_LOG.ERRO('IBAN inválido para docente: ' || :NEW.iban, 'DOCENTE');
         RAISE E_DADOS_INVALIDOS;
     END IF;
 EXCEPTION
@@ -456,119 +479,270 @@ EXCEPTION
 END;
 /
 
-    -- 5.3. VALIDAÇÃO DE HORÁRIOS DE AULA (Conflitos de Sala e Docente)
-    CREATE OR REPLACE TRIGGER TRG_VAL_HORARIO_AULA
-    BEFORE INSERT OR UPDATE ON AULA
-    FOR EACH ROW
-    DECLARE
-        v_conflito_sala NUMBER;
-        v_conflito_docente NUMBER;
-        v_docente_id NUMBER;
-        E_CONFLITO_SALA EXCEPTION;
-        E_CONFLITO_DOCENTE EXCEPTION;
-    BEGIN
-        -- 0. Validar Status
-        PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'AULA');
-
-        -- 0.1. Validar Sequência Temporal (Fim > Início)
-        IF :NEW.hora_fim <= :NEW.hora_inicio THEN
-            PKG_LOG.ALERTA('Hora de fim ('||TO_CHAR(:NEW.hora_fim, 'HH24:MI')||') anterior ou igual ao inicio na aula ID '||:NEW.id||'. Ajustado +1h.', 'AULA');
-            :NEW.hora_fim := :NEW.hora_inicio + INTERVAL '1' HOUR;
-        END IF;
-
-        -- 1. Conflito de Sala
-        SELECT COUNT(*) INTO v_conflito_sala
-        FROM aula a
-        WHERE a.sala_id = :NEW.sala_id
-          AND a.data = :NEW.data
-          AND a.id != NVL(:NEW.id, -1)
-          AND (
-              (:NEW.hora_inicio < a.hora_fim AND :NEW.hora_fim > a.hora_inicio)
-          );
-
-        IF v_conflito_sala > 0 THEN
-            RAISE E_CONFLITO_SALA;
-        END IF;
-
-        -- 2. Conflito de Docente
-        -- Nota: No DDLv3, o docente está associado à TURMA.
-        SELECT docente_id INTO v_docente_id FROM turma WHERE id = :NEW.turma_id;
-
-        SELECT COUNT(*) INTO v_conflito_docente
-        FROM aula a
-        JOIN turma t ON a.turma_id = t.id
-        WHERE t.docente_id = v_docente_id
-          AND a.data = :NEW.data
-          AND a.id != NVL(:NEW.id, -1)
-          AND (
-              (:NEW.hora_inicio < a.hora_fim AND :NEW.hora_fim > a.hora_inicio)
-          );
-
-        IF v_conflito_docente > 0 THEN
-            RAISE E_CONFLITO_DOCENTE;
-        END IF;
-
-    EXCEPTION
-        WHEN E_CONFLITO_SALA THEN
-            PKG_LOG.ERRO('Conflito de horario na sala ' || :NEW.sala_id || ' em ' || TO_CHAR(:NEW.data, 'DD/MM/YYYY'), 'AULA');
-            RAISE;
-        WHEN E_CONFLITO_DOCENTE THEN
-            PKG_LOG.ERRO('Conflito de horario para o docente ' || v_docente_id || ' em ' || TO_CHAR(:NEW.data, 'DD/MM/YYYY'), 'AULA');
-            RAISE;
-        WHEN OTHERS THEN
-            PKG_LOG.ERRO('Erro no trigger TRG_VAL_HORARIO_AULA: ' || SQLERRM, 'AULA');
-            RAISE;
-    END;
-    /
--- 5.4. VALIDAÇÃO DE REGRAS DE INSCRIÇÃO (ECTS Anual)
-CREATE OR REPLACE TRIGGER TRG_VAL_INSCRICAO_ECTS
-BEFORE INSERT ON INSCRICAO
+-- 5.3. VALIDAÇÃO DE HORÁRIOS DE AULA (Conflitos de Sala e Docente)
+CREATE OR REPLACE TRIGGER TRG_VAL_HORARIO_AULA
+BEFORE INSERT OR UPDATE ON AULA
 FOR EACH ROW
 DECLARE
-    v_total_ects NUMBER;
-    v_novos_ects NUMBER;
-    v_ano_letivo VARCHAR2(10);
-    v_curso_id   NUMBER;
-    E_LIMITE_ECTS EXCEPTION;
+    v_conflito_sala NUMBER;
+    v_conflito_docente NUMBER;
+    v_docente_id NUMBER;
+    E_CONFLITO_SALA EXCEPTION;
+    E_CONFLITO_DOCENTE EXCEPTION;
 BEGIN
-    -- Obter dados da turma e UC para saber quantos ECTS vale esta nova inscrição
-    SELECT m.curso_id, t.ano_letivo, uc.ects
-    INTO v_curso_id, v_ano_letivo, v_novos_ects
-    FROM matricula m
-    JOIN turma t ON t.id = :NEW.turma_id
-    JOIN uc_curso uc ON t.unidade_curricular_id = uc.unidade_curricular_id
-    WHERE m.id = :NEW.matricula_id
-      AND uc.curso_id = m.curso_id;
+    -- 0. Validar Status
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'AULA');
 
-    -- Somar ECTS já inscritos para este aluno, neste ano letivo e curso
-    SELECT NVL(SUM(uc.ects), 0)
-    INTO v_total_ects
-    FROM inscricao i
-    JOIN turma t ON i.turma_id = t.id
-    JOIN uc_curso uc ON t.unidade_curricular_id = uc.unidade_curricular_id
-    WHERE i.matricula_id = :NEW.matricula_id
-      AND t.ano_letivo = v_ano_letivo
-      AND uc.curso_id = v_curso_id
-      AND i.status = '1'; -- Apenas inscrições ativas contam
-
-    -- Verificar Limite
-    IF (v_total_ects + v_novos_ects) > PKG_CONSTANTES.LIMITE_ECTS_ANUAL THEN
-        RAISE E_LIMITE_ECTS;
+    -- 0.1. Validar Sequência Temporal (Fim > Início)
+    IF :NEW.hora_fim <= :NEW.hora_inicio THEN
+        PKG_LOG.ALERTA('Hora de fim ('||TO_CHAR(:NEW.hora_fim, 'HH24:MI')||') anterior ou igual ao inicio na aula ID '||:NEW.id||'. Ajustado +1h.', 'AULA');
+        :NEW.hora_fim := :NEW.hora_inicio + INTERVAL '1' HOUR;
     END IF;
 
-EXCEPTION 
-    WHEN NO_DATA_FOUND THEN 
-        NULL;
-    WHEN E_LIMITE_ECTS THEN
-        PKG_LOG.ERRO('Limite de ' || PKG_CONSTANTES.LIMITE_ECTS_ANUAL || ' ECTS anuais excedido (' || (v_total_ects + v_novos_ects) || ') para matricula ' || :NEW.matricula_id, 'INSCRICAO');
+    -- 1. Conflito de Sala
+    SELECT COUNT(*) INTO v_conflito_sala
+    FROM aula a
+    WHERE a.sala_id = :NEW.sala_id
+      AND a.data = :NEW.data
+      AND a.id != NVL(:NEW.id, -1)
+      AND (
+          (:NEW.hora_inicio < a.hora_fim AND :NEW.hora_fim > a.hora_inicio)
+      );
+
+    IF v_conflito_sala > 0 THEN
+        RAISE E_CONFLITO_SALA;
+    END IF;
+
+    -- 2. Conflito de Docente
+    -- Nota: No DDLv3, o docente está associado à TURMA.
+    SELECT docente_id INTO v_docente_id FROM turma WHERE id = :NEW.turma_id;
+
+    SELECT COUNT(*) INTO v_conflito_docente
+    FROM aula a
+    JOIN turma t ON a.turma_id = t.id
+    WHERE t.docente_id = v_docente_id
+      AND a.data = :NEW.data
+      AND a.id != NVL(:NEW.id, -1)
+      AND (
+          (:NEW.hora_inicio < a.hora_fim AND :NEW.hora_fim > a.hora_inicio)
+      );
+
+    IF v_conflito_docente > 0 THEN
+        RAISE E_CONFLITO_DOCENTE;
+    END IF;
+
+EXCEPTION
+    WHEN E_CONFLITO_SALA THEN
+        PKG_LOG.ERRO('Conflito de horario na sala ' || :NEW.sala_id || ' em ' || TO_CHAR(:NEW.data, 'DD/MM/YYYY'), 'AULA');
+        RAISE;
+    WHEN E_CONFLITO_DOCENTE THEN
+        PKG_LOG.ERRO('Conflito de horario para o docente ' || v_docente_id || ' em ' || TO_CHAR(:NEW.data, 'DD/MM/YYYY'), 'AULA');
         RAISE;
     WHEN OTHERS THEN
-        PKG_LOG.ERRO('Erro inesperado no trigger de ECTS: ' || SQLERRM, 'INSCRICAO');
+        PKG_LOG.ERRO('Erro no trigger TRG_VAL_HORARIO_AULA: ' || SQLERRM, 'AULA');
         RAISE;
 END;
 /
 
--- 5.5. GERAÇÃO AUTOMÁTICA DE PARCELAS DE PROPINA
+-- 5.4. VALIDAÇÃO DE INSCRIÇÃO (SISTEMA INTEGRADO - COMPOUND TRIGGER)
+-- Resolve ORA-04091 ao consolidar ECTS, Duplicados e Horários
+CREATE OR REPLACE TRIGGER TRG_VAL_INSCRICAO_INTEGRADO
+FOR INSERT OR UPDATE ON INSCRICAO
+COMPOUND TRIGGER
+
+    TYPE r_insc IS RECORD (
+        matricula_id NUMBER,
+        turma_id     NUMBER,
+        uc_id        NUMBER,
+        ects         NUMBER,
+        ano_letivo   VARCHAR2(10),
+        curso_id     NUMBER
+    );
+    TYPE t_insc IS TABLE OF r_insc;
+    v_list t_insc := t_insc();
+    
+    -- Exceções customizadas
+    E_FORA_PLANO EXCEPTION;
+    E_DUPLICADO EXCEPTION;
+    E_LIMITE_ECTS EXCEPTION;
+
+    BEFORE EACH ROW IS
+        v_c_id NUMBER; v_u_id NUMBER; v_e NUMBER; v_ano VARCHAR2(10);
+    BEGIN
+        -- 1. Sanitizar Status
+        PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'INSCRICAO');
+
+        -- 2. Obter Dados de Contexto (Turma/Curso/ECTS)
+        BEGIN
+            SELECT t.unidade_curricular_id, m.curso_id, uc.ects, t.ano_letivo
+            INTO v_u_id, v_c_id, v_e, v_ano
+            FROM turma t
+            JOIN matricula m ON m.id = :NEW.matricula_id
+            JOIN uc_curso uc ON t.unidade_curricular_id = uc.unidade_curricular_id
+            WHERE t.id = :NEW.turma_id AND uc.curso_id = m.curso_id;
+
+            -- 3. Guardar para validação em lote (After Statement)
+            v_list.EXTEND;
+            v_list(v_list.LAST).matricula_id := :NEW.matricula_id;
+            v_list(v_list.LAST).turma_id     := :NEW.turma_id;
+            v_list(v_list.LAST).uc_id        := v_u_id;
+            v_list(v_list.LAST).ects         := v_e;
+            v_list(v_list.LAST).ano_letivo   := v_ano;
+            v_list(v_list.LAST).curso_id     := v_c_id;
+
+        EXCEPTION 
+            WHEN NO_DATA_FOUND THEN
+                PKG_LOG.ERRO('UC fora do plano de estudos ou dados invalidos para a inscricao.', 'INSCRICAO');
+                RAISE E_FORA_PLANO;
+        END;
+    END BEFORE EACH ROW;
+
+    AFTER STATEMENT IS
+        v_total_ects NUMBER;
+        v_count NUMBER;
+    BEGIN
+        FOR i IN 1..v_list.COUNT LOOP
+            -- 4. Validar Duplicados (MesMA UC)
+            SELECT COUNT(*) INTO v_count FROM inscricao ins JOIN turma t ON ins.turma_id = t.id
+            WHERE ins.matricula_id = v_list(i).matricula_id 
+              AND t.unidade_curricular_id = v_list(i).uc_id AND ins.status = '1';
+            
+            IF v_count > 1 THEN 
+                PKG_LOG.ERRO('Inscricao duplicada na mesma disciplina detetada.', 'INSCRICAO');
+                RAISE E_DUPLICADO; 
+            END IF;
+
+            -- 5. Validar Limite de ECTS
+            SELECT NVL(SUM(uc.ects), 0) INTO v_total_ects
+            FROM inscricao ins
+            JOIN turma t ON ins.turma_id = t.id
+            JOIN uc_curso uc ON t.unidade_curricular_id = uc.unidade_curricular_id
+            WHERE ins.matricula_id = v_list(i).matricula_id 
+              AND t.ano_letivo = v_list(i).ano_letivo
+              AND uc.curso_id = v_list(i).curso_id AND ins.status = '1';
+
+            IF v_total_ects > PKG_CONSTANTES.LIMITE_ECTS_ANUAL THEN
+                PKG_LOG.ERRO('Limite anual de ECTS excedido ('||v_total_ects||').', 'INSCRICAO');
+                RAISE E_LIMITE_ECTS;
+            END IF;
+        END LOOP;
+        v_list.DELETE;
+    END AFTER STATEMENT;
+END;
+/
+
+-- 5.11. ATUALIZAÇÃO AUTOMÁTICA DA MÉDIA GERAL (SISTEMA DE 3 TRIGGERS)
+
+-- Trigger 1: Inicialização (Before Statement)
+CREATE OR REPLACE TRIGGER TRG_MEDIA_MAT_BS
+BEFORE UPDATE OF nota_final ON INSCRICAO
+BEGIN
+    PKG_BUFFER_MATRICULA.LIMPAR;
+END;
+/
+
+-- Trigger 2: Captura (After Row)
+CREATE OR REPLACE TRIGGER TRG_MEDIA_MAT_AR
+AFTER UPDATE OF nota_final ON INSCRICAO
+FOR EACH ROW
+BEGIN
+    -- Se a nota mudou, marca a matricula para recalculo
+    IF :NEW.nota_final IS NOT NULL AND (:OLD.nota_final IS NULL OR :NEW.nota_final != :OLD.nota_final) THEN
+        PKG_BUFFER_MATRICULA.ADICIONAR(:NEW.matricula_id);
+    END IF;
+END;
+/
+
+-- Trigger 3: Processamento (After Statement)
+CREATE OR REPLACE TRIGGER TRG_MEDIA_MAT_AS
+AFTER UPDATE OF nota_final ON INSCRICAO
+DECLARE
+    v_media_ponderada NUMBER;
+    v_total_ects NUMBER;
+    v_mat_id NUMBER;
+    v_idx NUMBER;
+BEGIN
+    IF PKG_BUFFER_MATRICULA.v_ids_matricula.COUNT > 0 THEN
+        v_idx := PKG_BUFFER_MATRICULA.v_ids_matricula.FIRST;
+        
+        LOOP
+            EXIT WHEN v_idx IS NULL;
+            v_mat_id := PKG_BUFFER_MATRICULA.v_ids_matricula(v_idx);
+
+            -- Calcular média
+            SELECT NVL(SUM(i.nota_final * uc.ects), 0), NVL(SUM(uc.ects), 0)
+            INTO v_media_ponderada, v_total_ects
+            FROM inscricao i
+            JOIN turma t ON i.turma_id = t.id
+            JOIN uc_curso uc ON t.unidade_curricular_id = uc.unidade_curricular_id
+            WHERE i.matricula_id = v_mat_id
+              AND i.nota_final >= PKG_CONSTANTES.NOTA_APROVACAO
+              AND i.status = '1';
+
+            IF v_total_ects > 0 THEN
+                UPDATE matricula 
+                SET media_geral = ROUND(v_media_ponderada / v_total_ects, 2)
+                WHERE id = v_mat_id;
+            END IF;
+
+            v_idx := PKG_BUFFER_MATRICULA.v_ids_matricula.NEXT(v_idx);
+        END LOOP;
+        
+        PKG_BUFFER_MATRICULA.LIMPAR;
+    END IF;
+EXCEPTION WHEN OTHERS THEN
+    PKG_LOG.ERRO('Erro no calculo de media (AS): ' || SQLERRM, 'MATRICULA');
+END;
+/
+
+-- 5.12. VALIDAÇÃO DE MATRÍCULA (DUPLICIDADE, PARCELAS E STATUS)
+CREATE OR REPLACE TRIGGER TRG_VAL_MATRICULA
+BEFORE INSERT OR UPDATE ON MATRICULA
+FOR EACH ROW
+DECLARE
+    E_DUPLICADO EXCEPTION;
+    E_PARCELAS_INVALIDAS EXCEPTION;
+    v_count NUMBER;
+BEGIN
+    -- 1. Validar Status
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'MATRICULA');
+
+    -- 2. Validar Número de Parcelas (Min 1, Max 12)
+    IF :NEW.numero_parcelas < PKG_CONSTANTES.MIN_PARCELAS OR :NEW.numero_parcelas > PKG_CONSTANTES.MAX_PARCELAS THEN
+        PKG_LOG.ERRO('Numero de parcelas invalido ('||:NEW.numero_parcelas||'). Deve ser entre '||
+                     PKG_CONSTANTES.MIN_PARCELAS||' e '||PKG_CONSTANTES.MAX_PARCELAS, 'MATRICULA');
+        RAISE E_PARCELAS_INVALIDAS;
+    END IF;
+
+    -- 3. Impedir Duplicidade de Matrícula Ativa no mesmo Curso
+    -- Otimização: Só validar se for INSERT ou se o estado/status mudar para ativo
+    IF (:NEW.status = '1' AND :NEW.estado_matricula = 'Ativa') AND
+       (INSERTING OR (:OLD.estado_matricula != 'Ativa') OR (:OLD.status != '1')) THEN
+       
+        SELECT COUNT(*) INTO v_count
+        FROM matricula
+        WHERE estudante_id = :NEW.estudante_id
+          AND curso_id = :NEW.curso_id
+          AND estado_matricula = 'Ativa'
+          AND status = '1'
+          AND id != NVL(:NEW.id, -1);
+
+        IF v_count > 0 THEN
+            PKG_LOG.ERRO('Aluno ja tem uma matricula ativa neste curso.', 'MATRICULA');
+            RAISE E_DUPLICADO;
+        END IF;
+    END IF;
+
+EXCEPTION
+    WHEN E_PARCELAS_INVALIDAS THEN RAISE;
+    WHEN E_DUPLICADO THEN RAISE;
+    WHEN OTHERS THEN
+        PKG_LOG.ERRO('Erro na validacao de matricula: ' || SQLERRM, 'MATRICULA');
+        RAISE;
+END;
+/
+
+-- 5.5. GERAR PROPINAS AUTOMATICAMENTE AO MATRICULAR
 CREATE OR REPLACE TRIGGER TRG_AUTO_GERAR_PROPINAS
 AFTER INSERT ON MATRICULA
 FOR EACH ROW
@@ -690,5 +864,68 @@ BEGIN
         
         RAISE E_IMUTAVEL;
     END IF;
+END;
+/
+
+-- 5.13. VALIDAÇÃO DE PARCELA DE PROPINA
+CREATE OR REPLACE TRIGGER TRG_VAL_PARCELA_PROPINA
+BEFORE INSERT OR UPDATE ON PARCELA_PROPINA
+FOR EACH ROW
+DECLARE
+    v_total_curso NUMBER;
+    v_num_parcelas NUMBER;
+    v_prop_matricula_id NUMBER;
+    E_DADOS_INVALIDOS EXCEPTION;
+BEGIN
+    -- 1. Validar Status (Usando a função centralizada)
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.estado, 'PARCELA_PROPINA');
+
+    -- 2. Validar Valor Positivo
+    IF :NEW.valor <= 0 THEN
+        PKG_LOG.ERRO('Valor da parcela deve ser maior que 0.', 'PARCELA_PROPINA');
+        RAISE E_DADOS_INVALIDOS;
+    END IF;
+
+    -- 3. Validar Data de Vencimento (Futura)
+    -- Apenas na inserção ou se a data for alterada explicitamente
+    IF (INSERTING OR :NEW.data_vencimento != :OLD.data_vencimento) THEN
+        IF :NEW.data_vencimento <= TRUNC(SYSDATE) THEN
+             PKG_LOG.ERRO('Data de vencimento deve ser futura (' || TO_CHAR(:NEW.data_vencimento, 'DD/MM/YYYY') || ').', 'PARCELA_PROPINA');
+             RAISE E_DADOS_INVALIDOS;
+        END IF;
+    END IF;
+
+    -- 4. Consistência de Pagamento
+    IF :NEW.estado = '0' THEN
+        :NEW.data_pagamento := NULL;
+    ELSIF :NEW.estado = '1' AND :NEW.data_pagamento IS NULL THEN
+        :NEW.data_pagamento := SYSDATE; -- Assume data de hoje se não informada
+    END IF;
+
+    -- 5. Validar Consistência Financeira (Valor da Parcela)
+    BEGIN
+        SELECT matricula_id INTO v_prop_matricula_id FROM propina WHERE id = :NEW.propina_id;
+        
+        SELECT tc.valor_propinas, m.numero_parcelas
+        INTO v_total_curso, v_num_parcelas
+        FROM matricula m
+        JOIN curso c ON m.curso_id = c.id
+        JOIN tipo_curso tc ON c.tipo_curso_id = tc.id
+        WHERE m.id = v_prop_matricula_id;
+
+        IF v_num_parcelas > 0 THEN
+            -- Verifica se o valor atual * parcelas está próximo do total (margem 0.50€ para arredondamentos acumulados)
+            IF ABS((:NEW.valor * v_num_parcelas) - v_total_curso) > 0.50 THEN
+                 PKG_LOG.ALERTA('Valor da parcela inconsistente com o total do curso. (Valor: '||:NEW.valor||' x '||v_num_parcelas||' != '||v_total_curso||')', 'PARCELA_PROPINA');
+            END IF;
+        END IF;
+    EXCEPTION WHEN NO_DATA_FOUND THEN NULL;
+    END;
+
+EXCEPTION
+    WHEN E_DADOS_INVALIDOS THEN RAISE;
+    WHEN OTHERS THEN
+        PKG_LOG.ERRO('Erro na validacao de parcela: ' || SQLERRM, 'PARCELA_PROPINA');
+        RAISE;
 END;
 /

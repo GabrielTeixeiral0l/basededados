@@ -90,6 +90,14 @@ Package PKG_VALIDACAO compiled
 Package Body PKG_VALIDACAO compiled
 
 No errors.
+[5b/10] Compilando Buffer Matricula...
+
+Package PKG_BUFFER_MATRICULA compiled
+
+
+Package Body PKG_BUFFER_MATRICULA compiled
+
+No errors.
 [6/10] Compilando Triggers de Auditoria...
 
 Trigger TRG_AUDIT_AULA compiled
@@ -256,7 +264,19 @@ Trigger TRG_VAL_DADOS_DOCENTE compiled
 Trigger TRG_VAL_HORARIO_AULA compiled
 
 
-Trigger TRG_VAL_INSCRICAO_ECTS compiled
+Trigger TRG_VAL_INSCRICAO_INTEGRADO compiled
+
+
+Trigger TRG_MEDIA_MAT_BS compiled
+
+
+Trigger TRG_MEDIA_MAT_AR compiled
+
+
+Trigger TRG_MEDIA_MAT_AS compiled
+
+
+Trigger TRG_VAL_MATRICULA compiled
 
 
 Trigger TRG_AUTO_GERAR_PROPINAS compiled

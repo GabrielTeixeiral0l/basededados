@@ -20,15 +20,27 @@ DECLARE
 BEGIN
     DBMS_OUTPUT.PUT_LINE('=== INICIANDO TESTE TABELA AULA ===');
 
-    -- 1. Setup de Dependências
-    SELECT id INTO v_sala_id FROM (SELECT id FROM sala ORDER BY id) WHERE ROWNUM = 1;
-    SELECT id INTO v_turma_id FROM (SELECT id FROM turma ORDER BY id) WHERE ROWNUM = 1;
-    SELECT id INTO v_tipo_id FROM (SELECT id FROM tipo_aula ORDER BY id) WHERE ROWNUM = 1;
+    -- 1. Setup de Dependências Exclusivas
+    INSERT INTO sala (nome, capacidade) VALUES ('SALA_TESTE_AULA', 30) RETURNING id INTO v_sala_id;
+    INSERT INTO tipo_aula (nome) VALUES ('TIPO_TESTE_AULA') RETURNING id INTO v_tipo_id;
+    
+    -- Criar Turma (Depende de Docente e UC)
+    DECLARE
+        v_doc_id NUMBER;
+        v_uc_id NUMBER;
+    BEGIN
+        SELECT id INTO v_doc_id FROM (SELECT id FROM docente ORDER BY id DESC) WHERE ROWNUM = 1;
+        SELECT id INTO v_uc_id FROM (SELECT id FROM unidade_curricular ORDER BY id DESC) WHERE ROWNUM = 1;
+        
+        INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, docente_id, status)
+        VALUES ('TURMA_TESTE_AULA', '25/26', v_uc_id, v_doc_id, '1') RETURNING id INTO v_turma_id;
+    END;
 
     -- 1. Teste de Status Inválido
     DBMS_OUTPUT.PUT_LINE('1. Testando Status Inválido (Inserir "9")...');
+    -- Usar hora fixa segura (10:00 as 11:00)
     INSERT INTO aula (data, hora_inicio, hora_fim, sumario, tipo_aula_id, sala_id, turma_id, status)
-    VALUES (v_data_fixa, v_inicio + INTERVAL '10' HOUR, v_inicio + INTERVAL '11' HOUR, 'Teste Status', v_tipo_id, v_sala_id, v_turma_id, '9')
+    VALUES (v_data_fixa, v_inicio, v_inicio + INTERVAL '1' HOUR, 'Teste Status', v_tipo_id, v_sala_id, v_turma_id, '9')
     RETURNING id, status INTO v_aula_id, v_status_final;
 
     IF v_status_final = '0' THEN
