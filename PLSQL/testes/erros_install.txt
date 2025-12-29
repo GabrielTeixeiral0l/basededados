@@ -324,3 +324,1307 @@ Trigger TRG_FMT_MATRICULA compiled
 
 No errors.
 === INSTALAÇÃO CONCLUÍDA ===
+=== INICIANDO INSTALAÇÃO DOS COMPONENTES PL/SQL ===
+[1/10] Compilando Sequências...
+
+Trigger TRG_AI_AULA compiled
+
+
+Trigger TRG_AI_AVALIACAO compiled
+
+
+Trigger TRG_AI_CURSO compiled
+
+
+Trigger TRG_AI_DOCENTE compiled
+
+
+Trigger TRG_AI_ENTREGA compiled
+
+
+Trigger TRG_AI_ESTUDANTE compiled
+
+
+Trigger TRG_AI_FICH_ENTREGA compiled
+
+
+Trigger TRG_AI_FICH_RECURSO compiled
+
+
+Trigger TRG_AI_INSCRICAO compiled
+
+
+Trigger TRG_AI_LOG compiled
+
+
+Trigger TRG_AI_MATRICULA compiled
+
+
+Trigger TRG_AI_PARCELA compiled
+
+
+Trigger TRG_AI_RECURSO compiled
+
+
+Trigger TRG_AI_SALA compiled
+
+
+Trigger TRG_AI_TIPO_AULA compiled
+
+
+Trigger TRG_AI_TIPO_AVAL compiled
+
+
+Trigger TRG_AI_TIPO_CURSO compiled
+
+
+Trigger TRG_AI_TURMA compiled
+
+
+Trigger TRG_AI_UC compiled
+
+No errors.
+[2/10] Compilando Configuração de Logs...
+
+Package PKG_LOG compiled
+
+
+Package Body PKG_LOG compiled
+
+No errors.
+[3/10] Compilando Pacote de Gestão de Dados...
+
+Package PKG_GESTAO_DADOS compiled
+
+
+Package Body PKG_GESTAO_DADOS compiled
+
+No errors.
+[4/10] Compilando Constantes...
+
+Package PKG_CONSTANTES compiled
+
+
+Package Body PKG_CONSTANTES compiled
+
+No errors.
+[5/10] Compilando Validações...
+
+Package PKG_VALIDACAO compiled
+
+
+Package Body PKG_VALIDACAO compiled
+
+No errors.
+[5b/10] Compilando Buffer Matricula...
+
+Package PKG_BUFFER_MATRICULA compiled
+
+
+Package Body PKG_BUFFER_MATRICULA compiled
+
+No errors.
+[6/10] Compilando Triggers de Auditoria...
+
+Trigger TRG_AUDIT_AULA compiled
+
+
+Trigger TRG_AUDIT_AVALIACAO compiled
+
+
+Trigger TRG_AUDIT_CURSO compiled
+
+
+Trigger TRG_AUDIT_DOCENTE compiled
+
+
+Trigger TRG_AUDIT_ENTREGA compiled
+
+
+Trigger TRG_AUDIT_ESTUDANTE compiled
+
+
+Trigger TRG_AUDIT_ESTUDANTE_ENTREGA compiled
+
+
+Trigger TRG_AUDIT_FICHEIRO_ENTREGA compiled
+
+
+Trigger TRG_AUDIT_FICHEIRO_RECURSO compiled
+
+
+Trigger TRG_AUDIT_INSCRICAO compiled
+
+
+Trigger TRG_AUDIT_MATRICULA compiled
+
+
+Trigger TRG_AUDIT_NOTA compiled
+
+
+Trigger TRG_AUDIT_PARCELA_PROPINA compiled
+
+
+Trigger TRG_AUDIT_PRESENCA compiled
+
+
+Trigger TRG_AUDIT_RECURSO compiled
+
+
+Trigger TRG_AUDIT_SALA compiled
+
+
+Trigger TRG_AUDIT_TIPO_AULA compiled
+
+
+Trigger TRG_AUDIT_TIPO_AVALIACAO compiled
+
+
+Trigger TRG_AUDIT_TIPO_CURSO compiled
+
+
+Trigger TRG_AUDIT_TURMA compiled
+
+
+Trigger TRG_AUDIT_UC_CURSO compiled
+
+
+Trigger TRG_AUDIT_UC_DOCENTE compiled
+
+
+Trigger TRG_AUDIT_UNIDADE_CURRICULAR compiled
+
+
+Trigger TRG_AUDIT_FICHEIRO_RECURSO compiled
+
+No errors.
+[7/10] Compilando Vistas e Funções...
+
+Function FUN_IS_DEVEDOR compiled
+
+
+Function FUN_GET_ASSIDUIDADE compiled
+
+
+View VW_PAUTA_TURMA created.
+
+
+View VW_ALERTA_ASSIDUIDADE created.
+
+
+View VW_PERFIL_ACADEMICO_ALUNO created.
+
+
+View VW_OCUPACAO_SALAS_HOJE created.
+
+
+View VW_CARGA_HORARIA_DOCENTE created.
+
+
+View VW_RELATORIO_DIVIDAS created.
+
+
+View VW_FINANCEIRO_CURSOS created.
+
+
+View VW_EXAMES_PROXIMOS created.
+
+
+View VW_MONITOR_ENTREGAS created.
+
+
+View VW_ESTATISTICA_VAGAS created.
+
+No errors.
+[8/10] Compilando Buffers...
+
+Package PKG_BUFFER_NOTA compiled
+
+
+Package Body PKG_BUFFER_NOTA compiled
+
+No errors.
+[9/10] Compilando Pacotes Funcionais...
+
+Package PKG_TESOURARIA compiled
+
+
+Package Body PKG_TESOURARIA compiled
+
+No errors.
+[10/10] Compilando Triggers de Integridade...
+
+Trigger TRG_VAL_NOTA compiled
+
+
+Trigger TRG_NOTA_MEDIA_BS compiled
+
+
+Trigger TRG_NOTA_MEDIA_AR compiled
+
+
+Trigger TRG_NOTA_MEDIA_AS compiled
+
+
+Trigger TRG_AUTO_PRESENCA_INS compiled
+
+
+Trigger TRG_AUTO_PRESENCA_AULA compiled
+
+
+Trigger TRG_VAL_AVALIACAO_REGRAS compiled
+
+
+Trigger TRG_VAL_LIMITE_GRUPO_ENTREGA compiled
+
+
+Trigger TRG_VAL_EST_ENTREGA_REGRAS compiled
+
+
+Trigger TRG_VAL_ENTREGA_REGRAS compiled
+
+
+Trigger TRG_VAL_DADOS_ESTUDANTE compiled
+
+
+Trigger TRG_VAL_DADOS_DOCENTE compiled
+
+
+Trigger TRG_VAL_HORARIO_AULA compiled
+
+
+Trigger TRG_VAL_INSCRICAO_INTEGRADO compiled
+
+
+Trigger TRG_MEDIA_MAT_BS compiled
+
+
+Trigger TRG_MEDIA_MAT_AR compiled
+
+
+Trigger TRG_MEDIA_MAT_AS compiled
+
+
+Trigger TRG_VAL_MATRICULA compiled
+
+
+Trigger TRG_AUTO_GERAR_PROPINAS compiled
+
+
+Trigger TRG_VAL_SALA compiled
+
+
+Trigger TRG_VAL_CURSO compiled
+
+
+Trigger TRG_VAL_FICHEIRO_ENTREGA compiled
+
+
+Trigger TRG_VAL_FICHEIRO_RECURSO compiled
+
+
+Trigger TRG_PROTEGER_LOG compiled
+
+
+Trigger TRG_VAL_PARCELA_PROPINA compiled
+
+
+Trigger TRG_VAL_PRESENCA compiled
+
+No errors.
+[11/11] Compilando Triggers de Formatação...
+
+Trigger TRG_FMT_ESTUDANTE compiled
+
+
+Trigger TRG_FMT_DOCENTE compiled
+
+
+Trigger TRG_FMT_CURSO compiled
+
+
+Trigger TRG_FMT_UC compiled
+
+
+Trigger TRG_FMT_MATRICULA compiled
+
+No errors.
+=== INSTALAÇÃO CONCLUÍDA ===
+=== INICIANDO INSTALAÇÃO DOS COMPONENTES PL/SQL ===
+[1/10] Compilando Sequências...
+
+Trigger TRG_AI_AULA compiled
+
+
+Trigger TRG_AI_AVALIACAO compiled
+
+
+Trigger TRG_AI_CURSO compiled
+
+
+Trigger TRG_AI_DOCENTE compiled
+
+
+Trigger TRG_AI_ENTREGA compiled
+
+
+Trigger TRG_AI_ESTUDANTE compiled
+
+
+Trigger TRG_AI_FICH_ENTREGA compiled
+
+
+Trigger TRG_AI_FICH_RECURSO compiled
+
+
+Trigger TRG_AI_INSCRICAO compiled
+
+
+Trigger TRG_AI_LOG compiled
+
+
+Trigger TRG_AI_MATRICULA compiled
+
+
+Trigger TRG_AI_PARCELA compiled
+
+
+Trigger TRG_AI_RECURSO compiled
+
+
+Trigger TRG_AI_SALA compiled
+
+
+Trigger TRG_AI_TIPO_AULA compiled
+
+
+Trigger TRG_AI_TIPO_AVAL compiled
+
+
+Trigger TRG_AI_TIPO_CURSO compiled
+
+
+Trigger TRG_AI_TURMA compiled
+
+
+Trigger TRG_AI_UC compiled
+
+No errors.
+[2/10] Compilando Configuração de Logs...
+
+Package PKG_LOG compiled
+
+
+Package Body PKG_LOG compiled
+
+No errors.
+[3/10] Compilando Pacote de Gestão de Dados...
+
+Package PKG_GESTAO_DADOS compiled
+
+
+Package Body PKG_GESTAO_DADOS compiled
+
+No errors.
+[4/10] Compilando Constantes...
+
+Package PKG_CONSTANTES compiled
+
+
+Package Body PKG_CONSTANTES compiled
+
+No errors.
+[5/10] Compilando Validações...
+
+Package PKG_VALIDACAO compiled
+
+
+Package Body PKG_VALIDACAO compiled
+
+No errors.
+[5b/10] Compilando Buffer Matricula...
+
+Package PKG_BUFFER_MATRICULA compiled
+
+
+Package Body PKG_BUFFER_MATRICULA compiled
+
+No errors.
+[6/10] Compilando Triggers de Auditoria...
+
+Trigger TRG_AUDIT_AULA compiled
+
+
+Trigger TRG_AUDIT_AVALIACAO compiled
+
+
+Trigger TRG_AUDIT_CURSO compiled
+
+
+Trigger TRG_AUDIT_DOCENTE compiled
+
+
+Trigger TRG_AUDIT_ENTREGA compiled
+
+
+Trigger TRG_AUDIT_ESTUDANTE compiled
+
+
+Trigger TRG_AUDIT_ESTUDANTE_ENTREGA compiled
+
+
+Trigger TRG_AUDIT_FICHEIRO_ENTREGA compiled
+
+
+Trigger TRG_AUDIT_FICHEIRO_RECURSO compiled
+
+
+Trigger TRG_AUDIT_INSCRICAO compiled
+
+
+Trigger TRG_AUDIT_MATRICULA compiled
+
+
+Trigger TRG_AUDIT_NOTA compiled
+
+
+Trigger TRG_AUDIT_PARCELA_PROPINA compiled
+
+
+Trigger TRG_AUDIT_PRESENCA compiled
+
+
+Trigger TRG_AUDIT_RECURSO compiled
+
+
+Trigger TRG_AUDIT_SALA compiled
+
+
+Trigger TRG_AUDIT_TIPO_AULA compiled
+
+
+Trigger TRG_AUDIT_TIPO_AVALIACAO compiled
+
+
+Trigger TRG_AUDIT_TIPO_CURSO compiled
+
+
+Trigger TRG_AUDIT_TURMA compiled
+
+
+Trigger TRG_AUDIT_UC_CURSO compiled
+
+
+Trigger TRG_AUDIT_UC_DOCENTE compiled
+
+
+Trigger TRG_AUDIT_UNIDADE_CURRICULAR compiled
+
+
+Trigger TRG_AUDIT_FICHEIRO_RECURSO compiled
+
+No errors.
+[7/10] Compilando Vistas e Funções...
+
+Function FUN_IS_DEVEDOR compiled
+
+
+Function FUN_GET_ASSIDUIDADE compiled
+
+
+View VW_PAUTA_TURMA created.
+
+
+View VW_ALERTA_ASSIDUIDADE created.
+
+
+View VW_PERFIL_ACADEMICO_ALUNO created.
+
+
+View VW_OCUPACAO_SALAS_HOJE created.
+
+
+View VW_CARGA_HORARIA_DOCENTE created.
+
+
+View VW_RELATORIO_DIVIDAS created.
+
+
+View VW_FINANCEIRO_CURSOS created.
+
+
+View VW_EXAMES_PROXIMOS created.
+
+
+View VW_MONITOR_ENTREGAS created.
+
+
+View VW_ESTATISTICA_VAGAS created.
+
+No errors.
+[8/10] Compilando Buffers...
+
+Package PKG_BUFFER_NOTA compiled
+
+
+Package Body PKG_BUFFER_NOTA compiled
+
+No errors.
+[9/10] Compilando Pacotes Funcionais...
+
+Package PKG_TESOURARIA compiled
+
+
+Package Body PKG_TESOURARIA compiled
+
+No errors.
+[10/10] Compilando Triggers de Integridade...
+
+Trigger TRG_VAL_NOTA compiled
+
+
+Trigger TRG_NOTA_MEDIA_BS compiled
+
+
+Trigger TRG_NOTA_MEDIA_AR compiled
+
+
+Trigger TRG_NOTA_MEDIA_AS compiled
+
+
+Trigger TRG_AUTO_PRESENCA_INS compiled
+
+
+Trigger TRG_AUTO_PRESENCA_AULA compiled
+
+
+Trigger TRG_VAL_AVALIACAO_REGRAS compiled
+
+
+Trigger TRG_VAL_LIMITE_GRUPO_ENTREGA compiled
+
+
+Trigger TRG_VAL_EST_ENTREGA_REGRAS compiled
+
+
+Trigger TRG_VAL_ENTREGA_REGRAS compiled
+
+
+Trigger TRG_VAL_DADOS_ESTUDANTE compiled
+
+
+Trigger TRG_VAL_DADOS_DOCENTE compiled
+
+
+Trigger TRG_VAL_HORARIO_AULA compiled
+
+
+Trigger TRG_VAL_INSCRICAO_INTEGRADO compiled
+
+
+Trigger TRG_MEDIA_MAT_BS compiled
+
+
+Trigger TRG_MEDIA_MAT_AR compiled
+
+
+Trigger TRG_MEDIA_MAT_AS compiled
+
+
+Trigger TRG_VAL_MATRICULA compiled
+
+
+Trigger TRG_AUTO_GERAR_PROPINAS compiled
+
+
+Trigger TRG_VAL_SALA compiled
+
+
+Trigger TRG_VAL_CURSO compiled
+
+
+Trigger TRG_VAL_FICHEIRO_ENTREGA compiled
+
+
+Trigger TRG_VAL_FICHEIRO_RECURSO compiled
+
+
+Trigger TRG_PROTEGER_LOG compiled
+
+
+Trigger TRG_VAL_PARCELA_PROPINA compiled
+
+
+Trigger TRG_VAL_PRESENCA compiled
+
+No errors.
+[11/11] Compilando Triggers de Formatação...
+
+Trigger TRG_FMT_ESTUDANTE compiled
+
+
+Trigger TRG_FMT_DOCENTE compiled
+
+
+Trigger TRG_FMT_CURSO compiled
+
+
+Trigger TRG_FMT_UC compiled
+
+
+Trigger TRG_FMT_MATRICULA compiled
+
+No errors.
+=== INSTALAÇÃO CONCLUÍDA ===
+=== INICIANDO INSTALAÇÃO DOS COMPONENTES PL/SQL ===
+[1/10] Compilando Sequências...
+
+Trigger TRG_AI_AULA compiled
+
+
+Trigger TRG_AI_AVALIACAO compiled
+
+
+Trigger TRG_AI_CURSO compiled
+
+
+Trigger TRG_AI_DOCENTE compiled
+
+
+Trigger TRG_AI_ENTREGA compiled
+
+
+Trigger TRG_AI_ESTUDANTE compiled
+
+
+Trigger TRG_AI_FICH_ENTREGA compiled
+
+
+Trigger TRG_AI_FICH_RECURSO compiled
+
+
+Trigger TRG_AI_INSCRICAO compiled
+
+
+Trigger TRG_AI_LOG compiled
+
+
+Trigger TRG_AI_MATRICULA compiled
+
+
+Trigger TRG_AI_PARCELA compiled
+
+
+Trigger TRG_AI_RECURSO compiled
+
+
+Trigger TRG_AI_SALA compiled
+
+
+Trigger TRG_AI_TIPO_AULA compiled
+
+
+Trigger TRG_AI_TIPO_AVAL compiled
+
+
+Trigger TRG_AI_TIPO_CURSO compiled
+
+
+Trigger TRG_AI_TURMA compiled
+
+
+Trigger TRG_AI_UC compiled
+
+No errors.
+[2/10] Compilando Configuração de Logs...
+
+Package PKG_LOG compiled
+
+
+Package Body PKG_LOG compiled
+
+No errors.
+[3/10] Compilando Pacote de Gestão de Dados...
+
+Package PKG_GESTAO_DADOS compiled
+
+
+Package Body PKG_GESTAO_DADOS compiled
+
+No errors.
+[4/10] Compilando Constantes...
+
+Package PKG_CONSTANTES compiled
+
+
+Package Body PKG_CONSTANTES compiled
+
+No errors.
+[5/10] Compilando Validações...
+
+Package PKG_VALIDACAO compiled
+
+
+Package Body PKG_VALIDACAO compiled
+
+No errors.
+[5b/10] Compilando Buffer Matricula...
+
+Package PKG_BUFFER_MATRICULA compiled
+
+
+Package Body PKG_BUFFER_MATRICULA compiled
+
+No errors.
+[6/10] Compilando Triggers de Auditoria...
+
+Trigger TRG_AUDIT_AULA compiled
+
+
+Trigger TRG_AUDIT_AVALIACAO compiled
+
+
+Trigger TRG_AUDIT_CURSO compiled
+
+
+Trigger TRG_AUDIT_DOCENTE compiled
+
+
+Trigger TRG_AUDIT_ENTREGA compiled
+
+
+Trigger TRG_AUDIT_ESTUDANTE compiled
+
+
+Trigger TRG_AUDIT_ESTUDANTE_ENTREGA compiled
+
+
+Trigger TRG_AUDIT_FICHEIRO_ENTREGA compiled
+
+
+Trigger TRG_AUDIT_FICHEIRO_RECURSO compiled
+
+
+Trigger TRG_AUDIT_INSCRICAO compiled
+
+
+Trigger TRG_AUDIT_MATRICULA compiled
+
+
+Trigger TRG_AUDIT_NOTA compiled
+
+
+Trigger TRG_AUDIT_PARCELA_PROPINA compiled
+
+
+Trigger TRG_AUDIT_PRESENCA compiled
+
+
+Trigger TRG_AUDIT_RECURSO compiled
+
+
+Trigger TRG_AUDIT_SALA compiled
+
+
+Trigger TRG_AUDIT_TIPO_AULA compiled
+
+
+Trigger TRG_AUDIT_TIPO_AVALIACAO compiled
+
+
+Trigger TRG_AUDIT_TIPO_CURSO compiled
+
+
+Trigger TRG_AUDIT_TURMA compiled
+
+
+Trigger TRG_AUDIT_UC_CURSO compiled
+
+
+Trigger TRG_AUDIT_UC_DOCENTE compiled
+
+
+Trigger TRG_AUDIT_UNIDADE_CURRICULAR compiled
+
+
+Trigger TRG_AUDIT_FICHEIRO_RECURSO compiled
+
+No errors.
+[7/10] Compilando Vistas e Funções...
+
+Function FUN_IS_DEVEDOR compiled
+
+
+Function FUN_GET_ASSIDUIDADE compiled
+
+
+View VW_PAUTA_TURMA created.
+
+
+View VW_ALERTA_ASSIDUIDADE created.
+
+
+View VW_PERFIL_ACADEMICO_ALUNO created.
+
+
+View VW_OCUPACAO_SALAS_HOJE created.
+
+
+View VW_CARGA_HORARIA_DOCENTE created.
+
+
+View VW_RELATORIO_DIVIDAS created.
+
+
+View VW_FINANCEIRO_CURSOS created.
+
+
+View VW_EXAMES_PROXIMOS created.
+
+
+View VW_MONITOR_ENTREGAS created.
+
+
+View VW_ESTATISTICA_VAGAS created.
+
+No errors.
+[8/10] Compilando Buffers...
+
+Package PKG_BUFFER_NOTA compiled
+
+
+Package Body PKG_BUFFER_NOTA compiled
+
+No errors.
+[9/10] Compilando Pacotes Funcionais...
+
+Package PKG_TESOURARIA compiled
+
+
+Package Body PKG_TESOURARIA compiled
+
+No errors.
+[10/10] Compilando Triggers de Integridade...
+
+Trigger TRG_VAL_NOTA compiled
+
+
+Trigger TRG_NOTA_MEDIA_BS compiled
+
+
+Trigger TRG_NOTA_MEDIA_AR compiled
+
+
+Trigger TRG_NOTA_MEDIA_AS compiled
+
+
+Trigger TRG_AUTO_PRESENCA_INS compiled
+
+
+Trigger TRG_AUTO_PRESENCA_AULA compiled
+
+
+Trigger TRG_VAL_AVALIACAO_REGRAS compiled
+
+
+Trigger TRG_VAL_LIMITE_GRUPO_ENTREGA compiled
+
+
+Trigger TRG_VAL_EST_ENTREGA_REGRAS compiled
+
+
+Trigger TRG_VAL_ENTREGA_REGRAS compiled
+
+
+Trigger TRG_VAL_DADOS_ESTUDANTE compiled
+
+
+Trigger TRG_VAL_DADOS_DOCENTE compiled
+
+
+Trigger TRG_VAL_HORARIO_AULA compiled
+
+
+Trigger TRG_VAL_INSCRICAO_INTEGRADO compiled
+
+
+Trigger TRG_MEDIA_MAT_BS compiled
+
+
+Trigger TRG_MEDIA_MAT_AR compiled
+
+
+Trigger TRG_MEDIA_MAT_AS compiled
+
+
+Trigger TRG_VAL_MATRICULA compiled
+
+
+Trigger TRG_AUTO_GERAR_PROPINAS compiled
+
+
+Trigger TRG_VAL_SALA compiled
+
+
+Trigger TRG_VAL_CURSO compiled
+
+
+Trigger TRG_VAL_FICHEIRO_ENTREGA compiled
+
+
+Trigger TRG_VAL_FICHEIRO_RECURSO compiled
+
+
+Trigger TRG_PROTEGER_LOG compiled
+
+
+Trigger TRG_VAL_PARCELA_PROPINA compiled
+
+
+Trigger TRG_VAL_PRESENCA compiled
+
+No errors.
+[11/11] Compilando Triggers de Formatação...
+
+Trigger TRG_FMT_ESTUDANTE compiled
+
+
+Trigger TRG_FMT_DOCENTE compiled
+
+
+Trigger TRG_FMT_CURSO compiled
+
+
+Trigger TRG_FMT_UC compiled
+
+
+Trigger TRG_FMT_MATRICULA compiled
+
+No errors.
+=== INSTALAÇÃO CONCLUÍDA ===
+=== INICIANDO INSTALAÇÃO DOS COMPONENTES PL/SQL ===
+[1/10] Compilando Sequências...
+
+Trigger TRG_AI_AULA compiled
+
+
+Trigger TRG_AI_AVALIACAO compiled
+
+
+Trigger TRG_AI_CURSO compiled
+
+
+Trigger TRG_AI_DOCENTE compiled
+
+
+Trigger TRG_AI_ENTREGA compiled
+
+
+Trigger TRG_AI_ESTUDANTE compiled
+
+
+Trigger TRG_AI_FICH_ENTREGA compiled
+
+
+Trigger TRG_AI_FICH_RECURSO compiled
+
+
+Trigger TRG_AI_INSCRICAO compiled
+
+
+Trigger TRG_AI_LOG compiled
+
+
+Trigger TRG_AI_MATRICULA compiled
+
+
+Trigger TRG_AI_PARCELA compiled
+
+
+Trigger TRG_AI_RECURSO compiled
+
+
+Trigger TRG_AI_SALA compiled
+
+
+Trigger TRG_AI_TIPO_AULA compiled
+
+
+Trigger TRG_AI_TIPO_AVAL compiled
+
+
+Trigger TRG_AI_TIPO_CURSO compiled
+
+
+Trigger TRG_AI_TURMA compiled
+
+
+Trigger TRG_AI_UC compiled
+
+No errors.
+[2/10] Compilando Configuração de Logs...
+
+Package PKG_LOG compiled
+
+
+Package Body PKG_LOG compiled
+
+No errors.
+[3/10] Compilando Pacote de Gestão de Dados...
+
+Package PKG_GESTAO_DADOS compiled
+
+
+Package Body PKG_GESTAO_DADOS compiled
+
+No errors.
+[4/10] Compilando Constantes...
+
+Package PKG_CONSTANTES compiled
+
+
+Package Body PKG_CONSTANTES compiled
+
+No errors.
+[5/10] Compilando Validações...
+
+Package PKG_VALIDACAO compiled
+
+
+Package Body PKG_VALIDACAO compiled
+
+No errors.
+[5b/10] Compilando Buffer Matricula...
+
+Package PKG_BUFFER_MATRICULA compiled
+
+
+Package Body PKG_BUFFER_MATRICULA compiled
+
+No errors.
+[6/10] Compilando Triggers de Auditoria...
+
+Trigger TRG_AUDIT_AULA compiled
+
+
+Trigger TRG_AUDIT_AVALIACAO compiled
+
+
+Trigger TRG_AUDIT_CURSO compiled
+
+
+Trigger TRG_AUDIT_DOCENTE compiled
+
+
+Trigger TRG_AUDIT_ENTREGA compiled
+
+
+Trigger TRG_AUDIT_ESTUDANTE compiled
+
+
+Trigger TRG_AUDIT_ESTUDANTE_ENTREGA compiled
+
+
+Trigger TRG_AUDIT_FICHEIRO_ENTREGA compiled
+
+
+Trigger TRG_AUDIT_FICHEIRO_RECURSO compiled
+
+
+Trigger TRG_AUDIT_INSCRICAO compiled
+
+
+Trigger TRG_AUDIT_MATRICULA compiled
+
+
+Trigger TRG_AUDIT_NOTA compiled
+
+
+Trigger TRG_AUDIT_PARCELA_PROPINA compiled
+
+
+Trigger TRG_AUDIT_PRESENCA compiled
+
+
+Trigger TRG_AUDIT_RECURSO compiled
+
+
+Trigger TRG_AUDIT_SALA compiled
+
+
+Trigger TRG_AUDIT_TIPO_AULA compiled
+
+
+Trigger TRG_AUDIT_TIPO_AVALIACAO compiled
+
+
+Trigger TRG_AUDIT_TIPO_CURSO compiled
+
+
+Trigger TRG_AUDIT_TURMA compiled
+
+
+Trigger TRG_AUDIT_UC_CURSO compiled
+
+
+Trigger TRG_AUDIT_UC_DOCENTE compiled
+
+
+Trigger TRG_AUDIT_UNIDADE_CURRICULAR compiled
+
+
+Trigger TRG_AUDIT_FICHEIRO_RECURSO compiled
+
+No errors.
+[7/10] Compilando Vistas e Funções...
+
+Function FUN_IS_DEVEDOR compiled
+
+
+Function FUN_GET_ASSIDUIDADE compiled
+
+
+View VW_PAUTA_TURMA created.
+
+
+View VW_ALERTA_ASSIDUIDADE created.
+
+
+View VW_PERFIL_ACADEMICO_ALUNO created.
+
+
+View VW_OCUPACAO_SALAS_HOJE created.
+
+
+View VW_CARGA_HORARIA_DOCENTE created.
+
+
+View VW_RELATORIO_DIVIDAS created.
+
+
+View VW_FINANCEIRO_CURSOS created.
+
+
+View VW_EXAMES_PROXIMOS created.
+
+
+View VW_MONITOR_ENTREGAS created.
+
+
+View VW_ESTATISTICA_VAGAS created.
+
+No errors.
+[8/10] Compilando Buffers...
+
+Package PKG_BUFFER_NOTA compiled
+
+
+Package Body PKG_BUFFER_NOTA compiled
+
+No errors.
+[9/10] Compilando Pacotes Funcionais...
+
+Package PKG_TESOURARIA compiled
+
+
+Package Body PKG_TESOURARIA compiled
+
+No errors.
+[10/10] Compilando Triggers de Integridade...
+
+Trigger TRG_VAL_NOTA compiled
+
+
+Trigger TRG_NOTA_MEDIA_BS compiled
+
+
+Trigger TRG_NOTA_MEDIA_AR compiled
+
+
+Trigger TRG_NOTA_MEDIA_AS compiled
+
+
+Trigger TRG_AUTO_PRESENCA_INS compiled
+
+
+Trigger TRG_AUTO_PRESENCA_AULA compiled
+
+
+Trigger TRG_VAL_AVALIACAO_REGRAS compiled
+
+
+Trigger TRG_VAL_LIMITE_GRUPO_ENTREGA compiled
+
+
+Trigger TRG_VAL_EST_ENTREGA_REGRAS compiled
+
+
+Trigger TRG_VAL_ENTREGA_REGRAS compiled
+
+
+Trigger TRG_VAL_DADOS_ESTUDANTE compiled
+
+
+Trigger TRG_VAL_DADOS_DOCENTE compiled
+
+
+Trigger TRG_VAL_HORARIO_AULA compiled
+
+
+Trigger TRG_VAL_INSCRICAO_INTEGRADO compiled
+
+
+Trigger TRG_MEDIA_MAT_BS compiled
+
+
+Trigger TRG_MEDIA_MAT_AR compiled
+
+
+Trigger TRG_MEDIA_MAT_AS compiled
+
+
+Trigger TRG_VAL_MATRICULA compiled
+
+
+Trigger TRG_AUTO_GERAR_PROPINAS compiled
+
+
+Trigger TRG_VAL_SALA compiled
+
+
+Trigger TRG_VAL_CURSO compiled
+
+
+Trigger TRG_VAL_FICHEIRO_ENTREGA compiled
+
+
+Trigger TRG_VAL_FICHEIRO_RECURSO compiled
+
+
+Trigger TRG_PROTEGER_LOG compiled
+
+
+Trigger TRG_VAL_PARCELA_PROPINA compiled
+
+
+Trigger TRG_VAL_PRESENCA compiled
+
+No errors.
+[11/11] Compilando Triggers de Formatação...
+
+Trigger TRG_FMT_ESTUDANTE compiled
+
+
+Trigger TRG_FMT_DOCENTE compiled
+
+
+Trigger TRG_FMT_CURSO compiled
+
+
+Trigger TRG_FMT_UC compiled
+
+
+Trigger TRG_FMT_MATRICULA compiled
+
+No errors.
+=== INSTALAÇÃO CONCLUÍDA ===

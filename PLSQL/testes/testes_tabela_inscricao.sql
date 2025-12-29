@@ -36,9 +36,13 @@ BEGIN
         INSERT INTO unidade_curricular (id, nome, codigo, horas_teoricas, horas_praticas) 
         VALUES (v_uc_id, 'Base de Dados II', 'BD2'||v_sfx, 30, 30);
 
-        -- 1.4. Ligar UC ao Curso
-        INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria) 
-        VALUES (v_cur_id, v_uc_id, 1, 1, 6, '1');
+        -- 1.4. Ligar UC al Curso
+        INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, percentagem_presenca) 
+        VALUES (v_cur_id, v_uc_id, 1, 1, 6, '1', 75);
+
+        -- Habilitar Docente para a UC
+        INSERT INTO uc_docente (unidade_curricular_id, docente_id, funcao, status)
+        VALUES (v_uc_id, v_doc_id, 'Regente', '1');
 
         -- 1.5. Criar Estudante e Matrícula
         INSERT INTO estudante (id, nome, cc, nif, data_nascimento, email, telemovel) 

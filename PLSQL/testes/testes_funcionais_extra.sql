@@ -28,7 +28,7 @@ BEGIN
 
     -- 2. Criar Estudante, Curso e Matrícula
     INSERT INTO estudante (nome, cc, nif, email, telemovel, data_nascimento, iban)
-    VALUES ('Aluno Extra '||v_sufixo, '12345678', '275730972', 'extra@teste.com', '910000000', SYSDATE-7000, 'PT50000000000000000000000')
+    VALUES ('Aluno Extra '||v_sufixo, '1'||LPAD(v_sufixo, 7, '0'), '2'||LPAD(v_sufixo, 8, '0'), 'extra'||v_sufixo||'@teste.com', '91'||LPAD(v_sufixo, 7, '0'), SYSDATE-7000, 'PT50000000000000000000000')
     RETURNING id INTO v_est_id;
 
     INSERT INTO curso (nome, codigo, descricao, duracao, ects, tipo_curso_id)
@@ -66,8 +66,12 @@ BEGIN
     INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas) VALUES ('UC Extra', 'UCE'||v_sufixo, 10, 10) RETURNING id INTO v_uc_id;
     
     -- Ligar UC ao Curso
-    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria)
-    VALUES (v_cur_id, v_uc_id, 1, 1, 6, '1');
+    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, percentagem_presenca)
+    VALUES (v_cur_id, v_uc_id, 1, 1, 6, '1', 75);
+
+    -- Habilitar Docente para a UC (Necessário para TRG_VAL_TURMA)
+    INSERT INTO uc_docente (unidade_curricular_id, docente_id, funcao, status)
+    VALUES (v_uc_id, v_doc_id, 'Auxiliar', '1');
 
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, docente_id) VALUES ('TE'||v_sufixo, '25/26', v_uc_id, v_doc_id) RETURNING id INTO v_tur_id;
     INSERT INTO inscricao (turma_id, matricula_id, data) VALUES (v_tur_id, v_mat_id, SYSDATE) RETURNING id INTO v_ins_id;

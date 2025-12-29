@@ -42,10 +42,14 @@ BEGIN
     INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas, status) 
     VALUES ('UC2 '||v_sfx, 'U2'||v_sfx, 30, 30, '1') RETURNING id INTO v_uc2_id;
 
-    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, status) 
-    VALUES (v_cur_id, v_uc1_id, 1, 1, 10, '1', '1');
-    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, status) 
-    VALUES (v_cur_id, v_uc2_id, 1, 1, 20, '1', '1');
+    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, percentagem_presenca, status) 
+    VALUES (v_cur_id, v_uc1_id, 1, 1, 10, '1', 75, '1');
+    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, percentagem_presenca, status) 
+    VALUES (v_cur_id, v_uc2_id, 1, 1, 20, '1', 75, '1');
+
+    -- Habilitar Docente para as UCs
+    INSERT INTO uc_docente (unidade_curricular_id, docente_id, funcao, status) VALUES (v_uc1_id, v_doc_id, 'Docente', '1');
+    INSERT INTO uc_docente (unidade_curricular_id, docente_id, funcao, status) VALUES (v_uc2_id, v_doc_id, 'Docente', '1');
 
     INSERT INTO estudante (nome, nif, cc, data_nascimento, email, telemovel, status) 
     VALUES ('Aluno M '||v_sfx, v_nif_val, v_cc_val, TO_DATE('2000-01-01','YYYY-MM-DD'), 'a'||v_sfx||'@m.pt', v_tel_val, '1') 

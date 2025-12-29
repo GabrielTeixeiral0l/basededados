@@ -19,8 +19,18 @@ BEGIN
     VALUES ('C'||v_sufixo, 'CT'||v_sufixo, 'D', 3, 180, 50, v_tc_id) RETURNING id INTO v_cur_id;
     INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas)
     VALUES ('U'||v_sufixo, 'UT'||v_sufixo, 20, 20) RETURNING id INTO v_uc_id;
+
+    -- Ligar UC ao Curso
+    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, percentagem_presenca)
+    VALUES (v_cur_id, v_uc_id, 1, 1, 6, '1', 75);
+
     INSERT INTO docente (nome, data_contratacao, nif, cc, email, telemovel)
     VALUES ('P'||v_sufixo, SYSDATE, '267873072', '12345678', 'p@t.pt', '911111111') RETURNING id INTO v_doc_id;
+
+    -- Habilitar Docente para a UC
+    INSERT INTO uc_docente (unidade_curricular_id, docente_id, funcao, status)
+    VALUES (v_uc_id, v_doc_id, 'Regente', '1');
+
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, max_alunos, docente_id)
     VALUES ('T'||v_sufixo, '25/26', v_uc_id, 30, v_doc_id) RETURNING id INTO v_tur_id;
 

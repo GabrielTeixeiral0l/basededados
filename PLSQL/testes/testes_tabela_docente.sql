@@ -15,7 +15,7 @@ BEGIN
     -- 1. Teste de Status Inválido (Com dados válidos)
     DBMS_OUTPUT.PUT_LINE('1. Testando Status Inválido (Inserir "X")...');
     INSERT INTO docente (nome, data_contratacao, nif, cc, email, telemovel, status)
-    VALUES ('Docente Teste', SYSDATE, '123456789', '12345678', 'docente@teste.com', '912345678', 'X')
+    VALUES ('Docente Teste', SYSDATE, '211111111', '12345678', 'docente@teste.com', '912345678', 'X')
     RETURNING id, status INTO v_docente_id, v_status_final;
 
     IF v_status_final = '0' THEN 
@@ -29,7 +29,7 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('1.1. Testando Data Contratacao Futura...');
     BEGIN
         INSERT INTO docente (nome, data_contratacao, nif, email, telemovel)
-        VALUES ('Docente Futuro', SYSDATE+365, '987654321', 'futuro@t.com', '911111111');
+        VALUES ('Docente Futuro', SYSDATE+365, '222222222', 'futuro@t.com', '911111111');
         DBMS_OUTPUT.PUT_LINE('[FALHA] Data futura permitida.');
         v_count_erros := v_count_erros + 1;
     EXCEPTION WHEN OTHERS THEN

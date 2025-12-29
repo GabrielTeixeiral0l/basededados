@@ -37,8 +37,12 @@ BEGIN
     INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas) VALUES ('UC EE 1', 'UCEE1', 30, 30) RETURNING id INTO v_uc1;
     INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas) VALUES ('UC EE 2', 'UCEE2', 30, 30) RETURNING id INTO v_uc2;
     
-    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria) VALUES (v_curso_id, v_uc1, 1, 1, 6, '1');
-    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria) VALUES (v_curso_id, v_uc2, 1, 1, 6, '1');
+    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, percentagem_presenca) VALUES (v_curso_id, v_uc1, 1, 1, 6, '1', 75);
+    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, percentagem_presenca) VALUES (v_curso_id, v_uc2, 1, 1, 6, '1', 75);
+
+    -- Habilitar Docente para as UCs
+    INSERT INTO uc_docente (unidade_curricular_id, docente_id, funcao, status) VALUES (v_uc1, v_docente_id, 'Docente', '1');
+    INSERT INTO uc_docente (unidade_curricular_id, docente_id, funcao, status) VALUES (v_uc2, v_docente_id, 'Docente', '1');
 
     -- 3. Criar Turmas com Docente
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, max_alunos, docente_id) VALUES ('T EE 1', '2025', v_uc1, 20, v_docente_id) RETURNING id INTO v_turma_id;

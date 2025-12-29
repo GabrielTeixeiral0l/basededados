@@ -33,8 +33,12 @@ BEGIN
     INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas) 
     VALUES ('UC Nota '||v_sfx, 'UN'||v_sfx, 10, 10) RETURNING id INTO v_uc_id;
 
-    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria) 
-    VALUES (v_cur_id, v_uc_id, 1, 1, 10, '1');
+    -- Habilitar Docente para a UC
+    INSERT INTO uc_docente (unidade_curricular_id, docente_id, funcao, status)
+    VALUES (v_uc_id, v_doc_id, 'Docente', '1');
+
+    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, percentagem_presenca) 
+    VALUES (v_cur_id, v_uc_id, 1, 1, 10, '1', 75);
 
     -- Criar Turmas A e B
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, docente_id, status) 
@@ -45,7 +49,7 @@ BEGIN
 
     -- Criar Aluno e Matrícula
     INSERT INTO estudante (nome, nif, cc, data_nascimento, email, telemovel) 
-    VALUES ('Aluno Nota '||v_sfx, '3'||v_sfx||'2222', '1'||v_sfx||'333', SYSDATE-7000, 'a'||v_sfx||'@n.pt', '9'||v_sfx||'1111') 
+    VALUES ('Aluno Nota '||v_sfx, '1'||v_sfx||'2222', '1'||v_sfx||'333', SYSDATE-7000, 'a'||v_sfx||'@n.pt', '9'||v_sfx||'1111') 
     RETURNING id INTO v_est_id;
 
     INSERT INTO matricula (curso_id, ano_inscricao, estudante_id, estado_matricula, numero_parcelas) 

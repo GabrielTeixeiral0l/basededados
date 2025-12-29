@@ -28,12 +28,21 @@ BEGIN
     DECLARE
         v_doc_id NUMBER;
         v_uc_id NUMBER;
+        v_sfx_a VARCHAR2(10) := TO_CHAR(TRUNC(DBMS_RANDOM.VALUE(1000,9999)));
     BEGIN
-        SELECT id INTO v_doc_id FROM (SELECT id FROM docente ORDER BY id DESC) WHERE ROWNUM = 1;
-        SELECT id INTO v_uc_id FROM (SELECT id FROM unidade_curricular ORDER BY id DESC) WHERE ROWNUM = 1;
+        INSERT INTO docente (nome, nif, telemovel, email, data_contratacao, status)
+        VALUES ('DocA'||v_sfx_a, '2'||LPAD(v_sfx_a, 8, '0'), '96'||LPAD(v_sfx_a, 7, '0'), 'da'||v_sfx_a||'@t.pt', SYSDATE-30, '1')
+        RETURNING id INTO v_doc_id;
+
+        INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas, status)
+        VALUES ('UC A'||v_sfx_a, 'UCA'||v_sfx_a, 10, 10, '1')
+        RETURNING id INTO v_uc_id;
+
+        INSERT INTO uc_docente (unidade_curricular_id, docente_id, funcao, status)
+        VALUES (v_uc_id, v_doc_id, 'Regente', '1');
         
         INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, docente_id, status)
-        VALUES ('TURMA_TESTE_AULA', '25/26', v_uc_id, v_doc_id, '1') RETURNING id INTO v_turma_id;
+        VALUES ('TA'||v_sfx_a, '25/26', v_uc_id, v_doc_id, '1') RETURNING id INTO v_turma_id;
     END;
 
     -- 1. Teste de Status Inválido

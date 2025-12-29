@@ -32,8 +32,12 @@ BEGIN
     INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas, status)
     VALUES ('UC Logica', 'UL'||v_sfx, 10, 10, '1') RETURNING id INTO v_uc_id;
 
-    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, status)
-    VALUES (v_cur_id, v_uc_id, 1, 1, 6, '1', '1');
+    INSERT INTO uc_curso (curso_id, unidade_curricular_id, semestre, ano, ects, presenca_obrigatoria, percentagem_presenca, status)
+    VALUES (v_cur_id, v_uc_id, 1, 1, 6, '1', 75, '1');
+
+    -- Habilitar Docente para a UC
+    INSERT INTO uc_docente (unidade_curricular_id, docente_id, funcao, status)
+    VALUES (v_uc_id, v_doc_id, 'Regente', '1');
 
     INSERT INTO turma (nome, ano_letivo, unidade_curricular_id, docente_id, status)
     VALUES ('TL'||v_sfx, '2025', v_uc_id, v_doc_id, '1') RETURNING id INTO v_tur_id;

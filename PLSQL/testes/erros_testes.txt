@@ -2,17 +2,6 @@
 INICIANDO SUITE DE TESTES DO PROJETO BD2 (INTEGRIDADE TOTAL)
 ========================================================================
 [01/25] Executando Testes Unitários Integrados...
-=== INICIANDO TESTES INTEGRADOS (Sufixo: 7294) ===
-Valor Total: 8000, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
-[OK] Plano financeiro (10 parcelas) gerado automaticamente.
-!!! ERRO NOS TESTES INTEGRADOS !!!
-Erro: ORA-04091: table OPR_PROJETO.INSCRICAO is mutating, trigger/function may not see it
-ORA-06512: at "OPR_PROJETO.TRG_VAL_PRESENCA", line 38
-ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_PRESENCA'
-ORA-06512: at "OPR_PROJETO.TRG_AUTO_PRESENCA_INS", line 18
-ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_AUTO_PRESENCA_INS'
-
 [02/25] Executando Validação e Formatação de Dados...
 === INICIANDO TESTES DE VALIDAÇÃO E FORMATAÇÃO ===
 1. Testando Formatação Automática (InitCap, Lower, Upper)...
@@ -36,23 +25,7 @@ ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_AUTO_PRESENCA_INS'
 === TESTE SALA: SUCESSO ===
 
 [04/25] Executando Testes de Integridade da Tabela TURMA...
-=== INICIANDO TESTE TABELA TURMA ===
-1. Testando Inserção de Turma...
-[OK] Turma criada com sucesso. ID: 12086
-2. Testando Status Inválido ("X")...
-[INFO] Turma com status inválido inserida (Sem trigger de validação ativo).
-=== TESTE TURMA: SUCESSO ===
-
 [05/25] Executando Testes de Integridade da Tabela AULA...
-=== INICIANDO TESTE TABELA AULA ===
-1. Testando Status Inválido (Inserir "9")...
-[OK] Status corrigido para 0.
-2. Testando Hora Fim Inválida (Fim < Início)...
-[OK] Erro capturado na inserção de hora inválida (Se trigger for bloqueante).
-3. Testando Conflito de Sala (Sobreposição)...
-[OK] Conflito de sala bloqueado pelo sistema.
-=== TESTE AULA: SUCESSO ===
-
 [06/25] Executando Testes de Integridade da Tabela AVALIACAO...
 === INICIANDO TESTE TABELA AVALIACAO ===
 1. Testando Status Inválido e Peso > 1...
@@ -107,27 +80,7 @@ ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_AUTO_PRESENCA_INS'
 === TESTE ENTREGA: SUCESSO (ROLLBACK EXECUTADO) ===
 
 [11/25] Executando Testes de Integridade da Tabela ESTUDANTE_ENTREGA...
-=== INICIANDO TESTE TABELA ESTUDANTE_ENTREGA (DDLv3) ===
-Valor Total: 8000, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
-1. Testando Inscrição de Outra Turma...
-[OK] Inconsistencia bloqueada.
-=== TESTE ESTUDANTE_ENTREGA: SUCESSO (ROLLBACK EXECUTADO) ===
-
 [12/25] Executando Testes Funcionais Extra (Multas, Logs)...
-=== INICIANDO TESTES FUNCIONAIS EXTRA (Sufixo: 55225) ===
-Valor Total: 6000, Parcelas: 1
-Plano gerado com sucesso: 1 parcelas.
-1. Testando Multa por Atraso...
-[OK] Multa aplicada. Original: 6000, Final: 6600
-2. Testando Limites de Nota (0-20)...
-[OK] Nota invalida bloqueada.
-[OK] Log de erro encontrado.
-3. Testando Flag de Auditoria (v_audit_enabled)...
-[OK] Flag v_audit_enabled = FALSE respeitada.
-[OK] Erro crítico gravado mesmo com auditoria desativada.
-=== FIM DOS TESTES FUNCIONAIS EXTRA ===
-
 [13/25] Executando Lógica de Negócio (Médias e Pagamentos)...
 [14/25] Executando Testes Avançados (NIF, Conflitos)...
 ==========================================================
@@ -145,7 +98,7 @@ Plano gerado com sucesso: 10 parcelas.
 === TESTANDO LIMITES DE ECTS ===
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
--> Inscricao OK (30 ECTS).
+-> Bloqueio esperado: User-Defined Exception
 -> Bloqueio esperado: User-Defined Exception
 === TESTE DE LIMITES: SUCESSO ===
 
@@ -160,27 +113,14 @@ Plano gerado com sucesso: 10 parcelas.
 === TESTES DE REGRAS CONCLUÍDOS ===
 
 [17/25] Executando Regras de Max_Alunos e Grupos...
-=== INICIANDO TESTE: REGRAS DE GRUPOS E LIMITES ===
-Valor Total: 1000, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
-
 [18/25] Executando Teste de Segurança de Logs (Imutabilidade)...
 === INICIANDO TESTE DE SEGURANÇA DE LOGS ===
-[OK] Insert no LOG permitido. ID: 94557
+[OK] Insert no LOG permitido. ID: 100225
 [OK] UPDATE bloqueado por imutabilidade.
 [OK] DELETE bloqueado por imutabilidade.
 === TESTE DE SEGURANÇA CONCLUÍDO ===
 
 [19/25] Validando Vistas e Relatórios...
-=== INICIANDO TESTE DE VISTAS (Sufixo: 9967) ===
-Valor Total: 6000, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
-ERRO NOS TESTES DE VISTAS: ORA-04091: table OPR_PROJETO.INSCRICAO is mutating, trigger/function may not see it
-ORA-06512: at "OPR_PROJETO.TRG_VAL_PRESENCA", line 38
-ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_PRESENCA'
-ORA-06512: at "OPR_PROJETO.TRG_AUTO_PRESENCA_INS", line 18
-ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_AUTO_PRESENCA_INS'
-
 [20/25] Executando Testes de Integridade da Tabela FICHEIRO_ENTREGA...
 === INICIANDO TESTE TABELA FICHEIRO_ENTREGA ===
 1. Testando Status Inválido (Inserir "A")...
@@ -204,54 +144,14 @@ ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_AUTO_PRESENCA_INS'
 === TESTE FICHEIRO_RECURSO: SUCESSO ===
 
 [22/25] Executando Testes de Regras Académicas de INSCRICAO...
-=== INICIANDO TESTE DE REGRAS DE INSCRICAO (18d) ===
-Valor Total: 6000, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
-[OK] Inscricao valida realizada.
-[OK] Bloqueou duplicado corretamente: User-Defined Exception
-=== FIM DOS TESTES DE INSCRICAO (ROLLBACK) ===
-
 [23/25] Executando Testes de Regras da Tabela MATRICULA...
-=== INICIANDO TESTES DA TABELA MATRICULA (18e) ===
->> 2.1 Testando Limites de Parcelas...
-[OK] Bloqueou parcelas invalidas.
-Valor Total: 6000, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
-[OK] Matricula valida inserida.
->> 2.3 Testando Calculo de Media Ponderada...
-DIAGNOSTICO: Pontos=420 ECTS=30
-[OK] Media ponderada calculada: 14
-
 [24/26] Executando Testes de Validação de NOTA (Status, Turma)...
-=== INICIANDO TESTE: VALIDAÇÃO DE NOTA (Turma e Status) ===
-Valor Total: 1000, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
->> Teste 1: Inserir nota valida (Mesma Turma)...
-[OK] Nota inserida com sucesso.
->> Teste 2: Inserir nota cruzada (Avaliacao de outra turma)...
-[OK] Bloqueio de turma cruzada funcionou (Excecao capturada).
->> Teste 3: Validacao de Status Inválido...
-[OK] Status "X" corrigido para "0".
-=== TESTE CONCLUIDO (ROLLBACK) ===
-[OK] Todas as validacoes de NOTA (status e turma) passaram.
-
 [25/26] Executando Teste Integrado (Notas -> Media Geral)...
-=== INICIANDO TESTE INTEGRADO: NOTAS -> MÉDIA GERAL ===
-Valor Total: 1000, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
->> Notas parciais lancadas: 18 (UC1) e 12 (UC2).
->> Pautas fechadas. Notas Finais atualizadas.
-----------------------------------------
-Media Calculada pelo Sistema: 14
-Media Esperada: 14
-[OK] SUCESSO: A media foi calculada corretamente e propagada para a matricula.
-=== FIM DO TESTE INTEGRADO (ROLLBACK) ===
-
 [26/27] Executando Testes de Integridade da Tabela PARCELA_PROPINA...
 === INICIANDO TESTE: PARCELA_PROPINA ===
 Valor Total: 1000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-[SETUP] Dados base criados. Matricula ID: 12029
+[SETUP] Dados base criados. Matricula ID: 12191
 >> Teste 1: Valor Negativo (Bloqueio)...
 [OK] Bloqueou valor negativo.
 >> Teste 2: Data Vencimento Passada no INSERT (Bloqueio)...
@@ -263,40 +163,40 @@ Plano gerado com sucesso: 10 parcelas.
 === TESTE PARCELA_PROPINA CONCLUIDO ===
 
 [27/27] Executando Testes de Integridade da Tabela PRESENCA...
-=== INICIANDO TESTE: PRESENÇA ===
-Valor Total: 1000, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
-!!! ERRO FATAL NO TESTE PRESENCA !!!
-Erro: ORA-04091: table OPR_PROJETO.AULA is mutating, trigger/function may not see it
-ORA-06512: at "OPR_PROJETO.TRG_VAL_PRESENCA", line 38
-ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_PRESENCA'
-ORA-06512: at "OPR_PROJETO.TRG_AUTO_PRESENCA_AULA", line 18
-ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_AUTO_PRESENCA_AULA'
-
 [FINAL] Gerando Dados de Demonstração Permanentes...
-=== GERANDO DADOS DE DEMONSTRAÇÃO (Cenário Realista) ===
-Valor Total: 1500, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
-Valor Total: 1500, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
-Valor Total: 1500, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
-Valor Total: 1500, Parcelas: 10
-Plano gerado com sucesso: 10 parcelas.
-Aviso: Aula 1 ignorada devido a erro de validação.
-Aviso: Aula 2 ignorada devido a erro de validação.
-Aviso: Aula 3 ignorada devido a erro de validação.
-Aviso: Aula 4 ignorada devido a erro de validação.
-Aviso: Aula 5 ignorada devido a erro de validação.
-Aviso: Aula 6 ignorada devido a erro de validação.
-Aviso: Aula 7 ignorada devido a erro de validação.
-Aviso: Aula 8 ignorada devido a erro de validação.
-Aviso: Aula 9 ignorada devido a erro de validação.
-Aviso: Aula 10 ignorada devido a erro de validação.
-Dados gerados com sucesso.
-Turma criada: 12104
-Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 12104
+========================================================================
+INICIANDO TESTES ADICIONAIS DE INTEGRIDADE E REGRAS DE NEGÓCIO
+========================================================================
+[1/8] Testando Tabela RECURSO...
+[OK] Inserção de recurso com docente correto permitida.
+   [OK] Bloqueio de docente inválido no recurso (Trigger TRG_VAL_RECURSO).
 
+[2/8] Testando Tabela TIPO_AULA...
+[OK] Status inválido "X" corrigido automaticamente para "0".
+
+[3/8] Testando Tabela TIPO_AVALIACAO...
+[OK] Flags inválidas "9" corrigidas automaticamente para "0".
+
+[4/8] Testando Tabela TIPO_CURSO...
+[OK] Valor de propinas negativo corrigido para 0.
+
+[5/8] Testando Tabela TURMA...
+[OK] Bloqueio de docente não habilitado para a UC (Trigger TRG_VAL_TURMA).
+
+[6/8] Testando Tabela UC_CURSO...
+[OK] Bloqueio de ano inválido face à duração do curso.
+   [OK] Aplicou percentagem default: 75
+   [OK] Removeu percentagem desnecessária (presença não obrigatória).
+
+[7/8] Testando Tabela UC_DOCENTE...
+[OK] Status NULL corrigido para "0".
+
+[8/8] Testando Tabela UNIDADE_CURRICULAR...
+[OK] Horas negativas corrigidas para 0.
+
+========================================================================
+TESTES ADICIONAIS CONCLUÍDOS
+========================================================================
 ========================================================================
 TODOS OS TESTES FORAM EXECUTADOS COM SUCESSO.
 ========================================================================

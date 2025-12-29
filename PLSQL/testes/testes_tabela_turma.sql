@@ -13,8 +13,17 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('=== INICIANDO TESTE TABELA TURMA ===');
 
     -- 1. Setup
-    SELECT id INTO v_uc_id FROM unidade_curricular WHERE ROWNUM = 1;
-    SELECT id INTO v_doc_id FROM docente WHERE ROWNUM = 1;
+    INSERT INTO docente (nome, nif, email, telemovel, data_contratacao, status)
+    VALUES ('DocT '||v_sufixo, '2'||SUBSTR(v_sufixo,1,8), 'dt'||v_sufixo||'@t.pt', '96'||SUBSTR(v_sufixo,1,7), SYSDATE-30, '1')
+    RETURNING id INTO v_doc_id;
+
+    INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas, status)
+    VALUES ('UC T '||v_sufixo, 'UCT'||v_sufixo, 10, 10, '1')
+    RETURNING id INTO v_uc_id;
+
+    -- Habilitar Docente para a UC
+    INSERT INTO uc_docente (unidade_curricular_id, docente_id, funcao, status)
+    VALUES (v_uc_id, v_doc_id, 'Regente', '1');
 
     -- 2. Inserção Simples
     DBMS_OUTPUT.PUT_LINE('1. Testando Inserção de Turma...');

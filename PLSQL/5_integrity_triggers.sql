@@ -956,3 +956,156 @@ EXCEPTION
         RAISE;
 END;
 /
+
+
+-- =============================================================================
+-- 5.15. VALIDAÇÃO DE RECURSO
+-- =============================================================================
+CREATE OR REPLACE TRIGGER TRG_VAL_RECURSO
+BEFORE INSERT OR UPDATE ON RECURSO
+FOR EACH ROW
+DECLARE
+    v_turma_docente NUMBER;
+    E_DOCENTE_NAO_TURMA EXCEPTION;
+BEGIN
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'RECURSO');
+
+    -- Verifica se o docente é o responsável pela turma
+    SELECT docente_id INTO v_turma_docente FROM turma WHERE id = :NEW.turma_id;
+    
+    IF :NEW.docente_id != v_turma_docente THEN
+        RAISE E_DOCENTE_NAO_TURMA;
+    END IF;
+EXCEPTION
+    WHEN E_DOCENTE_NAO_TURMA THEN
+        PKG_LOG.ERRO('Docente '||:NEW.docente_id||' nao pertence a turma '||:NEW.turma_id, 'RECURSO');
+        RAISE;
+END;
+/
+
+-- =============================================================================
+-- 5.16. VALIDAÇÃO DE TIPO_AULA E TIPO_AVALIACAO
+-- =============================================================================
+CREATE OR REPLACE TRIGGER TRG_VAL_TIPO_AULA
+BEFORE INSERT OR UPDATE ON TIPO_AULA
+FOR EACH ROW
+BEGIN
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'TIPO_AULA');
+END;
+/
+
+CREATE OR REPLACE TRIGGER TRG_VAL_TIPO_AVALIACAO
+BEFORE INSERT OR UPDATE ON TIPO_AVALIACAO
+FOR EACH ROW
+BEGIN
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'TIPO_AVALIACAO');
+    
+    IF :NEW.requer_entrega NOT IN ('0','1') THEN :NEW.requer_entrega := '0'; END IF;
+    IF :NEW.permite_grupo NOT IN ('0','1') THEN :NEW.permite_grupo := '0'; END IF;
+    IF :NEW.permite_filhos NOT IN ('0','1') THEN :NEW.permite_filhos := '0'; END IF;
+END;
+/
+
+-- =============================================================================
+-- 5.17. VALIDAÇÃO DE TIPO_CURSO E UNIDADE_CURRICULAR
+-- =============================================================================
+CREATE OR REPLACE TRIGGER TRG_VAL_TIPO_CURSO
+BEFORE INSERT OR UPDATE ON TIPO_CURSO
+FOR EACH ROW
+BEGIN
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'TIPO_CURSO');
+    IF :NEW.valor_propinas < 0 THEN
+        PKG_LOG.ERRO('Valor de propinas negativo', 'TIPO_CURSO');
+        :NEW.valor_propinas := 0;
+    END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER TRG_VAL_UC
+BEFORE INSERT OR UPDATE ON UNIDADE_CURRICULAR
+FOR EACH ROW
+BEGIN
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'UNIDADE_CURRICULAR');
+    IF :NEW.horas_teoricas < 0 THEN :NEW.horas_teoricas := 0; END IF;
+    IF :NEW.horas_praticas < 0 THEN :NEW.horas_praticas := 0; END IF;
+END;
+/
+
+-- =============================================================================
+-- 5.18. VALIDAÇÃO DE TURMA
+-- =============================================================================
+CREATE OR REPLACE TRIGGER TRG_VAL_TURMA
+BEFORE INSERT OR UPDATE ON TURMA
+FOR EACH ROW
+DECLARE
+    v_exists NUMBER;
+    E_DOCENTE_INVALIDO EXCEPTION;
+BEGIN
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'TURMA');
+
+    -- Verifica se o par (UC, Docente) existe na tabela de competências uc_docente
+    SELECT COUNT(*) INTO v_exists 
+    FROM uc_docente 
+    WHERE unidade_curricular_id = :NEW.unidade_curricular_id 
+      AND docente_id = :NEW.docente_id;
+
+    IF v_exists = 0 THEN
+        RAISE E_DOCENTE_INVALIDO;
+    END IF;
+
+    IF :NEW.max_alunos < 1 THEN :NEW.max_alunos := 1; END IF;
+EXCEPTION
+    WHEN E_DOCENTE_INVALIDO THEN
+        PKG_LOG.ERRO('O docente '||:NEW.docente_id||' nao esta habilitado para a UC '||:NEW.unidade_curricular_id, 'TURMA');
+        RAISE;
+END;
+/
+
+-- =============================================================================
+-- 5.19. VALIDAÇÃO DE UC_CURSO E UC_DOCENTE
+-- =============================================================================
+CREATE OR REPLACE TRIGGER TRG_VAL_UC_CURSO
+BEFORE INSERT OR UPDATE ON UC_CURSO
+FOR EACH ROW
+DECLARE
+    v_duracao_curso NUMBER;
+    E_DURACAO_EXCEDIDA EXCEPTION;
+    E_PRESENCA_INVALIDA EXCEPTION;
+BEGIN
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'UC_CURSO');
+    
+    -- Validar duração
+    SELECT duracao INTO v_duracao_curso FROM curso WHERE id = :NEW.curso_id;
+    IF :NEW.ano > v_duracao_curso THEN
+        RAISE E_DURACAO_EXCEDIDA;
+    END IF;
+
+    -- Validar regras de presença
+    IF :NEW.presenca_obrigatoria NOT IN ('0','1') THEN :NEW.presenca_obrigatoria := '0'; END IF;
+
+    IF :NEW.presenca_obrigatoria = '1' AND :NEW.percentagem_presenca IS NULL THEN
+        :NEW.percentagem_presenca := PKG_CONSTANTES.PERCENTAGEM_PRESENCA_DEFAULT;
+        PKG_LOG.ERRO('Percentagem de presenca nao definida. Aplicado default: ' || :NEW.percentagem_presenca, 'UC_CURSO');
+    END IF;
+    
+    IF :NEW.presenca_obrigatoria = '0' THEN
+        :NEW.percentagem_presenca := NULL;
+    END IF;
+
+EXCEPTION
+    WHEN E_DURACAO_EXCEDIDA THEN
+        PKG_LOG.ERRO('Ano '||:NEW.ano||' superior a duracao do curso ('||v_duracao_curso||')', 'UC_CURSO');
+        RAISE;
+    WHEN E_PRESENCA_INVALIDA THEN
+        PKG_LOG.ERRO('Percentagem de presenca obrigatoria nao definida', 'UC_CURSO');
+        RAISE;
+END;
+/
+
+CREATE OR REPLACE TRIGGER TRG_VAL_UC_DOCENTE
+BEFORE INSERT OR UPDATE ON UC_DOCENTE
+FOR EACH ROW
+BEGIN
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'UC_DOCENTE');
+END;
+/

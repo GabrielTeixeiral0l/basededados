@@ -28,8 +28,8 @@ BEGIN
     -- Inserir dados "sujos" mas VÁLIDOS (para passar na integridade)
     BEGIN
         INSERT INTO estudante (nome, email, data_nascimento, cc, nif, telemovel, iban)
-        VALUES ('  joao  da  silva  ', 'JOAO.SILVA@TESTE.COM', ADD_MONTHS(SYSDATE, -12*20), 
-                '12345678', '275730972', '910000000', 'PT50000000000000000000000')
+        VALUES ('  joao  da  silva  ', 'JOAO.SILVA'||v_sufixo||'@TESTE.COM', ADD_MONTHS(SYSDATE, -12*20), 
+                '1'||LPAD(v_sufixo, 7, '0'), '2'||LPAD(v_sufixo, 8, '0'), '91'||LPAD(v_sufixo, 7, '0'), 'PT50000000000000000000000')
         RETURNING id INTO v_est_id;
         
         INSERT INTO unidade_curricular (nome, codigo, horas_teoricas, horas_praticas)
@@ -40,7 +40,7 @@ BEGIN
         SELECT nome, email INTO v_nome_check, v_email_check FROM estudante WHERE id = v_est_id;
         SELECT codigo INTO v_cod_check FROM unidade_curricular WHERE id = v_uc_id;
 
-        IF v_nome_check = 'Joao Da Silva' AND v_email_check = 'joao.silva@teste.com' THEN
+        IF v_nome_check = 'Joao Da Silva' AND v_email_check = LOWER(v_email_check) AND v_email_check LIKE 'joao.silva%@teste.com' THEN
             DBMS_OUTPUT.PUT_LINE('[OK] Formatação de Estudante (Nome/Email) correta.');
         ELSE
             DBMS_OUTPUT.PUT_LINE('[FALHA] Formatação de Estudante incorreta: ' || v_nome_check || ' / ' || v_email_check);
@@ -63,7 +63,7 @@ BEGIN
     -- 2.1 Teste CC Inválido
     BEGIN
         INSERT INTO docente (nome, data_contratacao, cc, nif, email, telemovel, iban)
-        VALUES ('Docente CC Inv', SYSDATE, '1', '275730972', 'doc.cc@teste.com', '930000000', 'PT50000000000000000000000');
+        VALUES ('Docente CC Inv', SYSDATE, '1', '2'||LPAD(v_sufixo, 8, '1'), 'doc.cc'||v_sufixo||'@teste.com', '93'||LPAD(v_sufixo, 7, '1'), 'PT50000000000000000000000');
         DBMS_OUTPUT.PUT_LINE('[FALHA] CC Inválido foi permitido!');
     EXCEPTION WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('[OK] CC Inválido bloqueado.');
@@ -75,7 +75,7 @@ BEGIN
     -- 2.2 Teste Email Inválido
     BEGIN
         INSERT INTO docente (nome, data_contratacao, cc, nif, email, telemovel, iban)
-        VALUES ('Docente Email Inv', SYSDATE, '12345678', '257573097', 'email_sem_arroba', '930000000', 'PT50000000000000000000000');
+        VALUES ('Docente Email Inv', SYSDATE, '1'||LPAD(v_sufixo, 7, '2'), '2'||LPAD(v_sufixo, 8, '2'), 'email_sem_arroba', '93'||LPAD(v_sufixo, 7, '2'), 'PT50000000000000000000000');
         DBMS_OUTPUT.PUT_LINE('[FALHA] Email Inválido foi permitido!');
     EXCEPTION WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('[OK] Email Inválido bloqueado.');
@@ -87,7 +87,7 @@ BEGIN
     -- 2.3 Teste IBAN Inválido
     BEGIN
         INSERT INTO docente (nome, data_contratacao, cc, nif, email, telemovel, iban)
-        VALUES ('Docente IBAN Inv', SYSDATE, '87654321', '237300877', 'doc.iban@teste.com', '930000000', 'ES991234');
+        VALUES ('Docente IBAN Inv', SYSDATE, '1'||LPAD(v_sufixo, 7, '3'), '2'||LPAD(v_sufixo, 8, '3'), 'doc.iban'||v_sufixo||'@teste.com', '93'||LPAD(v_sufixo, 7, '3'), 'ES991234');
         DBMS_OUTPUT.PUT_LINE('[FALHA] IBAN Inválido foi permitido!');
     EXCEPTION WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('[OK] IBAN Inválido bloqueado.');

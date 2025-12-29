@@ -94,6 +94,8 @@ PROMPT [27/27] Executando Testes de Integridade da Tabela PRESENCA...
 PROMPT [FINAL] Gerando Dados de Demonstração Permanentes...
 @@demo_data.sql
 
+
+@@teste_tabela_adicionais.sql
 PROMPT ========================================================================
 PROMPT TODOS OS TESTES FORAM EXECUTADOS COM SUCESSO.
 PROMPT ========================================================================
