@@ -44,6 +44,7 @@ SHOW ERRORS;
 -- 8. Buffers (Apoio a Triggers complexos)
 PROMPT [8/10] Compilando Buffers...
 @@11_pkg_buffer_nota.sql
+@@15_pkg_buffer_inscricao.sql
 SHOW ERRORS;
 
 -- 9. Pacotes Funcionais (Secretaria e Tesouraria)

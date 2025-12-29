@@ -1,6 +1,4 @@
--- -----------------------------------------------------------------------------
--- 6.2. PACOTE TESOURARIA (COM DEBUG)
--- -----------------------------------------------------------------------------
+-- tesouraria 
 CREATE OR REPLACE PACKAGE PKG_TESOURARIA IS
     PROCEDURE PRC_GERAR_PLANO_PAGAMENTO(
         p_matricula_id IN NUMBER, 

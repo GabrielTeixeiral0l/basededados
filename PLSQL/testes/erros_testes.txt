@@ -115,7 +115,7 @@ Plano gerado com sucesso: 10 parcelas.
 [17/25] Executando Regras de Max_Alunos e Grupos...
 [18/25] Executando Teste de Segurança de Logs (Imutabilidade)...
 === INICIANDO TESTE DE SEGURANÇA DE LOGS ===
-[OK] Insert no LOG permitido. ID: 100225
+[OK] Insert no LOG permitido. ID: 101157
 [OK] UPDATE bloqueado por imutabilidade.
 [OK] DELETE bloqueado por imutabilidade.
 === TESTE DE SEGURANÇA CONCLUÍDO ===
@@ -151,7 +151,7 @@ Plano gerado com sucesso: 10 parcelas.
 === INICIANDO TESTE: PARCELA_PROPINA ===
 Valor Total: 1000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-[SETUP] Dados base criados. Matricula ID: 12191
+[SETUP] Dados base criados. Matricula ID: 12211
 >> Teste 1: Valor Negativo (Bloqueio)...
 [OK] Bloqueou valor negativo.
 >> Teste 2: Data Vencimento Passada no INSERT (Bloqueio)...

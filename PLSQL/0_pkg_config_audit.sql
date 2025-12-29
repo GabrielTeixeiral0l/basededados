@@ -1,10 +1,6 @@
--- =============================================================================
--- 0. CONFIGURAÇÃO DE AUDITORIA E LOGS (TOTALMENTE COMPATÍVEL COM DDL V3)
--- =============================================================================
-
+--LOGS ()
 CREATE OR REPLACE PACKAGE PKG_LOG AS
-    v_modo_manutencao BOOLEAN := FALSE;
-    v_audit_enabled   BOOLEAN := TRUE;
+    v_audit_enabled BOOLEAN := TRUE;
 
     PROCEDURE REGISTAR(p_acao VARCHAR2, p_msg VARCHAR2, p_tabela VARCHAR2 DEFAULT NULL);
     PROCEDURE REGISTAR_DML(p_tabela VARCHAR2, p_acao VARCHAR2, p_id_registo VARCHAR2);
