@@ -13,6 +13,9 @@ CREATE OR REPLACE PACKAGE PKG_VALIDACAO IS
     
     -- Validação e Correção de Status (0 ou 1)
     PROCEDURE VALIDAR_STATUS(p_status IN OUT VARCHAR2, p_tabela IN VARCHAR2);
+    
+    -- Flag para evitar Mutating Table em presenças automáticas
+    g_skip_presenca BOOLEAN := FALSE;
 END PKG_VALIDACAO;
 /
 

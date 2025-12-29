@@ -177,6 +177,9 @@ No errors.
 Function FUN_IS_DEVEDOR compiled
 
 
+Function FUN_GET_ASSIDUIDADE compiled
+
+
 View VW_PAUTA_TURMA created.
 
 
@@ -295,6 +298,12 @@ Trigger TRG_VAL_FICHEIRO_RECURSO compiled
 
 
 Trigger TRG_PROTEGER_LOG compiled
+
+
+Trigger TRG_VAL_PARCELA_PROPINA compiled
+
+
+Trigger TRG_VAL_PRESENCA compiled
 
 No errors.
 [11/11] Compilando Triggers de Formatação...

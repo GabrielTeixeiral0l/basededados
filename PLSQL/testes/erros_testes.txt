@@ -2,12 +2,16 @@
 INICIANDO SUITE DE TESTES DO PROJETO BD2 (INTEGRIDADE TOTAL)
 ========================================================================
 [01/25] Executando Testes Unitários Integrados...
-=== INICIANDO TESTES (Sufixo: 40382) ===
-Valor Total: 1000, Parcelas: 10
+=== INICIANDO TESTES INTEGRADOS (Sufixo: 7294) ===
+Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-[OK] Presença atualizada para Presente.
-=== TESTES CONCLUÍDOS COM SUCESSO (COMMIT REALIZADO) ===
-Inscrição Gerada: 11665
+[OK] Plano financeiro (10 parcelas) gerado automaticamente.
+!!! ERRO NOS TESTES INTEGRADOS !!!
+Erro: ORA-04091: table OPR_PROJETO.INSCRICAO is mutating, trigger/function may not see it
+ORA-06512: at "OPR_PROJETO.TRG_VAL_PRESENCA", line 38
+ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_PRESENCA'
+ORA-06512: at "OPR_PROJETO.TRG_AUTO_PRESENCA_INS", line 18
+ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_AUTO_PRESENCA_INS'
 
 [02/25] Executando Validação e Formatação de Dados...
 === INICIANDO TESTES DE VALIDAÇÃO E FORMATAÇÃO ===
@@ -34,7 +38,7 @@ Inscrição Gerada: 11665
 [04/25] Executando Testes de Integridade da Tabela TURMA...
 === INICIANDO TESTE TABELA TURMA ===
 1. Testando Inserção de Turma...
-[OK] Turma criada com sucesso. ID: 11456
+[OK] Turma criada com sucesso. ID: 12086
 2. Testando Status Inválido ("X")...
 [INFO] Turma com status inválido inserida (Sem trigger de validação ativo).
 === TESTE TURMA: SUCESSO ===
@@ -111,7 +115,7 @@ Plano gerado com sucesso: 10 parcelas.
 === TESTE ESTUDANTE_ENTREGA: SUCESSO (ROLLBACK EXECUTADO) ===
 
 [12/25] Executando Testes Funcionais Extra (Multas, Logs)...
-=== INICIANDO TESTES FUNCIONAIS EXTRA (Sufixo: 40382) ===
+=== INICIANDO TESTES FUNCIONAIS EXTRA (Sufixo: 55225) ===
 Valor Total: 6000, Parcelas: 1
 Plano gerado com sucesso: 1 parcelas.
 1. Testando Multa por Atraso...
@@ -139,17 +143,11 @@ Plano gerado com sucesso: 10 parcelas.
 
 [15/25] Executando Testes de Limites de ECTS...
 === TESTANDO LIMITES DE ECTS ===
-Estudante criado ID: 11505
 Valor Total: 8000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
--> Criando UC Cadeira_A com 30 ECTS...
-[INFO] Inscrição realizada com sucesso. Total Acumulado: 30
--> Criando UC Cadeira_B com 25 ECTS...
-[INFO] Inscrição realizada com sucesso. Total Acumulado: 55
-Tentando inscrever +10 ECTS (Total seria 65)...
--> Criando UC Cadeira_C com 10 ECTS...
-[OK] Inscrição bloqueada pelo sistema (Limite de ECTS): User-Defined Exception
-=== TESTE DE LIMITES: SUCESSO (Alerta detetado no LOG) ===
+-> Inscricao OK (30 ECTS).
+-> Bloqueio esperado: User-Defined Exception
+=== TESTE DE LIMITES: SUCESSO ===
 
 [16/25] Executando Testes de Regras de Avaliação (Hierarquia e Entregas)...
 === INICIANDO TESTES DE REGRAS DE AVALIAÇÃO ===
@@ -168,22 +166,20 @@ Plano gerado com sucesso: 10 parcelas.
 
 [18/25] Executando Teste de Segurança de Logs (Imutabilidade)...
 === INICIANDO TESTE DE SEGURANÇA DE LOGS ===
-[OK] Insert no LOG permitido. ID: 79386
+[OK] Insert no LOG permitido. ID: 94557
 [OK] UPDATE bloqueado por imutabilidade.
 [OK] DELETE bloqueado por imutabilidade.
 === TESTE DE SEGURANÇA CONCLUÍDO ===
 
 [19/25] Validando Vistas e Relatórios...
-=== INICIANDO TESTE DE VISTAS (Sufixo: 8661) ===
+=== INICIANDO TESTE DE VISTAS (Sufixo: 9967) ===
 Valor Total: 6000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
-RELATORIO DE ASSIDUIDADE (Esperado 50% Faltas):
-ALUNO: Erika Pinto-Abreu | FALTAS: 50%
-CONSULTANDO PAUTA:
-ALUNO: Erika Pinto-Abreu | RESULTADO: REPROVADO
-TESTANDO RESTANTES VISTAS (SMOKE TEST)...
-[OK] VW_FINANCEIRO_CURSOS: 153 registos.
-[OK] VW_ESTATISTICA_VAGAS: 155 registos.
+ERRO NOS TESTES DE VISTAS: ORA-04091: table OPR_PROJETO.INSCRICAO is mutating, trigger/function may not see it
+ORA-06512: at "OPR_PROJETO.TRG_VAL_PRESENCA", line 38
+ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_PRESENCA'
+ORA-06512: at "OPR_PROJETO.TRG_AUTO_PRESENCA_INS", line 18
+ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_AUTO_PRESENCA_INS'
 
 [20/25] Executando Testes de Integridade da Tabela FICHEIRO_ENTREGA...
 === INICIANDO TESTE TABELA FICHEIRO_ENTREGA ===
@@ -226,20 +222,20 @@ Plano gerado com sucesso: 10 parcelas.
 DIAGNOSTICO: Pontos=420 ECTS=30
 [OK] Media ponderada calculada: 14
 
-[24/25] Executando Testes de Validação de NOTA (Status, Turma)...
+[24/26] Executando Testes de Validação de NOTA (Status, Turma)...
 === INICIANDO TESTE: VALIDAÇÃO DE NOTA (Turma e Status) ===
 Valor Total: 1000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 >> Teste 1: Inserir nota valida (Mesma Turma)...
 [OK] Nota inserida com sucesso.
 >> Teste 2: Inserir nota cruzada (Avaliacao de outra turma)...
-[FALHA] Erro inesperado: User-Defined Exception
+[OK] Bloqueio de turma cruzada funcionou (Excecao capturada).
 >> Teste 3: Validacao de Status Inválido...
 [OK] Status "X" corrigido para "0".
 === TESTE CONCLUIDO (ROLLBACK) ===
 [OK] Todas as validacoes de NOTA (status e turma) passaram.
 
-[25/25] Executando Teste Integrado (Notas -> Media Geral)...
+[25/26] Executando Teste Integrado (Notas -> Media Geral)...
 === INICIANDO TESTE INTEGRADO: NOTAS -> MÉDIA GERAL ===
 Valor Total: 1000, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
@@ -251,6 +247,32 @@ Media Esperada: 14
 [OK] SUCESSO: A media foi calculada corretamente e propagada para a matricula.
 === FIM DO TESTE INTEGRADO (ROLLBACK) ===
 
+[26/27] Executando Testes de Integridade da Tabela PARCELA_PROPINA...
+=== INICIANDO TESTE: PARCELA_PROPINA ===
+Valor Total: 1000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+[SETUP] Dados base criados. Matricula ID: 12029
+>> Teste 1: Valor Negativo (Bloqueio)...
+[OK] Bloqueou valor negativo.
+>> Teste 2: Data Vencimento Passada no INSERT (Bloqueio)...
+[OK] Bloqueou data passada no INSERT.
+>> Teste 3: Data Vencimento Passada no UPDATE (Permite)...
+[OK] Permitiu data passada no UPDATE (necessario para testar multas).
+>> Teste 4: Data Pagamento Automatica ao Pagar...
+[OK] Data pagamento preenchida automaticamente.
+=== TESTE PARCELA_PROPINA CONCLUIDO ===
+
+[27/27] Executando Testes de Integridade da Tabela PRESENCA...
+=== INICIANDO TESTE: PRESENÇA ===
+Valor Total: 1000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+!!! ERRO FATAL NO TESTE PRESENCA !!!
+Erro: ORA-04091: table OPR_PROJETO.AULA is mutating, trigger/function may not see it
+ORA-06512: at "OPR_PROJETO.TRG_VAL_PRESENCA", line 38
+ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_VAL_PRESENCA'
+ORA-06512: at "OPR_PROJETO.TRG_AUTO_PRESENCA_AULA", line 18
+ORA-04088: error during execution of trigger 'OPR_PROJETO.TRG_AUTO_PRESENCA_AULA'
+
 [FINAL] Gerando Dados de Demonstração Permanentes...
 === GERANDO DADOS DE DEMONSTRAÇÃO (Cenário Realista) ===
 Valor Total: 1500, Parcelas: 10
@@ -261,9 +283,19 @@ Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
 Valor Total: 1500, Parcelas: 10
 Plano gerado com sucesso: 10 parcelas.
+Aviso: Aula 1 ignorada devido a erro de validação.
+Aviso: Aula 2 ignorada devido a erro de validação.
+Aviso: Aula 3 ignorada devido a erro de validação.
+Aviso: Aula 4 ignorada devido a erro de validação.
+Aviso: Aula 5 ignorada devido a erro de validação.
+Aviso: Aula 6 ignorada devido a erro de validação.
+Aviso: Aula 7 ignorada devido a erro de validação.
+Aviso: Aula 8 ignorada devido a erro de validação.
+Aviso: Aula 9 ignorada devido a erro de validação.
+Aviso: Aula 10 ignorada devido a erro de validação.
 Dados gerados com sucesso.
-Turma criada: 11473
-Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 11473
+Turma criada: 12104
+Consulte a vista: SELECT * FROM VW_ALERTA_ASSIDUIDADE WHERE turma_id = 12104
 
 ========================================================================
 TODOS OS TESTES FORAM EXECUTADOS COM SUCESSO.

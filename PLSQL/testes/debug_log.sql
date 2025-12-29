@@ -1,0 +1,5 @@
+SET PAGESIZE 100
+SET LINESIZE 200
+COL data FORMAT A80
+SELECT id, acao, tabela, data FROM (SELECT id, acao, tabela, data FROM log ORDER BY id DESC) WHERE ROWNUM <= 20;
+EXIT;

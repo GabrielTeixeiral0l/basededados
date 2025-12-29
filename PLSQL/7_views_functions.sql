@@ -24,6 +24,24 @@ EXCEPTION WHEN OTHERS THEN RETURN '0';
 END;
 /
 
+-- -----------------------------------------------------------------------------
+-- 7.1b. FUNÇÃO: OBTER PERCENTAGEM DE ASSIDUIDADE
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION FUN_GET_ASSIDUIDADE(p_inscricao_id IN NUMBER) 
+RETURN NUMBER 
+IS
+    v_perc NUMBER;
+BEGIN
+    SELECT ROUND((COUNT(CASE WHEN presente = '1' THEN 1 END) / NULLIF(COUNT(*), 0)) * 100, 2)
+    INTO v_perc
+    FROM presenca
+    WHERE inscricao_id = p_inscricao_id AND status = '1';
+    
+    RETURN NVL(v_perc, 0);
+EXCEPTION WHEN OTHERS THEN RETURN 0;
+END;
+/
+
 
 -- =============================================================================
 -- 7. VISTAS E RELATÓRIOS DO SISTEMA UNIVERSITÁRIO
@@ -60,17 +78,13 @@ CREATE OR REPLACE VIEW VW_ALERTA_ASSIDUIDADE AS
 SELECT 
     e.nome as NOME_ESTUDANTE,
     t.nome as NOME_TURMA,
-    COUNT(CASE WHEN p.presente = '0' THEN 1 END) as TOTAL_FALTAS,
-    COUNT(*) as TOTAL_AULAS,
-    ROUND((COUNT(CASE WHEN p.presente = '0' THEN 1 END) / COUNT(*)) * 100, 2) as PERC_FALTAS
-FROM presenca p
-JOIN inscricao i ON p.inscricao_id = i.id
+    (100 - FUN_GET_ASSIDUIDADE(i.id)) as PERC_FALTAS
+FROM inscricao i
 JOIN matricula m ON i.matricula_id = m.id
 JOIN estudante e ON m.estudante_id = e.id
 JOIN turma t ON i.turma_id = t.id
-WHERE i.status = '1' AND p.status = '1'
-GROUP BY e.nome, t.nome
-HAVING (COUNT(CASE WHEN p.presente = '0' THEN 1 END) / COUNT(*)) > 0.25;
+WHERE i.status = '1'
+  AND (100 - FUN_GET_ASSIDUIDADE(i.id)) > 25;
 /
 
 -- -----------------------------------------------------------------------------
@@ -83,7 +97,7 @@ SELECT
     e.nome AS nome_estudante,
     c.nome AS nome_curso,
     COUNT(i.id) AS total_ucs_inscritas,
-    SUM(CASE WHEN i.nota_final >= 9.5 THEN ucc.ects ELSE 0 END) AS ects_concluidos,
+    SUM(CASE WHEN i.nota_final >= PKG_CONSTANTES.NOTA_APROVACAO THEN ucc.ects ELSE 0 END) AS ects_concluidos,
     ROUND(AVG(i.nota_final), 2) AS media_global
 FROM estudante e
 JOIN matricula m ON e.id = m.estudante_id

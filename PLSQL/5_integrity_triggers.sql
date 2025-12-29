@@ -145,13 +145,14 @@ BEGIN
         FETCH c_aulas INTO v_aula_id;
         EXIT WHEN c_aulas%NOTFOUND;
         
-        INSERT INTO presenca (inscricao_id, aula_id, presente)
-        VALUES (:NEW.id, v_aula_id, '0');
+        INSERT INTO presenca (inscricao_id, aula_id, presente, status)
+        VALUES (:NEW.id, v_aula_id, '0', '1');
     END LOOP;
     CLOSE c_aulas;
 EXCEPTION WHEN OTHERS THEN
     IF c_aulas%ISOPEN THEN CLOSE c_aulas; END IF;
-    PKG_LOG.ERRO('Erro ao gerar presenças automáticas para inscrição ' || :NEW.id, 'PRESENCA');
+    PKG_LOG.ERRO('Erro ao gerar presenças automáticas para inscrição ' || :NEW.id || ': ' || SQLERRM, 'PRESENCA');
+    RAISE;
 END;
 /
 
@@ -169,13 +170,14 @@ BEGIN
         FETCH c_inscritos INTO v_ins_id;
         EXIT WHEN c_inscritos%NOTFOUND;
         
-        INSERT INTO presenca (inscricao_id, aula_id, presente)
-        VALUES (v_ins_id, :NEW.id, '0');
+        INSERT INTO presenca (inscricao_id, aula_id, presente, status)
+        VALUES (v_ins_id, :NEW.id, '0', '1');
     END LOOP;
     CLOSE c_inscritos;
 EXCEPTION WHEN OTHERS THEN
     IF c_inscritos%ISOPEN THEN CLOSE c_inscritos; END IF;
-    PKG_LOG.ERRO('Erro ao gerar presenças automáticas para aula ' || :NEW.id, 'PRESENCA');
+    PKG_LOG.ERRO('Erro ao gerar presenças automáticas para aula ' || :NEW.id || ': ' || SQLERRM, 'PRESENCA');
+    RAISE;
 END;
 /
 
@@ -622,7 +624,7 @@ COMPOUND TRIGGER
               AND uc.curso_id = v_list(i).curso_id AND ins.status = '1';
 
             IF v_total_ects > PKG_CONSTANTES.LIMITE_ECTS_ANUAL THEN
-                PKG_LOG.ERRO('Limite anual de ECTS excedido ('||v_total_ects||').', 'INSCRICAO');
+                PKG_LOG.ERRO('Limite de '||PKG_CONSTANTES.LIMITE_ECTS_ANUAL||' ECTS excedido para a matricula '||v_list(i).matricula_id||' (Total: '||v_total_ects||').', 'INSCRICAO');
                 RAISE E_LIMITE_ECTS;
             END IF;
         END LOOP;
@@ -867,6 +869,7 @@ BEGIN
 END;
 /
 
+
 -- 5.13. VALIDAÇÃO DE PARCELA DE PROPINA
 CREATE OR REPLACE TRIGGER TRG_VAL_PARCELA_PROPINA
 BEFORE INSERT OR UPDATE ON PARCELA_PROPINA
@@ -874,7 +877,7 @@ FOR EACH ROW
 DECLARE
     v_total_curso NUMBER;
     v_num_parcelas NUMBER;
-    v_prop_matricula_id NUMBER;
+    v_mat_id NUMBER;
     E_DADOS_INVALIDOS EXCEPTION;
 BEGIN
     -- 1. Validar Status (Usando a função centralizada)
@@ -886,9 +889,8 @@ BEGIN
         RAISE E_DADOS_INVALIDOS;
     END IF;
 
-    -- 3. Validar Data de Vencimento (Futura)
-    -- Apenas na inserção ou se a data for alterada explicitamente
-    IF (INSERTING OR :NEW.data_vencimento != :OLD.data_vencimento) THEN
+    -- 3. Validar Data de Vencimento (Futura no Registo)
+    IF INSERTING THEN
         IF :NEW.data_vencimento <= TRUNC(SYSDATE) THEN
              PKG_LOG.ERRO('Data de vencimento deve ser futura (' || TO_CHAR(:NEW.data_vencimento, 'DD/MM/YYYY') || ').', 'PARCELA_PROPINA');
              RAISE E_DADOS_INVALIDOS;
@@ -899,33 +901,58 @@ BEGIN
     IF :NEW.estado = '0' THEN
         :NEW.data_pagamento := NULL;
     ELSIF :NEW.estado = '1' AND :NEW.data_pagamento IS NULL THEN
-        :NEW.data_pagamento := SYSDATE; -- Assume data de hoje se não informada
+        :NEW.data_pagamento := SYSDATE;
     END IF;
-
-    -- 5. Validar Consistência Financeira (Valor da Parcela)
-    BEGIN
-        SELECT matricula_id INTO v_prop_matricula_id FROM propina WHERE id = :NEW.propina_id;
-        
-        SELECT tc.valor_propinas, m.numero_parcelas
-        INTO v_total_curso, v_num_parcelas
-        FROM matricula m
-        JOIN curso c ON m.curso_id = c.id
-        JOIN tipo_curso tc ON c.tipo_curso_id = tc.id
-        WHERE m.id = v_prop_matricula_id;
-
-        IF v_num_parcelas > 0 THEN
-            -- Verifica se o valor atual * parcelas está próximo do total (margem 0.50€ para arredondamentos acumulados)
-            IF ABS((:NEW.valor * v_num_parcelas) - v_total_curso) > 0.50 THEN
-                 PKG_LOG.ALERTA('Valor da parcela inconsistente com o total do curso. (Valor: '||:NEW.valor||' x '||v_num_parcelas||' != '||v_total_curso||')', 'PARCELA_PROPINA');
-            END IF;
-        END IF;
-    EXCEPTION WHEN NO_DATA_FOUND THEN NULL;
-    END;
 
 EXCEPTION
     WHEN E_DADOS_INVALIDOS THEN RAISE;
     WHEN OTHERS THEN
         PKG_LOG.ERRO('Erro na validacao de parcela: ' || SQLERRM, 'PARCELA_PROPINA');
+        RAISE;
+END;
+/
+
+-- 5.14. VALIDAÇÃO DE PRESENÇA (Integridade Académica)
+CREATE OR REPLACE TRIGGER TRG_VAL_PRESENCA
+BEFORE INSERT OR UPDATE ON PRESENCA
+FOR EACH ROW
+DECLARE
+    v_turma_aula    NUMBER;
+    v_turma_insc    NUMBER;
+    v_data_aula     DATE;
+    E_DADOS_INVALIDOS EXCEPTION;
+BEGIN
+    -- 1. Validar Status
+    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'PRESENCA');
+
+    -- 2. Validar valor do campo presente ('0' ou '1')
+    IF :NEW.presente NOT IN ('0', '1') THEN
+        :NEW.presente := '0'; -- Default para falta se o dado for lixo
+    END IF;
+
+    -- 3. Verificar se Aluno e Aula pertencem à mesma Turma
+    -- NOTA: Como a tabela AULA e INSCRICAO não mudam durante este processo, não há erro de mutação aqui.
+    SELECT data, turma_id INTO v_data_aula, v_turma_aula FROM aula WHERE id = :NEW.aula_id;
+    SELECT turma_id INTO v_turma_insc FROM inscricao WHERE id = :NEW.inscricao_id;
+
+    IF v_turma_aula != v_turma_insc THEN
+        PKG_LOG.ERRO('Inconsistencia: Aluno da Inscrição '||:NEW.inscricao_id||' (Turma '||v_turma_insc||') tentou registar presenca na Aula '||:NEW.aula_id||' (Turma '||v_turma_aula||')', 'PRESENCA');
+        RAISE E_DADOS_INVALIDOS;
+    END IF;
+
+    -- 4. Impedir marcar presença em aulas futuras (Só permite falta '0')
+    IF :NEW.presente = '1' AND v_data_aula > TRUNC(SYSDATE) THEN
+        PKG_LOG.ALERTA('Tentativa de marcar presenca em aula futura (Data: '||TO_CHAR(v_data_aula, 'DD/MM/YYYY')||') bloqueada.', 'PRESENCA');
+        :NEW.presente := '0'; 
+    END IF;
+
+EXCEPTION
+    WHEN E_DADOS_INVALIDOS THEN RAISE;
+    WHEN NO_DATA_FOUND THEN
+        PKG_LOG.ERRO('Aula ou Inscricao nao encontrada para validar presenca.', 'PRESENCA');
+        RAISE;
+    WHEN OTHERS THEN
+        PKG_LOG.ERRO('Erro na validacao de presenca: ' || SQLERRM, 'PRESENCA');
         RAISE;
 END;
 /

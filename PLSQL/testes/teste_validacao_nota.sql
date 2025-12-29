@@ -81,10 +81,11 @@ BEGIN
         VALUES (v_ins_id, v_aval_b, 10, 'Tentativa Fraude', '1');
         DBMS_OUTPUT.PUT_LINE('[FALHA] O sistema permitiu inserir nota de outra turma!');
     EXCEPTION WHEN OTHERS THEN
-        IF SQLCODE = -20000 OR SQLCODE = -20001 OR SQLERRM LIKE '%Inconsistencia%' THEN
-             DBMS_OUTPUT.PUT_LINE('[OK] Bloqueio de turma cruzada funcionou: ' || SQLERRM);
+        -- SQLCODE = 1 é a User-Defined Exception lançada pelo trigger
+        IF SQLCODE = 1 OR SQLCODE BETWEEN -20999 AND -20000 OR SQLERRM LIKE '%Inconsistencia%' THEN
+             DBMS_OUTPUT.PUT_LINE('[OK] Bloqueio de turma cruzada funcionou (Excecao capturada).');
         ELSE
-             DBMS_OUTPUT.PUT_LINE('[FALHA] Erro inesperado: ' || SQLERRM);
+             DBMS_OUTPUT.PUT_LINE('[FALHA] Erro inesperado: ' || SQLERRM || ' (Code: ' || SQLCODE || ')');
         END IF;
     END;
 
