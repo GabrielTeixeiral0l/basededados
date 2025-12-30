@@ -58,7 +58,15 @@ Trigger TRG_AI_TURMA compiled
 Trigger TRG_AI_UC compiled
 
 No errors.
-[2/10] Compilando Configuração de Logs...
+[2/10] Compilando Constantes...
+
+Package PKG_CONSTANTES compiled
+
+
+Package Body PKG_CONSTANTES compiled
+
+No errors.
+[3/10] Compilando Configuração de Logs...
 
 Package PKG_LOG compiled
 
@@ -66,20 +74,12 @@ Package PKG_LOG compiled
 Package Body PKG_LOG compiled
 
 No errors.
-[3/10] Compilando Pacote de Gestão de Dados...
+[4/10] Compilando Pacote de Gestão de Dados...
 
 Package PKG_GESTAO_DADOS compiled
 
 
 Package Body PKG_GESTAO_DADOS compiled
-
-No errors.
-[4/10] Compilando Constantes...
-
-Package PKG_CONSTANTES compiled
-
-
-Package Body PKG_CONSTANTES compiled
 
 No errors.
 [5/10] Compilando Validações...
@@ -343,20 +343,5 @@ Trigger TRG_VAL_UC_DOCENTE compiled
 
 No errors.
 [11/11] Compilando Triggers de Formatação...
-
-Trigger TRG_FMT_ESTUDANTE compiled
-
-
-Trigger TRG_FMT_DOCENTE compiled
-
-
-Trigger TRG_FMT_CURSO compiled
-
-
-Trigger TRG_FMT_UC compiled
-
-
-Trigger TRG_FMT_MATRICULA compiled
-
 No errors.
 === INSTALAÇÃO CONCLUÍDA ===

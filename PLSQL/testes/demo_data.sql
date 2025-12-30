@@ -51,28 +51,28 @@ BEGIN
     -- 4. ALUNOS E INSCRIÇÕES (STATUS '0' para evitar mutating table)
     -- Aluno 1
     INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
-    VALUES ('Exemplar '||v_sufixo, '1'||LPAD(v_sufixo, 8, '1'), '1'||LPAD(v_sufixo, 7, '1'), TO_DATE('2000-01-01','YYYY-MM-DD'), '91'||LPAD(v_sufixo, 7, '1'), 'a1'||v_sufixo||'@d.pt') RETURNING id INTO v_est1_id;
+    VALUES ('Exemplar '||v_sufixo, '1'||LPAD(v_sufixo, 8, '1'), '1'||LPAD(v_sufixo, 7, '1')||'ZZ1', TO_DATE('2000-01-01','YYYY-MM-DD'), '91'||LPAD(v_sufixo, 7, '1'), 'a1'||v_sufixo||'@d.pt') RETURNING id INTO v_est1_id;
     INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
     VALUES (v_cur_id, v_est1_id, 'Ativa', 2025, 10) RETURNING id INTO v_mat1_id;
     INSERT INTO inscricao (turma_id, matricula_id, data, status) VALUES (v_tur_id, v_mat1_id, SYSDATE, '0') RETURNING id INTO v_ins1_id;
 
     -- Aluno 2
     INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
-    VALUES ('Seguro '||v_sufixo, '1'||LPAD(v_sufixo, 8, '2'), '1'||LPAD(v_sufixo, 7, '2'), TO_DATE('2000-01-01','YYYY-MM-DD'), '91'||LPAD(v_sufixo, 7, '2'), 'a2'||v_sufixo||'@d.pt') RETURNING id INTO v_est2_id;
+    VALUES ('Seguro '||v_sufixo, '1'||LPAD(v_sufixo, 8, '2'), '1'||LPAD(v_sufixo, 7, '2')||'ZZ2', TO_DATE('2000-01-01','YYYY-MM-DD'), '91'||LPAD(v_sufixo, 7, '2'), 'a2'||v_sufixo||'@d.pt') RETURNING id INTO v_est2_id;
     INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
     VALUES (v_cur_id, v_est2_id, 'Ativa', 2025, 10) RETURNING id INTO v_mat2_id;
     INSERT INTO inscricao (turma_id, matricula_id, data, status) VALUES (v_tur_id, v_mat2_id, SYSDATE, '0') RETURNING id INTO v_ins2_id;
 
     -- Aluno 3
     INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
-    VALUES ('Risco '||v_sufixo, '1'||LPAD(v_sufixo, 8, '3'), '1'||LPAD(v_sufixo, 7, '3'), TO_DATE('2000-01-01','YYYY-MM-DD'), '91'||LPAD(v_sufixo, 7, '3'), 'a3'||v_sufixo||'@d.pt') RETURNING id INTO v_est3_id;
+    VALUES ('Risco '||v_sufixo, '1'||LPAD(v_sufixo, 8, '3'), '1'||LPAD(v_sufixo, 7, '3')||'ZZ3', TO_DATE('2000-01-01','YYYY-MM-DD'), '91'||LPAD(v_sufixo, 7, '3'), 'a3'||v_sufixo||'@d.pt') RETURNING id INTO v_est3_id;
     INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
     VALUES (v_cur_id, v_est3_id, 'Ativa', 2025, 10) RETURNING id INTO v_mat3_id;
     INSERT INTO inscricao (turma_id, matricula_id, data, status) VALUES (v_tur_id, v_mat3_id, SYSDATE, '0') RETURNING id INTO v_ins3_id;
 
     -- Aluno 4
     INSERT INTO estudante (nome, nif, cc, data_nascimento, telemovel, email) 
-    VALUES ('Abandono '||v_sufixo, '1'||LPAD(v_sufixo, 8, '4'), '1'||LPAD(v_sufixo, 7, '4'), TO_DATE('2000-01-01','YYYY-MM-DD'), '91'||LPAD(v_sufixo, 7, '4'), 'a4'||v_sufixo||'@d.pt') RETURNING id INTO v_est4_id;
+    VALUES ('Abandono '||v_sufixo, '1'||LPAD(v_sufixo, 8, '4'), '1'||LPAD(v_sufixo, 7, '4')||'ZZ4', TO_DATE('2000-01-01','YYYY-MM-DD'), '91'||LPAD(v_sufixo, 7, '4'), 'a4'||v_sufixo||'@d.pt') RETURNING id INTO v_est4_id;
     INSERT INTO matricula (curso_id, estudante_id, estado_matricula, ano_inscricao, numero_parcelas) 
     VALUES (v_cur_id, v_est4_id, 'Ativa', 2025, 10) RETURNING id INTO v_mat4_id;
     INSERT INTO inscricao (turma_id, matricula_id, data, status) VALUES (v_tur_id, v_mat4_id, SYSDATE, '0') RETURNING id INTO v_ins4_id;

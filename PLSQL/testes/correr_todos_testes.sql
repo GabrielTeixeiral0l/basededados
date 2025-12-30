@@ -96,6 +96,8 @@ PROMPT [FINAL] Gerando Dados de Demonstração Permanentes...
 
 
 @@teste_tabela_adicionais.sql
+
+@@teste_delete.sql
 PROMPT ========================================================================
 PROMPT TODOS OS TESTES FORAM EXECUTADOS COM SUCESSO.
 PROMPT ========================================================================

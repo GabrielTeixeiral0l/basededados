@@ -8,19 +8,16 @@ PROMPT [1/10] Compilando Sequências...
 @@1_auto_increment.sql
 SHOW ERRORS;
 
--- 2. Configuração de Logs
-PROMPT [2/10] Compilando Configuração de Logs...
+PROMPT [2/10] Compilando Constantes...
+@@10_pkg_constantes.sql
+SHOW ERRORS;
+
+PROMPT [3/10] Compilando Configuração de Logs...
 @@0_pkg_config_audit.sql
 SHOW ERRORS;
 
--- 3. Gestão de Dados (Base para logs)
-PROMPT [3/10] Compilando Pacote de Gestão de Dados...
+PROMPT [4/10] Compilando Pacote de Gestão de Dados...
 @@4_pkg_gestao_dados.sql
-SHOW ERRORS;
-
--- 4. Constantes
-PROMPT [4/10] Compilando Constantes...
-@@10_pkg_constantes.sql
 SHOW ERRORS;
 
 -- 5. Validações

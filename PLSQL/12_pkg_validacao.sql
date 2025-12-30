@@ -12,23 +12,21 @@ CREATE OR REPLACE PACKAGE PKG_VALIDACAO IS
     FUNCTION FUN_VALIDAR_TAMANHO_FICHEIRO(p_tamanho IN NUMBER) RETURN BOOLEAN;
     
     -- Validação e Correção de Status (0 ou 1)
-    PROCEDURE VALIDAR_STATUS(p_status IN OUT VARCHAR2, p_tabela IN VARCHAR2);
-    
-    -- Flag para evitar Mutating Table em presenças automáticas
-    g_skip_presenca BOOLEAN := FALSE;
+    FUNCTION FUN_VALIDAR_STATUS(p_status IN VARCHAR2, p_tabela IN VARCHAR2) RETURN VARCHAR2;
 END PKG_VALIDACAO;
 /
 
 CREATE OR REPLACE PACKAGE BODY PKG_VALIDACAO IS
 
     -- Validação de Status (0 ou 1)
-    PROCEDURE VALIDAR_STATUS(p_status IN OUT VARCHAR2, p_tabela IN VARCHAR2) IS
+    FUNCTION FUN_VALIDAR_STATUS(p_status IN VARCHAR2, p_tabela IN VARCHAR2) RETURN VARCHAR2 IS
     BEGIN
         IF p_status NOT IN ('0', '1') OR p_status IS NULL THEN
             PKG_LOG.ERRO('Status invalido (' || NVL(p_status, 'NULL') || ') na tabela ' || p_tabela || '. Forcado a 0.', p_tabela);
-            p_status := '0';
+            RETURN '0';
         END IF;
-    END VALIDAR_STATUS;
+        RETURN p_status;
+    END FUN_VALIDAR_STATUS;
 
     FUNCTION FUN_VALIDAR_NIF(p_nif IN VARCHAR2) RETURN BOOLEAN IS
         v_nif VARCHAR2(9) := p_nif;

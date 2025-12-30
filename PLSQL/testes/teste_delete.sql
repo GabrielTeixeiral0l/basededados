@@ -15,7 +15,7 @@ DECLARE
     v_nif_est VARCHAR2(9) := '234567890';
     v_nif_doc VARCHAR2(9) := '501306000';
     v_tel     VARCHAR2(9) := '912345678';
-    v_cc      VARCHAR2(12):= '12345678';
+    v_cc      VARCHAR2(12):= '123456789ZZ1'; -- Atualizado para 12 chars conforme nova regra
 
     PROCEDURE verificar_log(p_tab VARCHAR2) IS
         v_l NUMBER;

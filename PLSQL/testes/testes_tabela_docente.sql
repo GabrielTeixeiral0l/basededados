@@ -15,7 +15,7 @@ BEGIN
     -- 1. Teste de Status Inválido (Com dados válidos)
     DBMS_OUTPUT.PUT_LINE('1. Testando Status Inválido (Inserir "X")...');
     INSERT INTO docente (nome, data_contratacao, nif, cc, email, telemovel, status)
-    VALUES ('Docente Teste', SYSDATE, '211111111', '12345678', 'docente@teste.com', '912345678', 'X')
+    VALUES ('Docente Teste', SYSDATE, '211111111', '123456789ZZ1', 'docente@teste.com', '912345678', 'X')
     RETURNING id, status INTO v_docente_id, v_status_final;
 
     IF v_status_final = '0' THEN 

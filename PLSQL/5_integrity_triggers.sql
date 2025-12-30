@@ -11,7 +11,7 @@ DECLARE
     E_TURMA_INCONSISTENTE EXCEPTION;
 BEGIN
     -- 1. Validar Status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'NOTA');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'NOTA');
 
     -- 2. Validar Limites (0 a 20)
     IF :NEW.nota < 0 OR :NEW.nota > 20 THEN
@@ -187,7 +187,7 @@ DECLARE
     E_PAI_INVALIDO EXCEPTION;
 BEGIN
     -- 1. Validar Status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'AVALIACAO');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'AVALIACAO');
 
     -- 2. Validar Peso (0 a 1)
     IF :NEW.peso < 0 OR :NEW.peso > 1 THEN
@@ -281,7 +281,7 @@ DECLARE
     E_DUPLICADO EXCEPTION;
 BEGIN
     -- 1. Validar Status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'ESTUDANTE_ENTREGA');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'ESTUDANTE_ENTREGA');
 
     -- Obter dados da Entrega/Avaliação
     SELECT a.turma_id, a.id
@@ -331,7 +331,7 @@ DECLARE
     v_data_fim    DATE;
 BEGIN
     -- 1. Validar Status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'ENTREGA');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'ENTREGA');
 
     -- 2. Obter dados da Avaliação
     SELECT ta.requer_entrega, a.data, a.data_entrega
@@ -368,7 +368,7 @@ DECLARE
     E_DADOS_INVALIDOS EXCEPTION;
 BEGIN
     -- 1. Validar Status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'ESTUDANTE');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'ESTUDANTE');
 
     -- 2. Validar Data de Nascimento (Idade Mínima Parametrizada)
     IF :NEW.data_nascimento IS NULL OR :NEW.data_nascimento > ADD_MONTHS(SYSDATE, -PKG_CONSTANTES.IDADE_MINIMA_ESTUDANTE*12) THEN
@@ -417,7 +417,7 @@ DECLARE
     E_DADOS_INVALIDOS EXCEPTION;
 BEGIN
     -- 1. Validar Status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'DOCENTE');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'DOCENTE');
 
     -- 2. Validar Data de Contratação (Não pode ser futura)
     IF :NEW.data_contratacao > SYSDATE THEN
@@ -475,7 +475,7 @@ DECLARE
     E_CONFLITO_DOCENTE EXCEPTION;
 BEGIN
     -- 0. Validar Status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'AULA');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'AULA');
 
     -- 0.1. Validar Sequência Temporal (Fim > Início)
     IF :NEW.hora_fim <= :NEW.hora_inicio THEN
@@ -546,7 +546,7 @@ DECLARE
     E_FORA_PLANO EXCEPTION;
 BEGIN
     -- 1. validar status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'INSCRICAO');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'INSCRICAO');
 
     -- 2. Obter Dados de Contexto (Turma/Curso/ECTS)
     SELECT t.unidade_curricular_id, m.curso_id, uc.ects, t.ano_letivo
@@ -695,7 +695,7 @@ DECLARE
     v_count NUMBER;
 BEGIN
     -- 1. Validar Status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'MATRICULA');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'MATRICULA');
 
     -- 2. Validar Número de Parcelas (Min 1, Max 12)
     IF :NEW.numero_parcelas < PKG_CONSTANTES.MIN_PARCELAS OR :NEW.numero_parcelas > PKG_CONSTANTES.MAX_PARCELAS THEN
@@ -755,7 +755,7 @@ BEFORE INSERT OR UPDATE ON SALA
 FOR EACH ROW
 BEGIN
     -- 1. Validar Status (0 ou 1)
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'SALA');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'SALA');
 
     -- 2. Garantir Capacidade Positiva
     IF :NEW.capacidade <= 0 OR :NEW.capacidade IS NULL THEN
@@ -771,7 +771,7 @@ BEFORE INSERT OR UPDATE ON CURSO
 FOR EACH ROW
 BEGIN
     -- 1. Validar Status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'CURSO');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'CURSO');
 
     -- 2. Validar Duração (Positiva)
     IF :NEW.duracao <= 0 OR :NEW.duracao IS NULL THEN
@@ -795,7 +795,7 @@ DECLARE
     E_TAMANHO_INVALIDO EXCEPTION;
 BEGIN
     -- 1. Validar Status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'FICHEIRO_ENTREGA');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'FICHEIRO_ENTREGA');
 
     -- 2. Validar Tamanho
     IF NOT PKG_VALIDACAO.FUN_VALIDAR_TAMANHO_FICHEIRO(:NEW.tamanho) THEN
@@ -819,7 +819,7 @@ DECLARE
     E_TAMANHO_INVALIDO EXCEPTION;
 BEGIN
     -- 1. Validar Status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'FICHEIRO_RECURSO');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'FICHEIRO_RECURSO');
 
     -- 2. Validar Tamanho (obtendo o tamanho do BLOB)
     IF NOT PKG_VALIDACAO.FUN_VALIDAR_TAMANHO_FICHEIRO(:NEW.tamanho) THEN
@@ -866,8 +866,8 @@ DECLARE
     v_mat_id NUMBER;
     E_DADOS_INVALIDOS EXCEPTION;
 BEGIN
-    -- 1. Validar Status (Usando a função centralizada)
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.estado, 'PARCELA_PROPINA');
+    -- 1. Validar Status 
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.estado, 'PARCELA_PROPINA');
 
     -- 2. Validar Valor Positivo
     IF :NEW.valor <= 0 THEN
@@ -906,7 +906,7 @@ DECLARE
     E_DADOS_INVALIDOS EXCEPTION;
 BEGIN
     -- 1. Validar Status
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'PRESENCA');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'PRESENCA');
 
     -- 2. Validar valor do campo presente ('0' ou '1')
     IF :NEW.presente NOT IN ('0', '1') THEN
@@ -929,7 +929,7 @@ DECLARE
     v_turma_docente NUMBER;
     E_DOCENTE_NAO_TURMA EXCEPTION;
 BEGIN
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'RECURSO');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'RECURSO');
 
     -- Verifica se o docente é o responsável pela turma
     SELECT docente_id INTO v_turma_docente FROM turma WHERE id = :NEW.turma_id;
@@ -950,7 +950,7 @@ CREATE OR REPLACE TRIGGER TRG_VAL_TIPO_AULA
 BEFORE INSERT OR UPDATE ON TIPO_AULA
 FOR EACH ROW
 BEGIN
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'TIPO_AULA');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'TIPO_AULA');
 END;
 /
 
@@ -958,7 +958,7 @@ CREATE OR REPLACE TRIGGER TRG_VAL_TIPO_AVALIACAO
 BEFORE INSERT OR UPDATE ON TIPO_AVALIACAO
 FOR EACH ROW
 BEGIN
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'TIPO_AVALIACAO');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'TIPO_AVALIACAO');
     
     IF :NEW.requer_entrega NOT IN ('0','1') THEN :NEW.requer_entrega := '0'; END IF;
     IF :NEW.permite_grupo NOT IN ('0','1') THEN :NEW.permite_grupo := '0'; END IF;
@@ -972,7 +972,7 @@ CREATE OR REPLACE TRIGGER TRG_VAL_TIPO_CURSO
 BEFORE INSERT OR UPDATE ON TIPO_CURSO
 FOR EACH ROW
 BEGIN
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'TIPO_CURSO');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'TIPO_CURSO');
     IF :NEW.valor_propinas < 0 THEN
         PKG_LOG.ERRO('Valor de propinas negativo', 'TIPO_CURSO');
         :NEW.valor_propinas := 0;
@@ -984,7 +984,7 @@ CREATE OR REPLACE TRIGGER TRG_VAL_UC
 BEFORE INSERT OR UPDATE ON UNIDADE_CURRICULAR
 FOR EACH ROW
 BEGIN
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'UNIDADE_CURRICULAR');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'UNIDADE_CURRICULAR');
     IF :NEW.horas_teoricas < 0 THEN :NEW.horas_teoricas := 0; END IF;
     IF :NEW.horas_praticas < 0 THEN :NEW.horas_praticas := 0; END IF;
 END;
@@ -999,7 +999,7 @@ DECLARE
     v_exists NUMBER;
     E_DOCENTE_INVALIDO EXCEPTION;
 BEGIN
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'TURMA');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'TURMA');
 
     -- Verifica se o par (UC, Docente) existe na tabela de competências uc_docente
     SELECT COUNT(*) INTO v_exists 
@@ -1028,7 +1028,7 @@ DECLARE
     E_DURACAO_EXCEDIDA EXCEPTION;
     E_PRESENCA_INVALIDA EXCEPTION;
 BEGIN
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'UC_CURSO');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'UC_CURSO');
     
     -- Validar duração
     SELECT duracao INTO v_duracao_curso FROM curso WHERE id = :NEW.curso_id;
@@ -1063,6 +1063,6 @@ CREATE OR REPLACE TRIGGER TRG_VAL_UC_DOCENTE
 BEFORE INSERT OR UPDATE ON UC_DOCENTE
 FOR EACH ROW
 BEGIN
-    PKG_VALIDACAO.VALIDAR_STATUS(:NEW.status, 'UC_DOCENTE');
+    :NEW.status := PKG_VALIDACAO.FUN_VALIDAR_STATUS(:NEW.status, 'UC_DOCENTE');
 END;
 /

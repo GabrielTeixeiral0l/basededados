@@ -1,5 +1,5 @@
 -- Dois tipos de Delete (Soft e Hard)                                                                                      │
--- pode ser ativado/desativado com constante no pacote PKG_CONSTANTES  
+-- pode ser ativado/desativado com constante no PKG_CONSTANTES  
 
 CREATE OR REPLACE PACKAGE PKG_GESTAO_DADOS IS
     -- Versão para tabelas com Chave Primária simples (coluna ID)

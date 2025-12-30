@@ -19,7 +19,7 @@ BEGIN
     INSERT INTO curso (nome, codigo, descricao, duracao, ects, max_alunos, tipo_curso_id) 
     VALUES ('Curso Fin '||v_sfx, 'CF'||v_sfx, 'Desc', 3, 180, 100, v_tc_id) RETURNING id INTO v_cur_id;
     INSERT INTO estudante (nome, nif, cc, data_nascimento, email, telemovel) 
-    VALUES ('Aluno Fin '||v_sfx, '2'||v_sfx||'9999', '1'||v_sfx||'888', SYSDATE-7000, 'af'||v_sfx||'@t.pt', '9'||v_sfx||'0000') 
+    VALUES ('Aluno Fin '||v_sfx, '2'||v_sfx||'9999', '123456789ZZ1', SYSDATE-7000, 'af'||v_sfx||'@t.pt', '9'||v_sfx||'0000') 
     RETURNING id INTO v_est_id;
     INSERT INTO matricula (curso_id, ano_inscricao, estudante_id, estado_matricula, numero_parcelas) 
     VALUES (v_cur_id, 2025, v_est_id, 'Ativa', 10) RETURNING id INTO v_mat_id;

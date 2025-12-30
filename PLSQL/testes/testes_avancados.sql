@@ -25,7 +25,7 @@ BEGIN
         SELECT id INTO v_id_cur FROM (SELECT id FROM curso ORDER BY id DESC) WHERE ROWNUM = 1;
         
         INSERT INTO estudante (nome, nif, cc, email, telemovel, data_nascimento)
-        VALUES ('Aluno Teste '||v_sfx, '29'||v_sfx||'000', '89'||v_sfx||'00', 't'||v_sfx||'@test.com', '91'||v_sfx||'000', TO_DATE('2000-01-01','YYYY-MM-DD'))
+        VALUES ('Aluno Teste '||v_sfx, '29'||v_sfx||'000', LPAD(v_sfx, 9, '0')||'AA1', 't'||v_sfx||'@test.com', '91'||v_sfx||'000', TO_DATE('2000-01-01','YYYY-MM-DD'))
         RETURNING id INTO v_id_est;
         
         INSERT INTO matricula (estudante_id, curso_id, ano_inscricao, numero_parcelas, estado_matricula)

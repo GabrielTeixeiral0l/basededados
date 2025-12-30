@@ -1,30 +1,201 @@
+========================================================================
+INICIANDO SUITE DE TESTES DO PROJETO BD2 (INTEGRIDADE TOTAL)
+========================================================================
+[01/25] Executando Testes Unitários Integrados...
+[02/25] Executando Validação e Formatação de Dados...
+=== INICIANDO TESTES DE VALIDAÇÃO E FORMATAÇÃO ===
+1. Testando Inserção de Estudante e UC...
+[OK] Inserção realizada com sucesso.
+2. Testando Bloqueios de Dados Inválidos...
+[OK] CC Inválido bloqueado corretamente.
+[OK] Email Inválido bloqueado corretamente.
+[OK] Logs de erro registados no sistema.
+=== FIM DOS TESTES DE VALIDAÇÃO ===
 
-Error starting at line : 4 in command -
-INSERT INTO estudante (id, nome, nif, cc, data_nascimento, telemovel)
-VALUES ('Gabriel Teixeira', '256961611', '306024160zx3', TO_DATE('2000-01-01','YYYY-MM-DD'), '912345678', 'teste@gmail.com')
-Error at Command Line : 5 Column : 9
-Error report -
-SQL Error: ORA-01722: invalid number
+[03/25] Executando Testes de Integridade da Tabela SALA...
+=== INICIANDO TESTE TABELA SALA (DDLv3) ===
+1. Testando Status Inválido (Inserir "X")...
+[OK] Status corrigido para 0.
+2. Testando Capacidade Inválida (Inserir -5)...
+[OK] Capacidade corrigida para 1.
+=== TESTE SALA: SUCESSO ===
 
-https://docs.oracle.com/error-help/db/ora-01722/01722. 00000 -  "unable to convert string value containing %s to a number: %s"
-*Document: YES
-*Cause:    The attempted conversion of a character string for column or
-           expression to a number failed because the character string is not
-           a valid numeric literal. Only numeric fields or character fields
-           containing numeric data can be used in arithmetic functions or
-           expressions. Only numeric fields can be added to or subtracted from
-           dates. If "UNISTR" appears in the error message, the value is
-           not compatible with the national character set and cannot be
-           represented directly.
-*Action:   Use the LIKE expression to identify the problematic value. Ensure
-           that it contains only digits, a sign, a decimal separator, and
-           the character "E" or "e", and retry the operation.
-*Params:   1) invalid_char
-           the character string that is being converted to a number or
-           UNISTR (character string) if the character is not compatible
-           with the database character set.
-           2) column_or_expression: The column or expression from where the
-           invalid character comes.
+[04/25] Executando Testes de Integridade da Tabela TURMA...
+[05/25] Executando Testes de Integridade da Tabela AULA...
+[06/25] Executando Testes de Integridade da Tabela AVALIACAO...
+=== INICIANDO TESTE TABELA AVALIACAO ===
+1. Testando Status Inválido e Peso > 1...
+[OK] Status corrigido.
+[OK] Peso corrigido para 0.
+2. Testando Data Entrega anterior ao inicio...
+[OK] Data entrega ajustada.
+3. Testando Tipo que nao requer entrega...
+[OK] Data entrega forçada a NULL.
+=== TESTE AVALIACAO: SUCESSO ===
 
-More Details :
-https://docs.oracle.com/error-help/db/ora-01722/
+[07/25] Executando Testes de Integridade da Tabela CURSO...
+=== INICIANDO TESTE TABELA CURSO ===
+1. Testando Status Inválido (Inserir "A")...
+[OK] Status corrigido para 0.
+2. Testando Duracao Inválida (Inserir 0)...
+[OK] Duracao corrigida para 1.
+3. Testando ECTS Inválidos (Inserir -10)...
+[OK] ECTS corrigidos para 0.
+=== TESTE CURSO: SUCESSO ===
+
+[08/25] Executando Testes de Integridade da Tabela DOCENTE...
+=== INICIANDO TESTE TABELA DOCENTE (DDLv3) ===
+1. Testando Status Inválido (Inserir "X")...
+[OK] Status corrigido.
+1.1. Testando Data Contratacao Futura...
+[OK] Data futura bloqueada.
+2. Testando Insercao de NIF Inválido (Letras)...
+[OK] NIF invalido bloqueado.
+=== TESTE DOCENTE: SUCESSO ===
+
+[09/25] Executando Testes de Integridade da Tabela ESTUDANTE...
+=== INICIANDO TESTE TABELA ESTUDANTE (DDLv3) ===
+1. Testando Status Inválido (Inserir "9")...
+[OK] Status corrigido.
+2. Testando Idade Inválida (17 anos)...
+[OK] Idade inválida bloqueada.
+3. Testando Telemóvel Inválido (Letras)...
+[OK] Telemovel invalido bloqueado.
+=== TESTE ESTUDANTE: SUCESSO ===
+
+[10/25] Executando Testes de Integridade da Tabela ENTREGA...
+=== INICIANDO TESTE TABELA ENTREGA ===
+1. Testando Status Inválido (Inserir "X")...
+[OK] Status corrigido para 0.
+2. Testando Entrega Fora do Prazo (Hoje > Prazo -5 dias)...
+[OK] Insercao realizada. Verificar LOG para ALERTA de "Entrega FORA DO PRAZO".
+3. Testando Entrega Antes do Inicio (-15 dias < Inicio -10 dias)...
+[OK] Insercao realizada. Verificar LOG para ALERTA de "Entrega efetuada ANTES".
+4. Testando Entrega em Avaliação que não requer ficheiros...
+[OK] Insercao realizada. Verificar LOG para ALERTA de "nao requer entrega".
+=== TESTE ENTREGA: SUCESSO (ROLLBACK EXECUTADO) ===
+
+[11/25] Executando Testes de Integridade da Tabela ESTUDANTE_ENTREGA...
+[12/25] Executando Testes Funcionais Extra (Multas, Logs)...
+[13/25] Executando Lógica de Negócio (Médias e Pagamentos)...
+[14/25] Executando Testes Avançados (NIF, Conflitos)...
+==========================================================
+EXECUCAO DO BLOCO 13: TESTES AVANCADOS (Versao DDLv3)
+==========================================================
+Iniciando validacao de integridade...
+[OK] NIF invalido bloqueado pelo sistema.
+Valor Total: 6000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+[OK] Plano financeiro de 10 parcelas gerado automaticamente.
+3. [OK] Soft-delete testado.
+=== BLOCO 13 CONCLUIDO ===
+
+[15/25] Executando Testes de Limites de ECTS...
+=== TESTANDO LIMITES DE ECTS ===
+
+[16/25] Executando Testes de Regras de Avaliação (Hierarquia e Entregas)...
+=== INICIANDO TESTES DE REGRAS DE AVALIAÇÃO ===
+--- Teste 1: Validacao de Grupo (Ignorado - Sem coluna de grupo na tabela Avaliacao) ---
+--- Teste 2: Tentar criar sub-avaliação onde pai não permite ---
+[OK] Sub-avaliacao bloqueada como esperado.
+[OK] Regra detectada no log via ERRO.
+--- Teste 3: Tentar entregar ficheiro onde não é requerido ---
+[OK] Regra detectada no log via ALERTA.
+=== TESTES DE REGRAS CONCLUÍDOS ===
+
+[17/25] Executando Regras de Max_Alunos e Grupos...
+[18/25] Executando Teste de Segurança de Logs (Imutabilidade)...
+=== INICIANDO TESTE DE SEGURANÇA DE LOGS ===
+[OK] Insert no LOG permitido. ID: 103102
+[OK] UPDATE bloqueado por imutabilidade.
+[OK] DELETE bloqueado por imutabilidade.
+=== TESTE DE SEGURANÇA CONCLUÍDO ===
+
+[19/25] Validando Vistas e Relatórios...
+[20/25] Executando Testes de Integridade da Tabela FICHEIRO_ENTREGA...
+=== INICIANDO TESTE TABELA FICHEIRO_ENTREGA ===
+1. Testando Status Inválido (Inserir "A")...
+[OK] Status corrigido para 0.
+2. Testando Tamanho Zero (Limite Inferior)...
+[OK] Ficheiro com tamanho 0 bloqueado.
+3. Testando Tamanho Excessivo (10485761 bytes)...
+[OK] Ficheiro gigante bloqueado.
+4. Testando Inserção Válida...
+[OK] Ficheiro válido inserido com sucesso.
+=== TESTE FICHEIRO_ENTREGA: SUCESSO ===
+
+[21/25] Executando Testes de Integridade da Tabela FICHEIRO_RECURSO...
+[22/25] Executando Testes de Regras Académicas de INSCRICAO...
+[23/25] Executando Testes de Regras da Tabela MATRICULA...
+[24/26] Executando Testes de Validação de NOTA (Status, Turma)...
+[25/26] Executando Teste Integrado (Notas -> Media Geral)...
+[26/27] Executando Testes de Integridade da Tabela PARCELA_PROPINA...
+=== INICIANDO TESTE: PARCELA_PROPINA ===
+Valor Total: 1000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+[SETUP] Dados base criados. Matricula ID: 12261
+>> Teste 1: Valor Negativo (Bloqueio)...
+[OK] Bloqueou valor negativo.
+>> Teste 2: Data Vencimento Passada no INSERT (Bloqueio)...
+[OK] Bloqueou data passada no INSERT.
+>> Teste 3: Data Vencimento Passada no UPDATE (Permite)...
+[OK] Permitiu data passada no UPDATE (necessario para testar multas).
+>> Teste 4: Data Pagamento Automatica ao Pagar...
+[OK] Data pagamento preenchida automaticamente.
+=== TESTE PARCELA_PROPINA CONCLUIDO ===
+
+[27/27] Executando Testes de Integridade da Tabela PRESENCA...
+[FINAL] Gerando Dados de Demonstração Permanentes...
+========================================================================
+INICIANDO TESTES ADICIONAIS DE INTEGRIDADE E REGRAS DE NEGÓCIO
+========================================================================
+[1/8] Testando Tabela RECURSO...
+[OK] Inserção de recurso com docente correto permitida.
+   [OK] Bloqueio de docente inválido no recurso (Trigger TRG_VAL_RECURSO).
+
+[2/8] Testando Tabela TIPO_AULA...
+[OK] Status inválido "X" corrigido automaticamente para "0".
+
+[3/8] Testando Tabela TIPO_AVALIACAO...
+[OK] Flags inválidas "9" corrigidas automaticamente para "0".
+
+[4/8] Testando Tabela TIPO_CURSO...
+[OK] Valor de propinas negativo corrigido para 0.
+
+[5/8] Testando Tabela TURMA...
+[OK] Bloqueio de docente não habilitado para a UC (Trigger TRG_VAL_TURMA).
+
+[6/8] Testando Tabela UC_CURSO...
+[OK] Bloqueio de ano inválido face à duração do curso.
+   [OK] Aplicou percentagem default: 75
+   [OK] Removeu percentagem desnecessária (presença não obrigatória).
+
+[7/8] Testando Tabela UC_DOCENTE...
+[OK] Status NULL corrigido para "0".
+
+[8/8] Testando Tabela UNIDADE_CURRICULAR...
+[OK] Horas negativas corrigidas para 0.
+
+========================================================================
+TESTES ADICIONAIS CONCLUÍDOS
+========================================================================
+========================================================
+INICIANDO TESTE GLOBAL DE ELIMINACAO (V13 - CLEAN)
+========================================================
+Valor Total: 1000, Parcelas: 10
+Plano gerado com sucesso: 10 parcelas.
+1. Setup de dados completo.
+--- INICIANDO TESTES DE DELETE ---
+[OK] PRESENCA          : Soft-delete registado no Log.
+[OK] AULA              : Soft-delete registado no Log.
+[OK] INSCRICAO         : Soft-delete registado no Log.
+[OK] TURMA             : Soft-delete registado no Log.
+[OK] SALA              : Soft-delete registado no Log.
+[OK] UC_DOCENTE        : Soft-delete registado no Log.
+========================================================
+   TESTE FINALIZADO COM SUCESSO
+========================================================
+
+========================================================================
+TODOS OS TESTES FORAM EXECUTADOS COM SUCESSO.
+========================================================================
