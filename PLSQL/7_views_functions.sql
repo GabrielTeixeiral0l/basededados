@@ -27,18 +27,35 @@ END;
 -- -----------------------------------------------------------------------------
 -- 7.1b. FUNÇÃO: OBTER PERCENTAGEM DE ASSIDUIDADE
 -- -----------------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION FUN_GET_ASSIDUIDADE(p_inscricao_id IN NUMBER) 
-RETURN NUMBER 
-IS
-    v_perc NUMBER;
+CREATE OR REPLACE FUNCTION FUN_GET_ASSIDUIDADE(p_inscricao_id IN NUMBER) RETURN NUMBER IS
+    v_total      NUMBER;
+    v_presencas  NUMBER;
 BEGIN
-    SELECT ROUND((COUNT(CASE WHEN presente = '1' THEN 1 END) / NULLIF(COUNT(*), 0)) * 100, 2)
-    INTO v_perc
+    -- 1. Obter o número total de aulas
+    SELECT COUNT(*) 
+    INTO v_total
     FROM presenca
     WHERE inscricao_id = p_inscricao_id AND status = '1';
-    
-    RETURN NVL(v_perc, 0);
-EXCEPTION WHEN OTHERS THEN RETURN 0;
+
+    -- Se não houver aulas, evita divisão por zero
+    IF v_total = 0 THEN
+        RETURN 0;
+    END IF;
+
+    -- 2. Obter o número de presenças efetivas
+    SELECT COUNT(*) 
+    INTO v_presencas
+    FROM presenca
+    WHERE inscricao_id = p_inscricao_id 
+      AND status = '1'
+      AND presente = '1';
+
+    -- 3. Calcular a percentagem
+    RETURN ROUND((v_presencas / v_total) * 100, 2);
+
+EXCEPTION 
+    WHEN OTHERS THEN 
+        RETURN 0;
 END;
 /
 
@@ -236,7 +253,11 @@ SELECT
     c.max_alunos AS vagas_totais,
     COUNT(m.id) AS alunos_matriculados,
     c.max_alunos - COUNT(m.id) AS vagas_livres,
-    ROUND((COUNT(m.id) / NVL(c.max_alunos, 1)) * 100, 2) AS taxa_preenchimento
+    CASE 
+        WHEN c.max_alunos IS NOT NULL AND c.max_alunos > 0 
+        THEN ROUND((COUNT(m.id) / c.max_alunos) * 100, 2) 
+        ELSE NULL 
+    END AS taxa_preenchimento
 FROM curso c
 LEFT JOIN matricula m ON c.id = m.curso_id AND m.status = '1'
 WHERE c.status = '1'

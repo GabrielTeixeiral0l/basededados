@@ -1278,7 +1278,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
 
         DBMS_OUTPUT.PUT_LINE('Valor Total: ' || v_valor_total || ', Parcelas: ' || v_num_parcelas);
 
-        IF NVL(v_num_parcelas, 0) <= 0 THEN 
+        IF v_num_parcelas <= 0 THEN 
             DBMS_OUTPUT.PUT_LINE('Número de parcelas inválido.');
             RETURN; 
         END IF;
@@ -1402,7 +1402,7 @@ DECLARE
     v_ins_id NUMBER;
     v_pai_id NUMBER;
     CURSOR c_calculo(p_ins_id NUMBER, p_pai_id NUMBER) IS
-        SELECT NVL(SUM(n.nota * a.peso), 0)
+        SELECT NVL(SUM(n.nota * a.peso), 0) -- peso pode ser null 
         FROM nota n
         JOIN avaliacao a ON n.avaliacao_id = a.id
         WHERE a.avaliacao_pai_id = p_pai_id
@@ -1749,7 +1749,6 @@ BEGIN
     END IF;
 
     -- 3. Validar Identidade e Contactos
-    -- Telemovel (Obrigatorio no DDLv3)
     IF :NEW.telemovel IS NULL OR NOT PKG_VALIDACAO.FUN_VALIDAR_TELEMOVEL(:NEW.telemovel) THEN
         PKG_LOG.ERRO('Telemovel invalido ou ausente para docente: ' || NVL(:NEW.telemovel, 'NULL'), 'DOCENTE');
         RAISE E_DADOS_INVALIDOS;
@@ -2393,17 +2392,32 @@ END;
 
 
 
-CREATE OR REPLACE FUNCTION FUN_GET_ASSIDUIDADE(p_inscricao_id IN NUMBER) 
-RETURN NUMBER 
-IS
-    v_perc NUMBER;
+CREATE OR REPLACE FUNCTION FUN_GET_ASSIDUIDADE(p_inscricao_id IN NUMBER) RETURN NUMBER IS
+    v_total      NUMBER;
+    v_presencas  NUMBER;
 BEGIN
-    SELECT ROUND((COUNT(CASE WHEN presente = '1' THEN 1 END) / NULLIF(COUNT(*), 0)) * 100, 2)
-    INTO v_perc
+    -- 1. Obter o número total de aulas
+    SELECT COUNT(*) 
+    INTO v_total
     FROM presenca
     WHERE inscricao_id = p_inscricao_id AND status = '1';
-    
-    RETURN NVL(v_perc, 0);
+
+    -- Se não houver aulas, evita divisão por zero
+    IF v_total = 0 THEN
+        RETURN 0;
+    END IF;
+
+    -- 2. Obter o número de presenças
+    SELECT COUNT(*) 
+    INTO v_presencas
+    FROM presenca
+    WHERE inscricao_id = p_inscricao_id 
+      AND status = '1'
+      AND presente = '1';
+
+    -- 3. Calcular a percentagem
+    RETURN ROUND((v_presencas / v_total) * 100, 2);
+
 EXCEPTION 
     WHEN OTHERS THEN 
         RETURN 0;
@@ -2585,12 +2599,16 @@ WHERE en.status = '1';
 -- ESTATÍSTICA DE OCUPAÇÃO DE CURSOS
 -- Verifica a taxa de preenchimento de vagas por curso.
 CREATE OR REPLACE VIEW VW_ESTATISTICA_VAGAS AS
-SELECT 
+SELECT
     c.nome AS curso,
     c.max_alunos AS vagas_totais,
     COUNT(m.id) AS alunos_matriculados,
     c.max_alunos - COUNT(m.id) AS vagas_livres,
-    ROUND((COUNT(m.id) / NVL(c.max_alunos, 1)) * 100, 2) AS taxa_preenchimento
+    CASE
+        WHEN c.max_alunos IS NOT NULL AND c.max_alunos > 0
+        THEN ROUND((COUNT(m.id) / c.max_alunos) * 100, 2)
+        ELSE "Não existe limite de alunos"
+    END AS taxa_preenchimento
 FROM curso c
 LEFT JOIN matricula m ON c.id = m.curso_id AND m.status = '1'
 WHERE c.status = '1'
