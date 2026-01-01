@@ -362,10 +362,10 @@ CREATE OR REPLACE PACKAGE PKG_GESTAO_DADOS IS
     -- Versão para tabelas de ligação ou chaves compostas
     PROCEDURE PRC_REMOVER_RELACAO(
         p_nome_tabela IN VARCHAR2, 
-        p_id_1        IN NUMBER, 
-        p_col_1       IN VARCHAR2,
-        p_id_2        IN NUMBER,
-        p_col_2       IN VARCHAR2
+        p_id_1 IN NUMBER, 
+        p_col_1 IN VARCHAR2,
+        p_id_2 IN NUMBER,
+        p_col_2 IN VARCHAR2
     );
 END PKG_GESTAO_DADOS;
 /
@@ -528,7 +528,6 @@ CREATE OR REPLACE PACKAGE BODY PKG_BUFFER_MATRICULA IS
     PROCEDURE ADICIONAR(p_id NUMBER) IS
         v_idx NUMBER;
     BEGIN
-        -- Evitar duplicados simples (opcional, mas bom para performance)
         v_idx := v_ids_matricula.COUNT + 1;
         v_ids_matricula(v_idx) := p_id;
     END;
@@ -1130,10 +1129,10 @@ CREATE OR REPLACE PACKAGE PKG_BUFFER_NOTA IS
 
     -- Listas para guardar os pares (Inscrição, Avaliação Pai)
     v_ids_inscricao t_lista_numeros := t_lista_numeros();
-    v_ids_pais      t_lista_numeros := t_lista_numeros();
+    v_ids_pais t_lista_numeros := t_lista_numeros();
     
     -- Lista para guardar inscrições que precisam de nota final
-    v_ids_finais    t_lista_numeros := t_lista_numeros();
+    v_ids_finais t_lista_numeros := t_lista_numeros();
 
     -- Flag para evitar recursividade nos triggers
     g_a_calcular BOOLEAN := FALSE;
@@ -1257,7 +1256,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
         i NUMBER := 1;
     BEGIN
         
-        -- Verificar se já existem pagamentos para não sobrescrever plano ativo com histórico
+        -- Verificar se já existem pagamentos para não sobrescrever
         SELECT COUNT(*) INTO v_pagas FROM parcela_propina WHERE matricula_id = p_matricula_id AND estado = '1';
         IF v_pagas > 0 THEN 
             PKG_LOG.ALERTA('Plano de pagamento não gerado: Já existem parcelas pagas.', 'PARCELA_PROPINA');
@@ -1266,7 +1265,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_TESOURARIA IS
 
         DELETE FROM parcela_propina WHERE matricula_id = p_matricula_id;
 
-        -- Se os valores não foram passados (chamada manual), busca na base
+        -- Se os valores não foram passados
         IF v_valor_total IS NULL OR v_num_parcelas IS NULL THEN
             SELECT tc.valor_propinas, m.numero_parcelas 
             INTO v_valor_total, v_num_parcelas
