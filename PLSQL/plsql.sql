@@ -2692,9 +2692,8 @@ CREATE OR REPLACE TRIGGER TRG_DEL_UNIDADE_CURRICULAR BEFORE DELETE ON unidade_cu
 BEGIN PKG_GESTAO_DADOS.PRC_REMOVER('UNIDADE_CURRICULAR', :OLD.id); END;
 /
 
--- -----------------------------------------------------------------------------
--- 14.2. TABELAS COM CHAVE COMPOSTA -> PRC_REMOVER_RELACAO
--- -----------------------------------------------------------------------------
+
+-- TABELAS COM CHAVE COMPOSTA -> PRC_REMOVER_RELACAO
 
 CREATE OR REPLACE TRIGGER TRG_DEL_ESTUDANTE_ENTREGA BEFORE DELETE ON estudante_entrega FOR EACH ROW 
 BEGIN 
