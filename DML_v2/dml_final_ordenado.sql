@@ -1,10 +1,4 @@
--- ============================================================
--- DML Consolidado, Ordenado e Gerado (V8 - Apenas Dados Fictícios)
--- Gerado em: 2025-12-22 08:37:38
--- ============================================================
 
--- Comandos de Sessão Oracle (Opcional, mas recomendado para grandes inserções)
-SET DEFINE OFF;
 ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS';
 ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS';
 
